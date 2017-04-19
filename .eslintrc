@@ -1,0 +1,9 @@
+extends: '@lttb/default'
+
+rules:
+  react/prop-types:
+    - 2
+    - skipUndeclared: true
+
+env:
+  jest: true
