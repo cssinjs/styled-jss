@@ -2,25 +2,25 @@ exports[`test renders correctly App with default Styled 1`] = `
 <div
   className="div-0-8">
   <header
-    className="header-0-9">
+    className="header-0-10">
     <h1
-      className="h1-0-10">
+      className="h1-0-12">
       Title
     </h1>
   </header>
   <section
-    className="section-0-11">
+    className="section-0-14">
     <button
-      className="button-0-13 button-0-12">
+      className="button-0-18 button-0-16">
       primitive test
     </button>
     <button
-      className="button-0-14 button-0-12">
+      className="button-0-19 button-0-16">
       dynamic primitive test
     </button>
   </section>
   <section
-    className="section-0-15">
+    className="section-0-20">
     Another section
   </section>
 </div>

@@ -1,16 +1,20 @@
 import React from 'react'
 import injectSheetDefault from 'react-jss'
-import { pure } from 'recompose'
 
 
 type StyledElementType = Function & { Tag: string, styles: Object }
+type PrimitiveProps = {
+  classes: Object,
+  children?: any,
+  className?: string,
+}
 
 
-export const prepareStyled = (injectSheet: Function = injectSheetDefault) =>
+export const prepareStyled = (injectSheet?: Function = injectSheetDefault) =>
   (
     Element: string | StyledElementType,
     styles: Object,
-    baseStyles: ?Object = {},
+    baseStyles?: Object = {},
   ): StyledElementType => {
     const {
       Tag,
@@ -22,15 +26,17 @@ export const prepareStyled = (injectSheet: Function = injectSheetDefault) =>
 
     const elementStyles = { ...inheritStyles, ...styles }
 
-    const StyledElement = pure(
-      injectSheet({ [Tag]: elementStyles, ...baseStyles })(({ classes, children }) =>
-        <Tag className={classes[Tag]}>
-          {children}
-        </Tag>,
-      ),
-    )
+    const Primitive = ({ classes, children, className }: PrimitiveProps) =>
+      <Tag className={classes[Tag].concat(className ? ` ${className}` : '')}>
+        {children}
+      </Tag>
 
-    return Object.assign(StyledElement, { Tag, styles: elementStyles })
+    const StyledPrimitive = injectSheet({
+      [Tag]: elementStyles,
+      ...baseStyles,
+    })(Primitive)
+
+    return Object.assign(StyledPrimitive, { Tag, styles: elementStyles })
   }
 
 export const styled = prepareStyled()
