@@ -1,9 +1,5 @@
-extends: '@lttb/default'
-
-rules:
-  react/prop-types:
-    - 2
-    - skipUndeclared: true
+extends: 'jss'
+parser: babel-eslint
 
 env:
   jest: true

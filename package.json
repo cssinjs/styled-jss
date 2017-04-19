@@ -33,21 +33,21 @@
   },
   "homepage": "https://github.com/lttb/jss-styled#readme",
   "dependencies": {
-    "jss": "^6.5.0",
-    "jss-preset-default": "^1.3.1",
-    "react": "^15.4.2",
-    "react-jss": "^5.4.0",
-    "recompose": "^0.23.1"
+    "react": "^15.5.4",
+    "react-jss": "^6.1.1"
   },
   "devDependencies": {
-    "@lttb/eslint-config-default": "github:lttb/configs#js",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
+    "babel-eslint": "^7.2.2",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-react": "^6.23.0",
     "eslint": "^3.13.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-jss": "^3.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "flow-bin": "^0.44.2",
     "flow-typed": "^2.0.0",
     "jest": "^18.1.0",
