@@ -11,7 +11,7 @@
     "test:coverage": "npm test -- --coverage",
     "prebuild": "npm run clean && npm run lint && npm run test:coverage",
     "build": "babel src --out-dir lib --ignore tests",
-    "postinstall": "flow-typed install",
+    "flow:typed": "flow-typed install",
     "flow:stub": "flow-typed create-stub"
   },
   "files": [
@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/lttb/jss-styled#readme",
   "dependencies": {
+    "is-react-prop": "^0.0.2",
     "react-jss": "^6.1.1"
   },
   "peerDependencies": {

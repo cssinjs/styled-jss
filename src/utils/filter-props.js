@@ -1,4 +1,4 @@
-import isNativeProp from './is-native-prop'
+import isNativeProp from 'is-react-prop'
 
 
 export default (props: Object) => Object
