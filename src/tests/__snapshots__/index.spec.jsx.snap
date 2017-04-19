@@ -15,12 +15,12 @@ exports[`test renders correctly App with default Styled 1`] = `
       primitive test
     </button>
     <button
-      className="button-0-19 button-0-16">
+      className="button-0-20 button-0-16">
       dynamic primitive test
     </button>
   </section>
   <section
-    className="section-0-20">
+    className="section-0-22">
     Another section
   </section>
 </div>

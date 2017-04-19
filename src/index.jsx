@@ -1,18 +1,21 @@
 import React from 'react'
 import injectSheetDefault from 'react-jss'
 
+import filterProps from './utils/filter-props'
+
 
 type StyledElementType = Function & { Tag: string, styles: Object }
-type PrimitiveProps = {
+type TagNameOrStyledElementType = string | StyledElementType
+type PrimitivePropsType = {
   classes: Object,
-  children?: any,
-  className?: string,
+  children: ?any,
+  className: ?string,
 }
 
 
-export const prepareStyled = (injectSheet?: Function = injectSheetDefault) =>
+export const createStyled = (injectSheet?: Function = injectSheetDefault) =>
   (
-    Element: string | StyledElementType,
+    TagNameOrStyledElement: TagNameOrStyledElementType,
     styles: Object,
     baseStyles?: Object = {},
   ): StyledElementType => {
@@ -22,30 +25,39 @@ export const prepareStyled = (injectSheet?: Function = injectSheetDefault) =>
     }: {
       Tag: string,
       styles?: Object
-    } = typeof Element === 'string' ? { Tag: Element } : Element
+    } = typeof TagNameOrStyledElement === 'string'
+      ? {Tag: TagNameOrStyledElement}
+      : TagNameOrStyledElement
 
-    const elementStyles = { ...inheritStyles, ...styles }
+    const elementStyles = {...inheritStyles, ...styles}
 
-    const Primitive = ({ classes, children, className }: PrimitiveProps) =>
-      <Tag className={classes[Tag].concat(className ? ` ${className}` : '')}>
-        {children}
-      </Tag>
+    const Primitive = ({classes, children, className, ...attrs}: PrimitivePropsType) => {
+      const props = filterProps(attrs)
+
+      return (
+        <Tag className={className ? `${classes[Tag]} ${className}` : classes[Tag]} {...props}>
+          {children}
+        </Tag>
+      )
+    }
 
     const StyledPrimitive = injectSheet({
       [Tag]: elementStyles,
       ...baseStyles,
     })(Primitive)
 
-    return Object.assign(StyledPrimitive, { Tag, styles: elementStyles })
+    return Object.assign(StyledPrimitive, {Tag, styles: elementStyles})
   }
 
-export const styled = prepareStyled()
+const defaultStyled = createStyled()
 
-export const setStyledCreator = (styledFunction: Function = styled) =>
+export {defaultStyled as styled}
+
+export const createStyledCreator = (styled: Function = defaultStyled) =>
   (baseStyles: Object) => Object.assign(
-    (Element: string | StyledElementType, styles: Object) =>
-      styledFunction(Element, styles, baseStyles),
-    { styles: baseStyles },
+    (TagNameOrStyledElement: TagNameOrStyledElementType, styles: Object) =>
+      styled(TagNameOrStyledElement, styles, baseStyles),
+    {styles: baseStyles},
   )
 
-export default setStyledCreator()
+export default createStyledCreator()
