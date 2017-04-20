@@ -20,6 +20,7 @@ type StyledElementPropsT = {
 
 export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) => {
   let sheet
+  let dynamicSheet
 
   let currentId = 0
 
@@ -31,7 +32,21 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
     const elementStyles = {...styles, ...ownStyles}
     const dynamicStyles = getDynamicStyles(elementStyles)
 
-    const staticTag = `${Tag}-${++currentId}`
+    const updateRule = (className, data) => {
+      const componentRule = dynamicSheet.rules.map[className]
+
+      if (componentRule.type === 'regular') {
+        for (const prop in componentRule.style) {
+          const value = componentRule.style[prop]
+          if (typeof value === 'function') {
+            const computedValue = value(data)
+            componentRule.prop(prop, computedValue)
+          }
+        }
+      }
+    }
+
+    const StaticTag = `${Tag}-${++currentId}`
 
     return class StyledElement extends PureComponent {
       props: StyledElementPropsT
@@ -40,7 +55,6 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
       static styles = elementStyles
 
       tagScoped = ''
-      dynamicSheet = null
 
       constructor(props) {
         super(props)
@@ -54,29 +68,31 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
             link: true,
             meta: 'StaticBaseSheet',
           }).attach()
-        }
 
-        if (!sheet.getRule(staticTag)) {
-          sheet.addRule(staticTag, elementStyles)
-        }
-
-        if (dynamicStyles && !this.dynamicSheet) {
-          this.dynamicSheet = jss.createStyleSheet({[this.tagScoped]: dynamicStyles}, {
+          dynamicSheet = jss.createStyleSheet({}, {
             link: true,
-            meta: `DynamicComponentSheet-${this.tagScoped}`,
-          }).update(this.props).attach()
+            meta: 'DynamicComponentSheet',
+          }).attach()
+        }
+
+        if (!sheet.getRule(StaticTag)) {
+          sheet.addRule(StaticTag, elementStyles)
+        }
+
+        if (dynamicStyles && !dynamicSheet.getRule(this.tagScoped)) {
+          dynamicSheet.detach()
+          dynamicSheet.addRule(this.tagScoped, dynamicStyles)
+          updateRule(this.tagScoped, this.props)
+          dynamicSheet.attach()
         }
       }
 
       componentWillReceiveProps(nextProps: StyledElementPropsT) {
-        if (this.dynamicSheet) this.dynamicSheet.update(nextProps)
+        if (dynamicStyles) updateRule(this.tagScoped, nextProps)
       }
 
       componentWillUnmount() {
-        if (this.dynamicSheet) {
-          jss.removeStyleSheet(this.dynamicSheet)
-          this.dynamicSheet = null
-        }
+        dynamicSheet.deleteRule(this.tagScoped)
       }
 
       render() {
@@ -86,15 +102,18 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
 
         const props = filterProps(attrs)
         const tagClass = [
-          sheet.classes[staticTag],
-          this.dynamicSheet && this.dynamicSheet.classes[this.tagScoped],
+          sheet.classes[StaticTag],
+          dynamicSheet.classes[this.tagScoped],
           className,
         ]
           .filter(Boolean)
           .join(' ')
 
         return (
-          <Tag className={tagClass} {...props}>
+          <Tag
+            className={tagClass}
+            {...props}
+          >
             {children}
           </Tag>
         )
