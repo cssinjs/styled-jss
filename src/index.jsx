@@ -1,63 +1,114 @@
-import React from 'react'
-import injectSheetDefault from 'react-jss'
+import React, {PureComponent} from 'react'
+
+import {create as createJSS, getDynamicStyles} from 'jss'
+import preset from 'jss-preset-default'
 
 import filterProps from './utils/filter-props'
 
 
-type StyledElementType = Function & { Tag: string, styles: Object }
-type TagNameOrStyledElementType = string | StyledElementType
-type PrimitivePropsType = {
+const JSS = createJSS(preset())
+
+type StyledElementAttrsT = { Tag: string, styles: Object }
+type StyledElementT = Function & StyledElementAttrsT
+type TagOrStyledElementT = string | StyledElementT
+type StyledElementPropsT = {
   classes: Object,
   children: ?any,
   className: ?string,
 }
 
 
-export const createStyled = (injectSheet?: Function = injectSheetDefault) =>
-  (
-    TagNameOrStyledElement: TagNameOrStyledElementType,
-    styles: Object,
-    baseStyles?: Object = {},
-  ): StyledElementType => {
-    const {
-      Tag,
-      styles: inheritStyles = {},
-    }: {
-      Tag: string,
-      styles?: Object
-    } = typeof TagNameOrStyledElement === 'string'
-      ? {Tag: TagNameOrStyledElement}
-      : TagNameOrStyledElement
+export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) => {
+  let sheet
 
-    const elementStyles = {...inheritStyles, ...styles}
+  let currentId = 0
 
-    const Primitive = ({classes, children, className, ...attrs}: PrimitivePropsType) => {
-      const props = filterProps(attrs)
+  return (TagOrStyledElement: TagOrStyledElementT, ownStyles: Object): StyledElementT => {
+    const {Tag, styles}: StyledElementAttrsT = typeof TagOrStyledElement === 'string'
+      ? {Tag: TagOrStyledElement, styles: {}}
+      : TagOrStyledElement
 
-      return (
-        <Tag className={className ? `${classes[Tag]} ${className}` : classes[Tag]} {...props}>
-          {children}
-        </Tag>
-      )
+    const elementStyles = {...styles, ...ownStyles}
+    const dynamicStyles = getDynamicStyles(elementStyles)
+
+    const staticTag = `${Tag}-${++currentId}`
+
+    return class StyledElement extends PureComponent {
+      props: StyledElementPropsT
+
+      static Tag = Tag
+      static styles = elementStyles
+
+      tagScoped = ''
+      dynamicSheet = null
+
+      constructor(props) {
+        super(props)
+
+        this.tagScoped = `${Tag}-${++currentId}`
+      }
+
+      componentWillMount() {
+        if (!sheet) {
+          sheet = jss.createStyleSheet(baseStyles, {
+            link: true,
+            meta: 'StaticBaseSheet',
+          }).attach()
+        }
+
+        if (!sheet.getRule(staticTag)) {
+          sheet.addRule(staticTag, elementStyles)
+        }
+
+        if (dynamicStyles && !this.dynamicSheet) {
+          this.dynamicSheet = jss.createStyleSheet({[this.tagScoped]: dynamicStyles}, {
+            link: true,
+            meta: `DynamicComponentSheet-${this.tagScoped}`,
+          }).update(this.props).attach()
+        }
+      }
+
+      componentWillReceiveProps(nextProps: StyledElementPropsT) {
+        if (this.dynamicSheet) this.dynamicSheet.update(nextProps)
+      }
+
+      componentWillUnmount() {
+        if (this.dynamicSheet) {
+          jss.removeStyleSheet(this.dynamicSheet)
+          this.dynamicSheet = null
+        }
+      }
+
+      render() {
+        if (!sheet) return null
+
+        const {children, className, ...attrs} = this.props
+
+        const props = filterProps(attrs)
+        const tagClass = [
+          sheet.classes[staticTag],
+          this.dynamicSheet && this.dynamicSheet.classes[this.tagScoped],
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')
+
+        return (
+          <Tag className={tagClass} {...props}>
+            {children}
+          </Tag>
+        )
+      }
     }
-
-    const StyledPrimitive = injectSheet({
-      [Tag]: elementStyles,
-      ...baseStyles,
-    })(Primitive)
-
-    return Object.assign(StyledPrimitive, {Tag, styles: elementStyles})
   }
+}
 
-const defaultStyled = createStyled()
+const defaultStyledBased = createStyled()
+const defaultStyled = defaultStyledBased()
 
 export {defaultStyled as styled}
 
-export const createStyledCreator = (styled: Function = defaultStyled) =>
-  (baseStyles: Object) => Object.assign(
-    (TagNameOrStyledElement: TagNameOrStyledElementType, styles: Object) =>
-      styled(TagNameOrStyledElement, styles, baseStyles),
-    {styles: baseStyles},
-  )
+export const createStyledCreator = (styled: Function = defaultStyledBased) =>
+  (baseStyles: Object) => Object.assign(styled(baseStyles), {styles: baseStyles})
 
 export default createStyledCreator()
