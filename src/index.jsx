@@ -1,16 +1,16 @@
 import React, {PureComponent} from 'react'
 
-import {create as createJSS, getDynamicStyles} from 'jss'
+import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
 
 import filterProps from './utils/filter-props'
 
 
-const JSS = createJSS(preset())
+const jssDefault = createJss(preset())
 
-type StyledElementAttrsT = { Tag: string, styles: Object }
+type StyledElementAttrsT = { tag: string, styles: Object }
 type StyledElementT = Function & StyledElementAttrsT
-type TagOrStyledElementT = string | StyledElementT
+type tagOrStyledElementT = string | StyledElementT
 type StyledElementPropsT = {
   classes: Object,
   children: ?any,
@@ -18,16 +18,16 @@ type StyledElementPropsT = {
 }
 
 
-export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) => {
+export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
   let sheet
   let dynamicSheet
 
-  let currentId = 0
+  let counter = 0
 
-  return (TagOrStyledElement: TagOrStyledElementT, ownStyles: Object): StyledElementT => {
-    const {Tag, styles}: StyledElementAttrsT = typeof TagOrStyledElement === 'string'
-      ? {Tag: TagOrStyledElement, styles: {}}
-      : TagOrStyledElement
+  return (tagOrStyledElement: tagOrStyledElementT, ownStyles: Object): StyledElementT => {
+    const {tag, styles}: StyledElementAttrsT = typeof tagOrStyledElement === 'string'
+      ? {tag: tagOrStyledElement, styles: {}}
+      : tagOrStyledElement
 
     const elementStyles = {...styles, ...ownStyles}
     const dynamicStyles = getDynamicStyles(elementStyles)
@@ -46,12 +46,12 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
       }
     }
 
-    const StaticTag = `${Tag}-${++currentId}`
+    const StaticTag = `${tag}-${++counter}`
 
     return class StyledElement extends PureComponent {
       props: StyledElementPropsT
 
-      static Tag = Tag
+      static tag = tag
       static styles = elementStyles
 
       tagScoped = ''
@@ -59,7 +59,7 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
       constructor(props) {
         super(props)
 
-        this.tagScoped = `${Tag}-${++currentId}`
+        this.tagScoped = `${tag}-${++counter}`
       }
 
       componentWillMount() {
@@ -109,14 +109,7 @@ export const createStyled = (jss?: Function = JSS) => (baseStyles: Object = {}) 
           .filter(Boolean)
           .join(' ')
 
-        return (
-          <Tag
-            className={tagClass}
-            {...props}
-          >
-            {children}
-          </Tag>
-        )
+        return React.createElement(tag, {...props, className: tagClass}, children)
       }
     }
   }
