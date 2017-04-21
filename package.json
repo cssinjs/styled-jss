@@ -7,13 +7,16 @@
     "clean": "rimraf lib/*",
     "lint": "eslint src",
     "lint:staged": "lint-staged",
+    "flow": "flow check",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage",
-    "prebuild": "npm run clean && npm run lint && npm run test:coverage",
+    "prebuild": "npm run clean && npm run flow && npm run lint && npm run test:coverage",
     "build": "babel src --out-dir lib --ignore tests",
     "flow:typed": "flow-typed install",
-    "flow:stub": "flow-typed create-stub"
+    "flow:stub": "flow-typed create-stub",
+    "preversion": "npm run build",
+    "postversion": "git push --follow-tags && npm publish lib"
   },
   "files": [
     "src",
