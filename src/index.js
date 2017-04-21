@@ -14,12 +14,15 @@ type StyledElementPropsType = {
   className: ?string,
 }
 
-export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
+const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
   let sheet
   let dynamicSheet
   let counter = 0
 
-  return (tagOrStyledElement: tagOrStyledElementTypeype, ownStyles: Object): StyledElementType => {
+  const styled = (
+    tagOrStyledElement: tagOrStyledElementTypeype,
+    ownStyles: Object
+  ): StyledElementType => {
     const {tag, styles}: StyledElementAttrsType = typeof tagOrStyledElement === 'string'
       ? {tag: tagOrStyledElement, styles: {}}
       : tagOrStyledElement
@@ -93,19 +96,16 @@ export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object
       }
     }
   }
+
+  return Object.assign(styled, {styles: baseStyles})
 }
 
 const defaultStyledCreator = createStyled()
-
 const defaultStyled = defaultStyledCreator()
 
-const createStyledCreator = (styled: Function = defaultStyledCreator) => (
-  (baseStyles: Object) => Object.assign(styled(baseStyles), {styles: baseStyles})
-)
-
 export {
+  createStyled,
   defaultStyled as styled,
-  createStyledCreator
 }
 
-export default createStyledCreator()
+export default defaultStyledCreator

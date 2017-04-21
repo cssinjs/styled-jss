@@ -59,22 +59,21 @@ const MyStyledComponent = injectSheet(styled.styles)(MyComponent)
 
 ### With custom JSS setup:
 
-#### For Styled Creator:
-
 ```js
 import { create as createJss } from 'jss'
-import { create as createInjectSheet } from 'react-jss'
 import vendorPrefixer from 'jss-vendor-prefixer'
-import { setStyledCreator, prepareStyled } from 'styled-jss'
+
+import { createStyled } from 'styled-jss'
 
 const jss = createJss()
 jss.use(vendorPrefixer())
 
-const injectSheet = createInjectSheet(jss)
+// Create custom Styled, that allows to set BaseStyles
+const Styled = createStyled(jss)
 
-export const styled = prepareStyled(injectSheet)
+// Create custom styled function without BaseStyles accordingly
+export const styled = createStyled()
 
-const Styled = setStyledCreator(styled)
 export default Styled
 ```
 
