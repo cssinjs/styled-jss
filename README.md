@@ -44,6 +44,23 @@ const PrimaryButton = styled(Button, {
 })
 ```
 
+#### With PreJSS
+You can write styles with [PreJSS](https://github.com/axept/prejss) this way:
+
+```js
+import { styled } from 'styled-jss/dom'
+
+const Button = styled.button(press`
+  font-size: 12;
+  color: ${(props) => props.theme.textColor};
+`)
+
+// Composition.
+const PrimaryButton = styled(Button, prejss`
+  color: red
+`)
+```
+
 ### With base Style Sheet
 
 Using base Style Sheet we can share classes between styled primitives.
