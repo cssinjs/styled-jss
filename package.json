@@ -1,5 +1,5 @@
 {
-  "name": "jss-styled",
+  "name": "styled-jss",
   "version": "0.1.0",
   "description": "Styled Components on top of JSS.",
   "main": "lib/index.js",
