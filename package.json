@@ -42,7 +42,8 @@
   "dependencies": {
     "is-react-prop": "^0.0.2",
     "jss": "^7.1.0",
-    "jss-preset-default": "^2.0.0"
+    "jss-preset-default": "^2.0.0",
+    "react-dom-elements": "^0.0.1"
   },
   "peerDependencies": {
     "react": "^15.5.4",
