@@ -1,0 +1,63 @@
+{
+  "name": "jss-styled",
+  "version": "0.0.1",
+  "description": "Styled primitives with JSS",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rm -rf lib/*",
+    "lint": "eslint src",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "prebuild": "npm run clean && npm run lint && npm run test:coverage",
+    "build": "babel src --out-dir lib --ignore tests",
+    "flow:typed": "flow-typed install",
+    "flow:stub": "flow-typed create-stub"
+  },
+  "files": [
+    "src",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lttb/jss-styled.git"
+  },
+  "keywords": [
+    "jss",
+    "styled"
+  ],
+  "author": "lttb <kenzhaev.artur@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lttb/jss-styled/issues"
+  },
+  "homepage": "https://github.com/lttb/jss-styled#readme",
+  "dependencies": {
+    "is-react-prop": "^0.0.2",
+    "jss": "^7.1.0",
+    "jss-preset-default": "^2.0.0"
+  },
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.23.1",
+    "babel-eslint": "^7.2.2",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-react": "^6.23.0",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-jss": "^3.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "flow-bin": "^0.44.2",
+    "flow-typed": "^2.0.0",
+    "jest": "^18.1.0",
+    "react-test-renderer": "^15.4.2"
+  }
+}

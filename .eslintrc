@@ -1,0 +1,5 @@
+extends: 'jss'
+parser: babel-eslint
+
+env:
+  jest: true
