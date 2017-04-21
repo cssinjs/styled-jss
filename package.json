@@ -4,8 +4,9 @@
   "description": "Styled primitives with JSS",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "rm -rf lib/*",
+    "clean": "rimraf lib/*",
     "lint": "eslint src",
+    "lint:staged": "lint-staged",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage",
@@ -20,18 +21,21 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lttb/jss-styled.git"
+    "url": "git+https://github.com/cssinjs/styled-jss.git"
   },
   "keywords": [
     "jss",
-    "styled"
+    "styled",
+    "react",
+    "styled-components",
+    "primitives"
   ],
   "author": "lttb <kenzhaev.artur@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lttb/jss-styled/issues"
+    "url": "https://github.com/cssinjs/styled-jss/issues"
   },
-  "homepage": "https://github.com/lttb/jss-styled#readme",
+  "homepage": "https://github.com/cssinjs/styled-jss#readme",
   "dependencies": {
     "is-react-prop": "^0.0.2",
     "jss": "^7.1.0",
@@ -58,6 +62,18 @@
     "flow-bin": "^0.44.2",
     "flow-typed": "^2.0.0",
     "jest": "^18.1.0",
-    "react-test-renderer": "^15.4.2"
-  }
+    "lint-staged": "^3.4.0",
+    "pre-commit": "^1.2.2",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.4.2",
+    "rimraf": "^2.6.1"
+  },
+  "lint-staged": {
+    "./src": [
+      "eslint",
+      "git add"
+    ]
+  },
+  "pre-commit": "lint:staged"
 }

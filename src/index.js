@@ -1,50 +1,44 @@
-import React, {PureComponent} from 'react'
-
+import {PureComponent, createElement} from 'react'
 import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
-
 import filterProps from './utils/filter-props'
-
 
 const jssDefault = createJss(preset())
 
-type StyledElementAttrsT = { tag: string, styles: Object }
-type StyledElementT = Function & StyledElementAttrsT
-type tagOrStyledElementT = string | StyledElementT
-type StyledElementPropsT = {
+type StyledElementAttrsType = { tag: string, styles: Object }
+type StyledElementType = Function & StyledElementAttrsType
+type tagOrStyledElementTypeype = string | StyledElementType
+type StyledElementPropsType = {
   classes: Object,
   children: ?any,
   className: ?string,
 }
 
-
 export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
   let sheet
   let dynamicSheet
-
   let counter = 0
 
-  return (tagOrStyledElement: tagOrStyledElementT, ownStyles: Object): StyledElementT => {
-    const {tag, styles}: StyledElementAttrsT = typeof tagOrStyledElement === 'string'
+  return (tagOrStyledElement: tagOrStyledElementTypeype, ownStyles: Object): StyledElementType => {
+    const {tag, styles}: StyledElementAttrsType = typeof tagOrStyledElement === 'string'
       ? {tag: tagOrStyledElement, styles: {}}
       : tagOrStyledElement
 
     const elementStyles = {...styles, ...ownStyles}
     const dynamicStyles = getDynamicStyles(elementStyles)
-
-    const StaticTag = `${tag}-${++counter}`
+    const staticTag = `${tag}-${++counter}`
 
     return class StyledElement extends PureComponent {
-      props: StyledElementPropsT
-
       static tag = tag
+
       static styles = elementStyles
+
+      props: StyledElementPropsType
 
       tagScoped = ''
 
       constructor(props) {
         super(props)
-
         this.tagScoped = `${tag}-${++counter}`
       }
 
@@ -61,8 +55,8 @@ export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object
           }).attach()
         }
 
-        if (!sheet.getRule(StaticTag)) {
-          sheet.addRule(StaticTag, elementStyles)
+        if (!sheet.getRule(staticTag)) {
+          sheet.addRule(staticTag, elementStyles)
         }
 
         if (dynamicStyles && !dynamicSheet.getRule(this.tagScoped)) {
@@ -73,7 +67,7 @@ export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object
         }
       }
 
-      componentWillReceiveProps(nextProps: StyledElementPropsT) {
+      componentWillReceiveProps(nextProps: StyledElementPropsType) {
         if (dynamicStyles) dynamicSheet.update(this.tagScoped, nextProps)
       }
 
@@ -88,25 +82,30 @@ export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object
 
         const props = filterProps(attrs)
         const tagClass = [
-          sheet.classes[StaticTag],
+          sheet.classes[staticTag],
           dynamicSheet.classes[this.tagScoped],
           className,
         ]
           .filter(Boolean)
           .join(' ')
 
-        return React.createElement(tag, {...props, className: tagClass}, children)
+        return createElement(tag, {...props, className: tagClass}, children)
       }
     }
   }
 }
 
-const defaultStyledBased = createStyled()
-const defaultStyled = defaultStyledBased()
+const defaultStyledCreator = createStyled()
 
-export {defaultStyled as styled}
+const defaultStyled = defaultStyledCreator()
 
-export const createStyledCreator = (styled: Function = defaultStyledBased) =>
+const createStyledCreator = (styled: Function = defaultStyledCreator) => (
   (baseStyles: Object) => Object.assign(styled(baseStyles), {styles: baseStyles})
+)
+
+export {
+  defaultStyled as styled,
+  createStyledCreator
+}
 
 export default createStyledCreator()
