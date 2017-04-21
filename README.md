@@ -1,4 +1,4 @@
-# Styled Components on top of JSS.
+# Styled Components on top of JSS
 
 ## Usage
 
@@ -18,9 +18,9 @@ const PrimaryButton = styled(Button, {
 })
 ```
 
-### With base style sheet
+### With base Style Sheet
 
-Using base style sheet we can share classes between styled primitives.
+Using base Style Sheet we can share classes between styled primitives.
 
 ```js
 import Styled from 'styled-jss'
@@ -77,3 +77,7 @@ export const styled = prepareStyled(injectSheet)
 const Styled = setStyledCreator(styled)
 export default Styled
 ```
+
+## License
+
+MIT
