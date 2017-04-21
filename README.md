@@ -1,12 +1,28 @@
-# Styled JSS
+# Styled Components on top of JSS.
 
 ## Usage
 
-### With Styled Creator
+### With default styled function
 
-Styled Creator allows to share classes between styled primitives
+```js
+import { styled } from 'styled-jss'
 
-```jsx
+const Button = styled('button', {
+  fontSize: 12,
+  color: (props) => props.theme.textColor
+})
+
+// Composition.
+const PrimaryButton = styled(Button, {
+  color: 'red'
+})
+```
+
+### With base style sheet
+
+Using base style sheet we can share classes between styled primitives.
+
+```js
 import Styled from 'styled-jss'
 import injectSheet from 'react-jss'
 
@@ -22,11 +38,11 @@ const styled = Styled({
 
 const NormalButton = styled('button', {
   composes: '$baseButton',
-  border: '1px solid grey'
+  border: [1, 'solid', 'grey'],
   color: 'black'
 })
 
-// Composition over styled() same like styled-components
+// Composition - same way.
 const PrimaryButton = styled(NormalButton, {
   color: 'red'
 })
@@ -41,29 +57,14 @@ const MyComponent = ({classes}) => (
 const MyStyledComponent = injectSheet(styled.styles)(MyComponent)
 ```
 
-### With default styled function
-
-```jsx
-import { styled } from 'styled-jss'
-
-const Button = styled('button', {
-  fontSize: 12,
-  color: (props) => props.theme.textColor
-})
-
-const PrimaryButton = styled(Button, {
-  color: 'red'
-})
-```
-
 ### With custom JSS setup:
 
 #### For Styled Creator:
-```jsx
-import {create as createJss} from 'jss'
-import {create as createInjectSheet} from 'react-jss'
-import vendorPrefixer from 'jss-vendor-prefixer'
 
+```js
+import { create as createJss } from 'jss'
+import { create as createInjectSheet } from 'react-jss'
+import vendorPrefixer from 'jss-vendor-prefixer'
 import { setStyledCreator, prepareStyled } from 'styled-jss'
 
 const jss = createJss()
