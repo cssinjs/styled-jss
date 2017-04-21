@@ -50,7 +50,7 @@ const PrimaryButton = styled(NormalButton, {
 // One can use classes AND styled primitives.
 const MyComponent = ({classes}) => (
   <div className={classes.root}>
-    <PrimaryButton>
+    <PrimaryButton>primary button</PrimaryButton>
   </div>
 )
 
