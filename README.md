@@ -5,7 +5,7 @@
 ### With default styled function
 
 ```js
-import { styled } from 'styled-jss'
+import styled from 'styled-jss'
 
 const Button = styled('button', {
   fontSize: 12,
@@ -23,7 +23,7 @@ const PrimaryButton = styled(Button, {
 Using base Style Sheet we can share classes between styled primitives.
 
 ```js
-import Styled from 'styled-jss'
+import { Styled } from 'styled-jss'
 import injectSheet from 'react-jss'
 
 // Base styles, like a regular jss object.

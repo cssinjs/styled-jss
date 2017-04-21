@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer'
 import React from 'react'
 
-import Styled, { styled } from '../'
+import styled, {Styled} from '../'
 
 import CreateApp from './App'
 

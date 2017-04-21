@@ -105,7 +105,7 @@ const defaultStyled = defaultStyledCreator()
 
 export {
   createStyled,
-  defaultStyled as styled,
+  defaultStyledCreator as Styled,
 }
 
-export default defaultStyledCreator
+export default defaultStyled
