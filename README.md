@@ -1,5 +1,13 @@
 # Styled Components on top of JSS
 
+## Install
+
+This has peer dependencies of `react` and `react-dom`, which will have to be installed as well.
+
+```sh
+npm install --save styled-jss
+```
+
 ## Usage
 
 ### With default styled function
