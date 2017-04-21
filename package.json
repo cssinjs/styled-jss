@@ -34,7 +34,7 @@
   "homepage": "https://github.com/lttb/jss-styled#readme",
   "dependencies": {
     "is-react-prop": "^0.0.2",
-    "jss": "^7.0.3",
+    "jss": "^7.1.0",
     "jss-preset-default": "^2.0.0"
   },
   "peerDependencies": {

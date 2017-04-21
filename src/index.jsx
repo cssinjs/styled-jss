@@ -32,20 +32,6 @@ export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object
     const elementStyles = {...styles, ...ownStyles}
     const dynamicStyles = getDynamicStyles(elementStyles)
 
-    const updateRule = (className, data) => {
-      const componentRule = dynamicSheet.rules.map[className]
-
-      if (componentRule.type === 'regular') {
-        for (const prop in componentRule.style) {
-          const value = componentRule.style[prop]
-          if (typeof value === 'function') {
-            const computedValue = value(data)
-            componentRule.prop(prop, computedValue)
-          }
-        }
-      }
-    }
-
     const StaticTag = `${tag}-${++counter}`
 
     return class StyledElement extends PureComponent {
@@ -82,13 +68,13 @@ export const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object
         if (dynamicStyles && !dynamicSheet.getRule(this.tagScoped)) {
           dynamicSheet.detach()
           dynamicSheet.addRule(this.tagScoped, dynamicStyles)
-          updateRule(this.tagScoped, this.props)
+          dynamicSheet.update(this.tagScoped, this.props)
           dynamicSheet.attach()
         }
       }
 
       componentWillReceiveProps(nextProps: StyledElementPropsT) {
-        if (dynamicStyles) updateRule(this.tagScoped, nextProps)
+        if (dynamicStyles) dynamicSheet.update(this.tagScoped, nextProps)
       }
 
       componentWillUnmount() {
