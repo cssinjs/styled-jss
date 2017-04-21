@@ -16,7 +16,7 @@
     "flow:typed": "flow-typed install",
     "flow:stub": "flow-typed create-stub",
     "preversion": "npm run build",
-    "postversion": "git push --follow-tags && npm publish lib"
+    "postversion": "git push --follow-tags && npm publish"
   },
   "files": [
     "src",
