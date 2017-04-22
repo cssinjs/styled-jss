@@ -12,18 +12,22 @@ npm install --save styled-jss
 
 ### With default styled function
 
-```js
+```jsx
 import styled from 'styled-jss'
 
 const Button = styled('button', {
   fontSize: 12,
-  color: (props) => props.theme.textColor
+  color: ({textColor}) => textColor,
+  border: ({borderColor}) => [1, 'solid', borderColor]
 })
 
 // Composition.
 const PrimaryButton = styled(Button, {
   color: 'red'
 })
+
+// it would be button with red color and green border
+<PrimaryButton style={{borderColor: 'green', textColor: 'red'}} />
 ```
 
 ### With base Style Sheet

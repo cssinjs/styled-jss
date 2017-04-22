@@ -2,7 +2,6 @@ import {PureComponent, createElement} from 'react'
 import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
 
-import filterProps from './utils/filter-props'
 import composeClasses from './utils/compose-classes'
 import type {
   styledType,
@@ -70,7 +69,7 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
             .detach()
             .addRule(this.tagScoped, dynamicStyles)
           sheets.dynamicSheet
-            .update(this.tagScoped, this.props)
+            .update(this.tagScoped, this.props.style)
             .attach()
             .link()
         }
@@ -78,7 +77,7 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
 
       componentWillReceiveProps(nextProps: StyledElementPropsType) {
         if (dynamicStyles) {
-          sheets.dynamicSheet.update(this.tagScoped, nextProps)
+          sheets.dynamicSheet.update(this.tagScoped, nextProps.style)
         }
       }
 
@@ -89,16 +88,15 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
       render() {
         if (!sheets.staticSheet) return null
 
-        const {children, className, ...attrs} = this.props
+        const {children, className, style, ...attrs} = this.props
 
-        const props = filterProps(attrs)
         const tagClass = composeClasses(
           sheets.staticSheet.classes[staticTag],
           sheets.dynamicSheet.classes[this.tagScoped],
           className
         )
 
-        return createElement(tag, {...props, className: tagClass}, children)
+        return createElement(tag, {...attrs, className: tagClass}, children)
       }
     }
   }

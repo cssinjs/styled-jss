@@ -26,7 +26,6 @@ export default (styled: styledType) => {
     margin: ({margin = 0}) => margin,
   })
 
-
   return () => (
     <App>
       <Header>
@@ -35,7 +34,7 @@ export default (styled: styledType) => {
 
       <Section data-name="content">
         <Button>primitive test</Button>
-        <Button margin={10}>dynamic primitive test</Button>
+        <Button style={{margin: 10}}>dynamic primitive test</Button>
       </Section>
 
       <AnotherSection>Another section</AnotherSection>
