@@ -5,6 +5,7 @@ import preset from 'jss-preset-default'
 import filterProps from './utils/filter-props'
 import composeClasses from './utils/compose-classes'
 import type {
+  styledType,
   StyledElementAttrsType,
   StyledElementType,
   tagOrStyledElementTypeype,
@@ -13,7 +14,7 @@ import type {
 
 const jssDefault = createJss(preset())
 
-const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
+const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}): styledType => {
   const sheets = {}
   let counter = 0
 

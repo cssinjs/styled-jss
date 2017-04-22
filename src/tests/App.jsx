@@ -1,7 +1,7 @@
 import React from 'react'
+import type {styledType} from '../types'
 
-
-export default (styled: Function) => {
+export default (styled: styledType) => {
   const App = styled('div', {
     margin: 50,
   })

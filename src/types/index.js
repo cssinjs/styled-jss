@@ -1,4 +1,4 @@
-export type styledType = {
+export type styledType = Function & {
   sheets: {
     // TODO: use types from jss
     staticSheet: Object,
