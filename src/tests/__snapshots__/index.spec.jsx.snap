@@ -53,3 +53,34 @@ exports[`test renders correctly App with default styled 1`] = `
   </section>
 </div>
 `;
+
+exports[`test renders correctly App with injectStyled 1`] = `
+<div
+  className="root-0-17">
+  <div
+    className="div-1-0-19">
+    <header
+      className="header-2-0-20">
+      <h1
+        className="h1-5-0-21">
+        Title
+      </h1>
+    </header>
+    <section
+      className="section-3-0-22">
+      <button
+        className="button-6-0-23 button-11-0-24">
+        primitive test
+      </button>
+      <button
+        className="button-6-0-23 button-12-0-25">
+        dynamic primitive test
+      </button>
+    </section>
+    <section
+      className="section-4-0-26">
+      Another section
+    </section>
+  </div>
+</div>
+`;
