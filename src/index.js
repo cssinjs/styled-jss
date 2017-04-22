@@ -63,15 +63,19 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) 
         }
 
         if (dynamicStyles && !dynamicSheet.getRule(this.tagScoped)) {
-          dynamicSheet.detach()
           dynamicSheet.addRule(this.tagScoped, dynamicStyles)
-          dynamicSheet.update(this.tagScoped, this.props)
-          dynamicSheet.attach()
+          dynamicSheet
+            .update(this.tagScoped, this.props)
+            .deploy()
         }
       }
 
       componentWillReceiveProps(nextProps: StyledElementPropsType) {
-        if (dynamicStyles) dynamicSheet.update(this.tagScoped, nextProps)
+        if (dynamicStyles) {
+          dynamicSheet
+            .update(this.tagScoped, nextProps)
+            .deploy()
+        }
       }
 
       componentWillUnmount() {
