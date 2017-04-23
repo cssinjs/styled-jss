@@ -9,10 +9,7 @@ const injectStyled = (styled: styledType) => (InnerComponent: ReactClass<any>) =
   const {sheets} = styled
   const {staticSheet, dynamicSheet} = sheets
 
-  const classNames = new Set([
-    ...Object.keys(staticSheet.classes),
-    ...Object.keys(dynamicSheet.classes)
-  ])
+  const classNames = Object.keys({...staticSheet.classes, ...dynamicSheet.classes})
 
   const classes = [...classNames]
     .reduce((acc, name) => ({
@@ -20,7 +17,7 @@ const injectStyled = (styled: styledType) => (InnerComponent: ReactClass<any>) =
       [name]: composeClasses(staticSheet.classes[name], dynamicSheet.classes[name]),
     }), {})
 
-  return (...props: any) => createElement(InnerComponent, {sheets, classes, ...props})
+  return (props: Object) => createElement(InnerComponent, {classes, ...props})
 }
 
 export default injectStyled
