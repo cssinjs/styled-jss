@@ -3,3 +3,8 @@ parser: babel-eslint
 
 env:
   jest: true
+
+globals:
+  # react flow types
+  ReactClass: true
+  React$Element: true

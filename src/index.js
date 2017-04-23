@@ -1,23 +1,35 @@
 import {PureComponent, createElement} from 'react'
 import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
-import filterProps from './utils/filter-props'
+
+import composeClasses from './utils/compose-classes'
+import type {
+  styledType,
+  StyledElementAttrsType,
+  StyledElementType,
+  tagOrStyledElementTypeype,
+  StyledElementPropsType
+} from './types'
 
 const jssDefault = createJss(preset())
 
-type StyledElementAttrsType = { tag: string, styles: Object }
-type StyledElementType = Function & StyledElementAttrsType
-type tagOrStyledElementTypeype = string | StyledElementType
-type StyledElementPropsType = {
-  classes: Object,
-  children: ?any,
-  className: ?string,
-}
-
-const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
-  let sheet
-  let dynamicSheet
+const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}): styledType => {
+  const sheets = {}
   let counter = 0
+
+  const mountSheets = () => {
+    if (!sheets.staticSheet) {
+      sheets.staticSheet = jss.createStyleSheet(baseStyles, {
+        link: true,
+        meta: 'StaticBaseSheet',
+      }).attach()
+
+      sheets.dynamicSheet = jss.createStyleSheet({}, {
+        link: true,
+        meta: 'DynamicComponentSheet',
+      }).attach()
+    }
+  }
 
   const styled = (
     tagOrStyledElement: tagOrStyledElementTypeype,
@@ -46,28 +58,18 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) 
       }
 
       componentWillMount() {
-        if (!sheet) {
-          sheet = jss.createStyleSheet(baseStyles, {
-            link: true,
-            meta: 'StaticBaseSheet',
-          }).attach()
+        mountSheets()
 
-          dynamicSheet = jss.createStyleSheet({}, {
-            link: true,
-            meta: 'DynamicComponentSheet',
-          }).attach()
+        if (!sheets.staticSheet.getRule(staticTag)) {
+          sheets.staticSheet.addRule(staticTag, elementStyles)
         }
 
-        if (!sheet.getRule(staticTag)) {
-          sheet.addRule(staticTag, elementStyles)
-        }
-
-        if (dynamicStyles && !dynamicSheet.getRule(this.tagScoped)) {
-          dynamicSheet
+        if (dynamicStyles && !sheets.dynamicSheet.getRule(this.tagScoped)) {
+          sheets.dynamicSheet
             .detach()
             .addRule(this.tagScoped, dynamicStyles)
-          dynamicSheet
-            .update(this.tagScoped, this.props)
+          sheets.dynamicSheet
+            .update(this.tagScoped, this.props.style || {})
             .attach()
             .link()
         }
@@ -75,34 +77,35 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) 
 
       componentWillReceiveProps(nextProps: StyledElementPropsType) {
         if (dynamicStyles) {
-          dynamicSheet.update(this.tagScoped, nextProps)
+          sheets.dynamicSheet.update(this.tagScoped, nextProps.style || {})
         }
       }
 
       componentWillUnmount() {
-        dynamicSheet.deleteRule(this.tagScoped)
+        sheets.dynamicSheet.deleteRule(this.tagScoped)
       }
 
       render() {
-        if (!sheet) return null
+        if (!sheets.staticSheet) return null
 
-        const {children, className, ...attrs} = this.props
+        const {children, className, style, ...attrs} = this.props
 
-        const props = filterProps(attrs)
-        const tagClass = [
-          sheet.classes[staticTag],
-          dynamicSheet.classes[this.tagScoped],
-          className,
-        ]
-          .filter(Boolean)
-          .join(' ')
+        const tagClass = composeClasses(
+          sheets.staticSheet.classes[staticTag],
+          sheets.dynamicSheet.classes[this.tagScoped],
+          className
+        )
 
-        return createElement(tag, {...props, className: tagClass}, children)
+        return createElement(tag, {...attrs, className: tagClass}, children)
       }
     }
   }
 
-  return Object.assign(styled, {styles: baseStyles})
+  return Object.assign(styled, {
+    sheets,
+    mountSheets,
+    styles: baseStyles
+  })
 }
 
 const defaultStyledCreator = createStyled()
@@ -114,3 +117,5 @@ export {
 }
 
 export default defaultStyled
+
+export {default as injectStyled} from './injectStyled'
