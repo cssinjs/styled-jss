@@ -69,7 +69,7 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
             .detach()
             .addRule(this.tagScoped, dynamicStyles)
           sheets.dynamicSheet
-            .update(this.tagScoped, this.props.style)
+            .update(this.tagScoped, this.props.style || {})
             .attach()
             .link()
         }
@@ -77,7 +77,7 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
 
       componentWillReceiveProps(nextProps: StyledElementPropsType) {
         if (dynamicStyles) {
-          sheets.dynamicSheet.update(this.tagScoped, nextProps.style)
+          sheets.dynamicSheet.update(this.tagScoped, nextProps.style || {})
         }
       }
 
