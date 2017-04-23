@@ -5,23 +5,29 @@ import preset from 'jss-preset-default'
 import filterProps from './utils/filter-props'
 import composeClasses from './utils/compose-classes'
 import type {
-  styledType,
+  BaseStylesType,
+  ComponentStylesType,
+  StyledType,
   StyledElementAttrsType,
   StyledElementType,
-  tagOrStyledElementTypeype,
+  TagOrStyledElementTypeype,
   StyledElementPropsType
 } from './types'
 
 const jssDefault = createJss(preset())
 
-const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}): styledType => {
+
+const createStyled = (
+  jss?: Function = jssDefault
+) => (
+  baseStyles: BaseStylesType = {}
+): StyledType => {
   const sheets = {}
   let counter = 0
 
   const mountSheets = () => {
     if (!sheets.staticSheet) {
       sheets.staticSheet = jss.createStyleSheet(baseStyles, {
-        link: true,
         meta: 'StaticBaseSheet',
       }).attach()
 
@@ -33,8 +39,8 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
   }
 
   const styled = (
-    tagOrStyledElement: tagOrStyledElementTypeype,
-    ownStyles: Object
+    tagOrStyledElement: TagOrStyledElementTypeype,
+    ownStyles: ComponentStylesType
   ): StyledElementType => {
     const {tag, styles}: StyledElementAttrsType = typeof tagOrStyledElement === 'string'
       ? {tag: tagOrStyledElement, styles: {}}
@@ -45,9 +51,8 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}):
     const staticTag = `${tag}-${++counter}`
 
     return class StyledElement extends PureComponent {
-      static tag = tag
-
-      static styles = elementStyles
+      static tag: string = tag
+      static styles: ComponentStylesType = elementStyles
 
       props: StyledElementPropsType
 

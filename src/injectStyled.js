@@ -1,9 +1,9 @@
 import {createElement} from 'react'
 
 import composeClasses from './utils/compose-classes'
-import type {styledType} from './types'
+import type {StyledType} from './types'
 
-const injectStyled = (styled: styledType) => (InnerComponent: ReactClass<any>) => {
+const injectStyled = (styled: StyledType) => (InnerComponent: ReactClass<any>) => {
   styled.mountSheets()
 
   const {sheets} = styled
