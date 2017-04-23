@@ -1,5 +1,5 @@
 import React from 'react'
-import type {styledType} from '../types'
+import type {Styled, styledType} from '../types'
 
 export default (styled: styledType) => {
   const App = styled('div', {
@@ -22,7 +22,7 @@ export default (styled: styledType) => {
     color: 'red',
   })
 
-  const Button = styled('button', {
+  const Button: Styled<{margin: number}> = styled('button', {
     margin: ({margin = 0}) => margin,
   })
 

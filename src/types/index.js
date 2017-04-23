@@ -7,6 +7,7 @@ export type styledType = Function & {
   mountSheets: Function,
   styles: Object
 }
+
 export type StyledElementAttrsType = {tag: string, styles: Object}
 export type StyledElementType = Function & StyledElementAttrsType
 export type tagOrStyledElementTypeype = string | StyledElementType
@@ -16,3 +17,5 @@ export type StyledElementPropsType = {
   children: ?any,
   className: ?string,
 }
+
+export type Styled<T> = (props: {style?: T}) => React$Element<*>
