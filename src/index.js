@@ -2,19 +2,16 @@ import {PureComponent, createElement} from 'react'
 import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
 import filterProps from './utils/filter-props'
+import type {
+  StyledElementAttrsType,
+  StyledElementType,
+  tagOrStyledElementTypeype,
+  StyledElementPropsType
+} from './types'
 
 const jssDefault = createJss(preset())
 
-type StyledElementAttrsType = { tag: string, styles: Object }
-type StyledElementType = Function & StyledElementAttrsType
-type tagOrStyledElementTypeype = string | StyledElementType
-type StyledElementPropsType = {
-  classes: Object,
-  children: ?any,
-  className: ?string,
-}
-
-const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) => {
+const createStyled = (jss?: Function = jssDefault) => (baseStyles?: Object = {}) => {
   let sheet
   let dynamicSheet
   let counter = 0

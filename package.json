@@ -13,15 +13,13 @@
     "test:coverage": "npm test -- --coverage",
     "prebuild": "npm run clean && npm run flow && npm run lint && npm run test:coverage",
     "build": "babel src --out-dir lib --ignore tests",
+    "preversion": "npm run build",
+    "postversion": "copyfiles ./*.* LICENSE -a -f lib && git push --follow-tags && npm publish lib",
     "flow:typed": "flow-typed install",
     "flow:stub": "flow-typed create-stub",
     "preversion": "npm run build",
     "postversion": "git push --follow-tags && npm publish"
   },
-  "files": [
-    "src",
-    "lib"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cssinjs/styled-jss.git"
@@ -42,7 +40,8 @@
   "dependencies": {
     "is-react-prop": "^0.0.3",
     "jss": "^7.1.0",
-    "jss-preset-default": "^2.0.0"
+    "jss-preset-default": "^2.0.0",
+    "react-dom-elements": "^0.0.1"
   },
   "peerDependencies": {
     "react": "^15.5.4",
@@ -56,6 +55,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-react": "^6.23.0",
+    "copyfiles": "^1.2.0",
     "eslint": "^3.13.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-jss": "^3.0.0",

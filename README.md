@@ -26,12 +26,49 @@ const PrimaryButton = styled(Button, {
 })
 ```
 
+### With default styled function with DOM support
+
+Note that **styled DOM** has backward capability with original **styled**
+
+```js
+import { styled } from 'styled-jss/dom'
+
+const Button = styled.button({
+  fontSize: 12,
+  color: (props) => props.theme.textColor
+})
+
+// Composition.
+const PrimaryButton = styled(Button, {
+  color: 'red'
+})
+```
+
+#### With PreJSS
+You can write styles with [PreJSS](https://github.com/axept/prejss) this way:
+
+```js
+import { styled } from 'styled-jss/dom'
+
+const Button = styled.button(press`
+  font-size: 12;
+  color: ${(props) => props.theme.textColor};
+`)
+
+// Composition.
+const PrimaryButton = styled(Button, prejss`
+  color: red
+`)
+```
+
 ### With base Style Sheet
 
 Using base Style Sheet we can share classes between styled primitives.
 
 ```js
-import { Styled } from 'styled-jss'
+import {Styled} from 'styled-jss'
+// You can also similarly use Styled to provide styled with DOM:
+// import {Styled} from 'styled-jss/dom'
 import injectSheet from 'react-jss'
 
 // Base styles, like a regular jss object.
@@ -72,6 +109,7 @@ import { create as createJss } from 'jss'
 import vendorPrefixer from 'jss-vendor-prefixer'
 
 import { createStyled } from 'styled-jss'
+// for stlyed-jss/dom it's the same
 
 const jss = createJss()
 jss.use(vendorPrefixer())
