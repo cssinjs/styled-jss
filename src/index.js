@@ -1,6 +1,7 @@
 import {PureComponent, createElement} from 'react'
 import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
+import raf from 'raf'
 import filterProps from './utils/filter-props'
 
 const jssDefault = createJss(preset())
@@ -18,6 +19,15 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) 
   let sheet
   let dynamicSheet
   let counter = 0
+
+  let dynamicCounter = 0
+  raf(function update() {
+    if (dynamicCounter) {
+      dynamicCounter = 0
+      dynamicSheet.attach().link()
+    }
+    raf(update)
+  })
 
   const styled = (
     tagOrStyledElement: tagOrStyledElementTypeype,
@@ -63,13 +73,9 @@ const createStyled = (jss?: Function = jssDefault) => (baseStyles: Object = {}) 
         }
 
         if (dynamicStyles && !dynamicSheet.getRule(this.tagScoped)) {
-          dynamicSheet
-            .detach()
-            .addRule(this.tagScoped, dynamicStyles)
-          dynamicSheet
-            .update(this.tagScoped, this.props)
-            .attach()
-            .link()
+          dynamicSheet.detach().addRule(this.tagScoped, dynamicStyles)
+          dynamicSheet.update(this.tagScoped, this.props)
+          dynamicCounter++
         }
       }
 
