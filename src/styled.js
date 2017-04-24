@@ -14,7 +14,7 @@ import type {
 
 type StyledArgs = {
   tagName: string,
-  elementStyle: Object,
+  elementStyle: ComponentStyleType,
   mountSheets: Function
 }
 
