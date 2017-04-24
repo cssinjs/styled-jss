@@ -15,10 +15,11 @@ import type {
 type StyledArgs = {
   tagName: string,
   elementStyle: ComponentStyleType,
-  mountSheets: Function
+  mountSheets: Function,
+  addRule: Function
 }
 
-const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
+const styled = ({tagName, elementStyle, mountSheets, addRule}: StyledArgs) => {
   const dynamicStyle = getDynamicStyles(elementStyle)
   const staticTagName = generateTagName(tagName)
 
@@ -43,17 +44,11 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
       Object.assign(this, mountSheets())
 
       if (!this.staticSheet.getRule(staticTagName)) {
-        this.staticSheet.addRule(staticTagName, elementStyle)
+        addRule(staticTagName, elementStyle)
       }
 
       if (dynamicStyle && !this.dynamicSheet.getRule(this.dynamicTagName)) {
-        this.dynamicSheet
-          .detach()
-          .addRule(this.dynamicTagName, dynamicStyle)
-        this.dynamicSheet
-          .update(this.dynamicTagName, this.props)
-          .attach()
-          .link()
+        addRule(this.dynamicTagName, dynamicStyle, this.props)
       }
     }
 

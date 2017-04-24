@@ -38,10 +38,10 @@
   },
   "homepage": "https://github.com/cssinjs/styled-jss#readme",
   "dependencies": {
+    "asap": "^2.0.5",
     "is-react-prop": "^0.0.3",
     "jss": "^7.1.0",
-    "jss-preset-default": "^2.0.0",
-    "raf": "^3.3.0"
+    "jss-preset-default": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^15.5.4",

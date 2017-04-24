@@ -1,3 +1,5 @@
+import asap from 'asap'
+
 import styled from './styled'
 
 import type {
@@ -14,6 +16,26 @@ const createStyled = (jss: Function) => (
 ): StyledType => {
   let staticSheet
   let dynamicSheet
+
+  let dynamicCounter = 0
+
+  asap(() => {
+    if (dynamicCounter) {
+      dynamicCounter = 0
+      dynamicSheet.attach().link()
+    }
+  })
+
+  const addRule = (name: string, style: ComponentStyleType, data: Object) => {
+    if (data) {
+      dynamicSheet.detach().addRule(name, style)
+      dynamicSheet.update(name, data)
+      dynamicCounter++
+    }
+    else {
+      staticSheet.addRule(name, style)
+    }
+  }
 
   const mountSheets = () => {
     if (!staticSheet) {
@@ -40,7 +62,7 @@ const createStyled = (jss: Function) => (
 
     const elementStyle = {...style, ...ownStyle}
 
-    return styled({tagName, baseStyles, elementStyle, mountSheets})
+    return styled({tagName, baseStyles, elementStyle, mountSheets, addRule})
   }, {mountSheets, styles: baseStyles})
 }
 
