@@ -16,7 +16,7 @@ export type StyledType = Function & {
 }
 export type StyledElementAttrsType = {tagName: string, style: ComponentStyleType}
 export type StyledElementType = Function & StyledElementAttrsType
-export type TagOrStyledElementType = string | StyledElementType
+export type TagNameOrStyledElementType = string | StyledElementType
 export type StyledElementPropsType = {
   classes: Object,
   children: ?any,

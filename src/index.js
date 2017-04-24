@@ -10,7 +10,7 @@ import type {
   StyledType,
   StyledElementAttrsType,
   StyledElementType,
-  TagOrStyledElementType,
+  TagNameOrStyledElementType,
   StyledElementPropsType
 } from './types'
 
@@ -41,12 +41,12 @@ const createStyled = (
   }
 
   const styled = (
-    tagOrStyledElement: TagOrStyledElementType,
+    tagNameOrStyledElement: TagNameOrStyledElementType,
     ownStyle: ComponentStyleType
   ): StyledElementType => {
-    const {tagName, style}: StyledElementAttrsType = typeof tagOrStyledElement === 'string'
-      ? {tagName: tagOrStyledElement, style: {}}
-      : tagOrStyledElement
+    const {tagName, style}: StyledElementAttrsType = typeof tagNameOrStyledElement === 'string'
+      ? {tagName: tagNameOrStyledElement, style: {}}
+      : tagNameOrStyledElement
 
     const elementStyle = {...style, ...ownStyle}
     const dynamicStyle = getDynamicStyles(elementStyle)
