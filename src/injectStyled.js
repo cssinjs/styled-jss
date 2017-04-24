@@ -4,10 +4,7 @@ import composeClasses from './utils/composeClasses'
 import type {StyledType} from './types'
 
 const injectStyled = (styled: StyledType) => (InnerComponent: ReactClass<any>) => {
-  styled.mountSheets()
-
-  const {sheets} = styled
-  const {staticSheet, dynamicSheet} = sheets
+  const {staticSheet, dynamicSheet} = styled.mountSheets()
 
   const classNames = Object.keys({...staticSheet.classes, ...dynamicSheet.classes})
 

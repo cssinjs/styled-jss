@@ -6,11 +6,6 @@ export type JssDynamicSheet = JssStaticSheet
 export type BaseStylesType = JssStyles
 export type ComponentStyleType = JssStyle
 export type StyledType = Function & {
-  sheets: {
-    // TODO: use types from jss
-    staticSheet: JssStaticSheet,
-    dynamicSheet: JssDynamicSheet,
-  },
   mountSheets: Function,
   styles: JssStyles
 }

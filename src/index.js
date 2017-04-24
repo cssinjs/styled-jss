@@ -1,44 +1,42 @@
-import {PureComponent, createElement} from 'react'
-import {create as createJss, getDynamicStyles} from 'jss'
+import {create as createJss} from 'jss'
 import preset from 'jss-preset-default'
 
-import filterProps from './utils/filterProps'
-import composeClasses from './utils/composeClasses'
-import generateTagName from './utils/generateTagName'
+import styled from './styled'
 import type {
   BaseStylesType,
   ComponentStyleType,
   StyledType,
   StyledElementAttrsType,
   StyledElementType,
-  TagNameOrStyledElementType,
-  StyledElementPropsType
+  TagNameOrStyledElementType
 } from './types'
 
 const jssDefault = createJss(preset())
-
 
 const createStyled = (
   jss?: Function = jssDefault
 ) => (
   baseStyles: BaseStylesType = {}
 ): StyledType => {
-  const sheets = {}
+  let staticSheet
+  let dynamicSheet
 
   const mountSheets = () => {
-    if (!sheets.staticSheet) {
-      sheets.staticSheet = jss.createStyleSheet(baseStyles, {
+    if (!staticSheet) {
+      staticSheet = jss.createStyleSheet(baseStyles, {
         meta: 'StaticBaseSheet',
       }).attach()
 
-      sheets.dynamicSheet = jss.createStyleSheet({}, {
+      dynamicSheet = jss.createStyleSheet({}, {
         link: true,
         meta: 'DynamicComponentSheet',
       }).attach()
     }
+
+    return {staticSheet, dynamicSheet}
   }
 
-  const styled = (
+  return Object.assign((
     tagNameOrStyledElement: TagNameOrStyledElementType,
     ownStyle: ComponentStyleType
   ): StyledElementType => {
@@ -47,72 +45,9 @@ const createStyled = (
       : tagNameOrStyledElement
 
     const elementStyle = {...style, ...ownStyle}
-    const dynamicStyle = getDynamicStyles(elementStyle)
-    const staticTagName = generateTagName(tagName)
 
-    return class StyledElement extends PureComponent {
-      static tagName: string = tagName
-      static style: ComponentStyleType = elementStyle
-
-      props: StyledElementPropsType
-
-      dynamicTagName = ''
-
-      constructor(props) {
-        super(props)
-        this.dynamicTagName = generateTagName(tagName)
-      }
-
-      componentWillMount() {
-        mountSheets()
-
-        if (!sheets.staticSheet.getRule(staticTagName)) {
-          sheets.staticSheet.addRule(staticTagName, elementStyle)
-        }
-
-        if (dynamicStyle && !sheets.dynamicSheet.getRule(this.dynamicTagName)) {
-          sheets.dynamicSheet
-            .detach()
-            .addRule(this.dynamicTagName, dynamicStyle)
-          sheets.dynamicSheet
-            .update(this.dynamicTagName, this.props)
-            .attach()
-            .link()
-        }
-      }
-
-      componentWillReceiveProps(nextProps: StyledElementPropsType) {
-        if (dynamicStyle) {
-          sheets.dynamicSheet.update(this.dynamicTagName, nextProps)
-        }
-      }
-
-      componentWillUnmount() {
-        sheets.dynamicSheet.deleteRule(this.dynamicTagName)
-      }
-
-      render() {
-        if (!sheets.staticSheet) return null
-
-        const {children, className, ...attrs} = this.props
-
-        const props = filterProps(attrs)
-        const tagClass = composeClasses(
-          sheets.staticSheet.classes[staticTagName],
-          sheets.dynamicSheet.classes[this.dynamicTagName],
-          className
-        )
-
-        return createElement(tagName, {...props, className: tagClass}, children)
-      }
-    }
-  }
-
-  return Object.assign(styled, {
-    sheets,
-    mountSheets,
-    styles: baseStyles
-  })
+    return styled({tagName, baseStyles, elementStyle, mountSheets})
+  }, {mountSheets, styles: baseStyles})
 }
 
 const defaultStyledCreator = createStyled()
