@@ -11,26 +11,30 @@ import type {
   TagNameOrStyledElementType
 } from './types'
 
+const dynamicSheets = []
+let sheetsToUpdate = {}
+
+asap(() => {
+  const sheetNames = Object.keys(sheetsToUpdate)
+  if (sheetNames.length) {
+    sheetsToUpdate = {}
+    sheetNames.forEach(sheetName =>
+      dynamicSheets[Number(sheetName)].attach().link())
+  }
+})
+
 const createStyled = (jss: Function) => (
   baseStyles: BaseStylesType = {}
 ): StyledType => {
   let staticSheet
   let dynamicSheet
-
-  let dynamicCounter = 0
-
-  asap(() => {
-    if (dynamicCounter) {
-      dynamicCounter = 0
-      dynamicSheet.attach().link()
-    }
-  })
+  let dynamicSheetName
 
   const addRule = (name: string, style: ComponentStyleType, data: Object) => {
     if (data) {
       dynamicSheet.detach().addRule(name, style)
       dynamicSheet.update(name, data)
-      dynamicCounter++
+      sheetsToUpdate[dynamicSheetName] = true
     }
     else {
       staticSheet.addRule(name, style)
@@ -47,6 +51,8 @@ const createStyled = (jss: Function) => (
         link: true,
         meta: 'DynamicComponentSheet',
       }).attach()
+      dynamicSheets.push(dynamicSheet)
+      dynamicSheetName = dynamicSheets.length - 1
     }
 
     return {staticSheet, dynamicSheet}
