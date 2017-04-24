@@ -6,11 +6,11 @@ import filterProps from './utils/filter-props'
 import composeClasses from './utils/compose-classes'
 import type {
   BaseStylesType,
-  ComponentStylesType,
+  ComponentStyleType,
   StyledType,
   StyledElementAttrsType,
   StyledElementType,
-  TagOrStyledElementTypeype,
+  TagOrStyledElementType,
   StyledElementPropsType
 } from './types'
 
@@ -24,6 +24,8 @@ const createStyled = (
 ): StyledType => {
   const sheets = {}
   let counter = 0
+
+  const getScopedTagName = (tagName: string) => `${tagName}-${++counter}`
 
   const mountSheets = () => {
     if (!sheets.staticSheet) {
@@ -39,56 +41,56 @@ const createStyled = (
   }
 
   const styled = (
-    tagOrStyledElement: TagOrStyledElementTypeype,
-    ownStyles: ComponentStylesType
+    tagOrStyledElement: TagOrStyledElementType,
+    ownStyle: ComponentStyleType
   ): StyledElementType => {
-    const {tag, styles}: StyledElementAttrsType = typeof tagOrStyledElement === 'string'
-      ? {tag: tagOrStyledElement, styles: {}}
+    const {tagName, style}: StyledElementAttrsType = typeof tagOrStyledElement === 'string'
+      ? {tagName: tagOrStyledElement, style: {}}
       : tagOrStyledElement
 
-    const elementStyles = {...styles, ...ownStyles}
-    const dynamicStyles = getDynamicStyles(elementStyles)
-    const staticTag = `${tag}-${++counter}`
+    const elementStyle = {...style, ...ownStyle}
+    const dynamicStyle = getDynamicStyles(elementStyle)
+    const staticTagName = getScopedTagName(tagName)
 
     return class StyledElement extends PureComponent {
-      static tag: string = tag
-      static styles: ComponentStylesType = elementStyles
+      static tagName: string = tagName
+      static style: ComponentStyleType = elementStyle
 
       props: StyledElementPropsType
 
-      tagScoped = ''
+      dynamicTagName = ''
 
       constructor(props) {
         super(props)
-        this.tagScoped = `${tag}-${++counter}`
+        this.dynamicTagName = getScopedTagName(tagName)
       }
 
       componentWillMount() {
         mountSheets()
 
-        if (!sheets.staticSheet.getRule(staticTag)) {
-          sheets.staticSheet.addRule(staticTag, elementStyles)
+        if (!sheets.staticSheet.getRule(staticTagName)) {
+          sheets.staticSheet.addRule(staticTagName, elementStyle)
         }
 
-        if (dynamicStyles && !sheets.dynamicSheet.getRule(this.tagScoped)) {
+        if (dynamicStyle && !sheets.dynamicSheet.getRule(this.dynamicTagName)) {
           sheets.dynamicSheet
             .detach()
-            .addRule(this.tagScoped, dynamicStyles)
+            .addRule(this.dynamicTagName, dynamicStyle)
           sheets.dynamicSheet
-            .update(this.tagScoped, this.props)
+            .update(this.dynamicTagName, this.props)
             .attach()
             .link()
         }
       }
 
       componentWillReceiveProps(nextProps: StyledElementPropsType) {
-        if (dynamicStyles) {
-          sheets.dynamicSheet.update(this.tagScoped, nextProps)
+        if (dynamicStyle) {
+          sheets.dynamicSheet.update(this.dynamicTagName, nextProps)
         }
       }
 
       componentWillUnmount() {
-        sheets.dynamicSheet.deleteRule(this.tagScoped)
+        sheets.dynamicSheet.deleteRule(this.dynamicTagName)
       }
 
       render() {
@@ -98,12 +100,12 @@ const createStyled = (
 
         const props = filterProps(attrs)
         const tagClass = composeClasses(
-          sheets.staticSheet.classes[staticTag],
-          sheets.dynamicSheet.classes[this.tagScoped],
+          sheets.staticSheet.classes[staticTagName],
+          sheets.dynamicSheet.classes[this.dynamicTagName],
           className
         )
 
-        return createElement(tag, {...props, className: tagClass}, children)
+        return createElement(tagName, {...props, className: tagClass}, children)
       }
     }
   }

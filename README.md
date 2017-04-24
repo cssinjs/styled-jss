@@ -44,7 +44,7 @@ const styled = Styled({
   baseButton: {
     padding: 10,
     '& + &': {
-      marginLeft; 10
+      marginLeft: 10
     }
   }
 })
