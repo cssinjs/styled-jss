@@ -34,7 +34,9 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
 
     constructor(props: StyledElementPropsType) {
       super(props)
-      this.dynamicTagName = generateTagName(tagName)
+      if (!this.dynamicTagName) {
+        this.dynamicTagName = generateTagName(tagName)
+      }
     }
 
     componentWillMount() {
@@ -59,10 +61,6 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
       if (dynamicStyle) {
         this.dynamicSheet.update(this.dynamicTagName, nextProps)
       }
-    }
-
-    componentWillUnmount() {
-      this.dynamicSheet.deleteRule(this.dynamicTagName)
     }
 
     render() {
