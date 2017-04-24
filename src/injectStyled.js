@@ -1,6 +1,6 @@
 import {createElement} from 'react'
 
-import composeClasses from './utils/compose-classes'
+import composeClasses from './utils/composeClasses'
 import type {StyledType} from './types'
 
 const injectStyled = (styled: StyledType) => (InnerComponent: ReactClass<any>) => {

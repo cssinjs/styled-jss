@@ -2,8 +2,9 @@ import {PureComponent, createElement} from 'react'
 import {create as createJss, getDynamicStyles} from 'jss'
 import preset from 'jss-preset-default'
 
-import filterProps from './utils/filter-props'
-import composeClasses from './utils/compose-classes'
+import filterProps from './utils/filterProps'
+import composeClasses from './utils/composeClasses'
+import generateTagName from './utils/generateTagName'
 import type {
   BaseStylesType,
   ComponentStyleType,
@@ -23,9 +24,6 @@ const createStyled = (
   baseStyles: BaseStylesType = {}
 ): StyledType => {
   const sheets = {}
-  let counter = 0
-
-  const getScopedTagName = (tagName: string) => `${tagName}-${++counter}`
 
   const mountSheets = () => {
     if (!sheets.staticSheet) {
@@ -50,7 +48,7 @@ const createStyled = (
 
     const elementStyle = {...style, ...ownStyle}
     const dynamicStyle = getDynamicStyles(elementStyle)
-    const staticTagName = getScopedTagName(tagName)
+    const staticTagName = generateTagName(tagName)
 
     return class StyledElement extends PureComponent {
       static tagName: string = tagName
@@ -62,7 +60,7 @@ const createStyled = (
 
       constructor(props) {
         super(props)
-        this.dynamicTagName = getScopedTagName(tagName)
+        this.dynamicTagName = generateTagName(tagName)
       }
 
       componentWillMount() {
