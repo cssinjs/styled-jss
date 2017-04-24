@@ -1,16 +1,26 @@
+<a href="https://github.com/cssinjs/styled-jss">
+  <img alt="styled-jss" src="https://github.com/cssinjs/logo/blob/master/styled-jss-logo.png" height="150px" />
+</a>
+
 # Styled Components on top of JSS
 
-## Install
+[![Travis branch](https://img.shields.io/travis/cssinjs/styled-jss/master.svg?style=flat)](https://travis-ci.org/cssinjs/styled-jss)
+[![Coverage Status branch](https://img.shields.io/coveralls/cssinjs/styled-jss/master.svg?style=flat)](https://img.shields.io/coveralls/cssinjs/styled-jss/master.svg?branch=master)
+[![npm version](https://img.shields.io/npm/v/styled-jss.svg?style=flat)](https://www.npmjs.com/package/styled-jss)
+[![npm license](https://img.shields.io/npm/l/styled-jss.svg?style=flat)](https://www.npmjs.com/package/styled-jss)
 
-This has peer dependencies of `react` and `react-dom`, which will have to be installed as well.
+## Install
 
 ```sh
 npm install --save styled-jss
 ```
 
+Install peer dependencies `react` and `react-dom` in your project.
+
+
 ## Usage
 
-### With default styled function
+### With a default styled function
 
 ```js
 import styled from 'styled-jss'
@@ -26,21 +36,26 @@ const PrimaryButton = styled(Button, {
 })
 ```
 
-### With base Style Sheet
+### With a base Style Sheet
 
-Using base Style Sheet we can share classes between styled primitives.
+Using base Style Sheet we can share classes between styled primitives and render function.
 
 ```js
-import { Styled } from 'styled-jss'
-import injectSheet from 'react-jss'
+import { Styled, injectStyled } from 'styled-jss'
 
 // Base styles, like a regular jss object.
 const styled = Styled({
   root: {
-    margin: 10
+    margin: 10,
+    '& $baseButton': {
+      fontSize: 16
+    }
   },
   baseButton: {
-    padding: 10
+    padding: 10,
+    '& + &': {
+      marginLeft: 10
+    }
   }
 })
 
@@ -58,28 +73,30 @@ const PrimaryButton = styled(NormalButton, {
 // One can use classes AND styled primitives.
 const MyComponent = ({classes}) => (
   <div className={classes.root}>
+    <NormalButton>normal button</NormalButton>
     <PrimaryButton>primary button</PrimaryButton>
   </div>
 )
 
-const MyStyledComponent = injectSheet(styled.styles)(MyComponent)
+const MyStyledComponent = injectStyled(styled)(MyComponent)
 ```
 
-### With custom JSS setup:
+### With custom JSS setup
+
+`styled-jss` uses [jss-preset-default](https://github.com/cssinjs/jss-preset-default) by default. You can require `createStyled` function and provide your custom JSS instance.
 
 ```js
 import { create as createJss } from 'jss'
 import vendorPrefixer from 'jss-vendor-prefixer'
-
-import { createStyled } from 'styled-jss'
+import createStyled from 'styled-jss/createStyled'
 
 const jss = createJss()
 jss.use(vendorPrefixer())
 
-// Create custom Styled, that allows to set BaseStyles
+// Create a custom Styled function, that allows to set BaseStyles.
 const Styled = createStyled(jss)
 
-// Create custom styled function without BaseStyles accordingly
+// Create a custom styled function that allows to create styled components.
 export const styled = createStyled()
 
 export default Styled
