@@ -44,7 +44,7 @@ const styled = Styled({
   baseButton: {
     padding: 10,
     '& + &': {
-      marginLeft: 10
+      marginLeft; 10
     }
   }
 })
@@ -73,11 +73,14 @@ const MyStyledComponent = injectStyled(styled)(MyComponent)
 
 ### With custom JSS setup:
 
+`styled-jss` use [jss-preset-default](https://github.com/cssinjs/jss-preset-default) by default.
+But you can require `createStyled` and provide your custom jss instance.
+
 ```js
 import { create as createJss } from 'jss'
 import vendorPrefixer from 'jss-vendor-prefixer'
 
-import { createStyled } from 'styled-jss'
+import createStyled from 'styled-jss/createStyled'
 
 const jss = createJss()
 jss.use(vendorPrefixer())
