@@ -1,6 +1,5 @@
-import asap from 'asap'
-
 import styled from './styled'
+import sheetsObserver from './utils/sheetsObserver'
 
 import type {
   BaseStylesType,
@@ -11,30 +10,20 @@ import type {
   TagNameOrStyledElementType
 } from './types'
 
-const dynamicSheets = []
-let sheetsToUpdate = {}
-
-asap(() => {
-  const sheetNames = Object.keys(sheetsToUpdate)
-  if (sheetNames.length) {
-    sheetsToUpdate = {}
-    sheetNames.forEach(sheetName =>
-      dynamicSheets[Number(sheetName)].attach().link())
-  }
-})
+sheetsObserver.listen()
 
 const createStyled = (jss: Function) => (
   baseStyles: BaseStylesType = {}
 ): StyledType => {
   let staticSheet
   let dynamicSheet
-  let dynamicSheetName
+  let dynamicSheetId
 
   const addRule = (name: string, style: ComponentStyleType, data: Object) => {
     if (data) {
       dynamicSheet.detach().addRule(name, style)
       dynamicSheet.update(name, data)
-      sheetsToUpdate[dynamicSheetName] = true
+      sheetsObserver.update(dynamicSheetId)
     }
     else {
       staticSheet.addRule(name, style)
@@ -51,8 +40,7 @@ const createStyled = (jss: Function) => (
         link: true,
         meta: 'DynamicComponentSheet',
       }).attach()
-      dynamicSheets.push(dynamicSheet)
-      dynamicSheetName = dynamicSheets.length - 1
+      dynamicSheetId = sheetsObserver.add(dynamicSheet)
     }
 
     return {staticSheet, dynamicSheet}
