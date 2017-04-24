@@ -31,16 +31,21 @@ const PrimaryButton = styled(Button, {
 Using base Style Sheet we can share classes between styled primitives.
 
 ```js
-import { Styled } from 'styled-jss'
-import injectSheet from 'react-jss'
+import { Styled, injectStyled } from 'styled-jss'
 
 // Base styles, like a regular jss object.
 const styled = Styled({
   root: {
-    margin: 10
+    margin: 10,
+    '& $baseButton': {
+      fontSize: 16
+    }
   },
   baseButton: {
-    padding: 10
+    padding: 10,
+    '& + &': {
+      marginLeft; 10
+    }
   }
 })
 
@@ -58,20 +63,24 @@ const PrimaryButton = styled(NormalButton, {
 // One can use classes AND styled primitives.
 const MyComponent = ({classes}) => (
   <div className={classes.root}>
+    <NormalButton>normal button</NormalButton>
     <PrimaryButton>primary button</PrimaryButton>
   </div>
 )
 
-const MyStyledComponent = injectSheet(styled.styles)(MyComponent)
+const MyStyledComponent = injectStyled(styled)(MyComponent)
 ```
 
 ### With custom JSS setup:
+
+`styled-jss` use [jss-preset-default](https://github.com/cssinjs/jss-preset-default) by default.
+But you can require `createStyled` and provide your custom jss instance.
 
 ```js
 import { create as createJss } from 'jss'
 import vendorPrefixer from 'jss-vendor-prefixer'
 
-import { createStyled } from 'styled-jss'
+import createStyled from 'styled-jss/createStyled'
 
 const jss = createJss()
 jss.use(vendorPrefixer())
