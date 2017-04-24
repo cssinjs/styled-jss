@@ -1,3 +1,7 @@
+<a href="https://github.com/cssinjs/styled-jss">
+  <img alt="styled-jss" src="https://github.com/cssinjs/logo/blob/master/styled-jss-logo.png" height="150px" />
+</a>
+
 # Styled Components on top of JSS
 
 [![Travis branch](https://img.shields.io/travis/cssinjs/styled-jss/master.svg?style=flat)](https://travis-ci.org/cssinjs/styled-jss)
