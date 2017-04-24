@@ -10,7 +10,7 @@
     "flow": "flow check",
     "test": "jest",
     "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage && npm run coveralls",
+    "test:coverage": "npm test -- --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "prebuild": "npm run clean && npm run flow && npm run lint && npm run test:coverage",
     "build": "babel src --out-dir lib --ignore tests",
