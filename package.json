@@ -79,5 +79,8 @@
       "git add"
     ]
   },
-  "pre-commit": "lint:staged"
+  "pre-commit": [
+    "lint:staged",
+    "test"
+  ]
 }
