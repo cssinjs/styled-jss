@@ -69,11 +69,11 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
       const {children, className, ...attrs} = this.props
 
       const props = filterProps(attrs)
-      const tagClass = composeClasses(
+      const tagClass = composeClasses([
         this.staticSheet.classes[staticTagName],
         this.dynamicSheet.classes[this.dynamicTagName],
         className
-      )
+      ])
 
       return createElement(tagName, {...props, className: tagClass}, children)
     }
