@@ -11,7 +11,7 @@ const injectStyled = (styled: StyledType) => (InnerComponent: ReactClass<any>) =
   const classes = [...classNames]
     .reduce((acc, name) => ({
       ...acc,
-      [name]: composeClasses(staticSheet.classes[name], dynamicSheet.classes[name]),
+      [name]: composeClasses([staticSheet.classes[name], dynamicSheet.classes[name]]),
     }), {})
 
   return (props: Object) => createElement(InnerComponent, {classes, ...props})
