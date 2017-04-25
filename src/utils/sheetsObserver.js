@@ -1,4 +1,4 @@
-import asap from 'asap'
+import raf from 'raf'
 
 import type {
   JssDynamicSheet
@@ -16,10 +16,13 @@ export const observe = () => {
   }
 }
 
+const listen = () => {
+  observe()
+  raf(listen)
+}
+
 export default {
-  listen() {
-    asap(observe)
-  },
+  listen,
   add(sheet: JssDynamicSheet) {
     dynamicSheets.push(sheet)
     return dynamicSheets.length - 1

@@ -31,3 +31,17 @@ it('should reattach updated sheet by observe call', () => {
   expect(sheetMock.attach).toHaveBeenCalled()
   expect(sheetMock.link).toHaveBeenCalled()
 })
+
+it('should reattach updated sheet by listner', (done) => {
+  const {sheetMock} = Mocks
+  sheetsObserver.listen()
+
+  const sheetId = sheetsObserver.add(sheetMock)
+  sheetsObserver.update(sheetId)
+
+  setTimeout(() => {
+    expect(sheetMock.attach).toHaveBeenCalledTimes(1)
+    expect(sheetMock.link).toHaveBeenCalledTimes(1)
+    done()
+  }, 100)
+})
