@@ -1,6 +1,6 @@
 {
   "name": "styled-jss",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Styled Components on top of JSS.",
   "main": "index.js",
   "scripts": {
