@@ -1,5 +1,5 @@
 <a href="https://github.com/cssinjs/styled-jss">
-  <img alt="styled-jss" src="https://github.com/cssinjs/logo/blob/master/styled-jss-logo.png" height="150px" />
+  <img alt="styled-jss" src="https://github.com/cssinjs/logo/blob/master/styled-jss-logo.png?raw=true" height="150px" />
 </a>
 
 # Styled Components on top of JSS
