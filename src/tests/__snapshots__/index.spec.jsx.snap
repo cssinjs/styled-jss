@@ -1,26 +1,26 @@
 exports[`test renders correctly App with default Styled 1`] = `
 <div
-  className="div-14-0-9">
+  className="div-9-0-9">
   <header
-    className="header-15-0-10">
+    className="header-10-0-10">
     <h1
-      className="h1-18-0-11">
+      className="h1-13-0-11">
       Title
     </h1>
   </header>
   <section
-    className="section-16-0-12">
+    className="section-11-0-12">
     <button
-      className="button-19-0-13 button-24-0-14">
+      className="button-14-0-13 button-15-0-14">
       primitive test
     </button>
     <button
-      className="button-19-0-13 button-25-0-15">
+      className="button-14-0-13 button-16-0-15">
       dynamic primitive test
     </button>
   </section>
   <section
-    className="section-17-0-16">
+    className="section-12-0-16">
     Another section
   </section>
 </div>
@@ -39,11 +39,11 @@ exports[`test renders correctly App with default styled 1`] = `
   <section
     className="section-3-0-3">
     <button
-      className="button-6-0-4 button-11-0-5">
+      className="button-6-0-4 button-7-0-5">
       primitive test
     </button>
     <button
-      className="button-6-0-4 button-12-0-6">
+      className="button-6-0-4 button-8-0-6">
       dynamic primitive test
     </button>
   </section>
@@ -58,27 +58,27 @@ exports[`test renders correctly App with injectStyled 1`] = `
 <div
   className="root-0-17">
   <div
-    className="div-27-0-19">
+    className="div-17-0-19">
     <header
-      className="header-28-0-20">
+      className="header-18-0-20">
       <h1
-        className="h1-31-0-21">
+        className="h1-21-0-21">
         Title
       </h1>
     </header>
     <section
-      className="section-29-0-22">
+      className="section-19-0-22">
       <button
-        className="button-32-0-23 button-37-0-24">
+        className="button-22-0-23 button-23-0-24">
         primitive test
       </button>
       <button
-        className="button-32-0-23 button-38-0-25">
+        className="button-22-0-23 button-24-0-25">
         dynamic primitive test
       </button>
     </section>
     <section
-      className="section-30-0-26">
+      className="section-20-0-26">
       Another section
     </section>
   </div>

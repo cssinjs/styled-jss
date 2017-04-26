@@ -22,6 +22,8 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
   const dynamicStyle = getDynamicStyles(elementStyle)
   const staticTagName = generateTagName(tagName)
 
+  const availableDynamicTagNames = []
+
   return class StyledElement extends PureComponent {
     static tagName: string = tagName
     static style: ComponentStyleType = elementStyle
@@ -34,8 +36,8 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
 
     constructor(props: StyledElementPropsType) {
       super(props)
-      if (!this.dynamicTagName) {
-        this.dynamicTagName = generateTagName(tagName)
+      if (!this.dynamicTagName && dynamicStyle) {
+        this.dynamicTagName = availableDynamicTagNames.pop() || generateTagName(tagName)
       }
     }
 
@@ -46,21 +48,23 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
         this.staticSheet.addRule(staticTagName, elementStyle)
       }
 
-      if (dynamicStyle && !this.dynamicSheet.getRule(this.dynamicTagName)) {
-        this.dynamicSheet
-          .detach()
-          .addRule(this.dynamicTagName, dynamicStyle)
-        this.dynamicSheet
-          .update(this.dynamicTagName, this.props)
-          .attach()
-          .link()
+      if (!dynamicStyle) return
+
+      if (!this.dynamicSheet.getRule(this.dynamicTagName)) {
+        this.dynamicSheet.addRule(this.dynamicTagName, dynamicStyle)
       }
+
+      this.dynamicSheet.update(this.dynamicTagName, this.props)
     }
 
     componentWillReceiveProps(nextProps: StyledElementPropsType) {
       if (dynamicStyle) {
         this.dynamicSheet.update(this.dynamicTagName, nextProps)
       }
+    }
+
+    componentWillUnmount() {
+      availableDynamicTagNames.push(this.dynamicTagName)
     }
 
     render() {
