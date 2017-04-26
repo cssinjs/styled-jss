@@ -2576,9 +2576,9 @@ jss-vendor-prefixer@^5.0.0:
   dependencies:
     css-vendor "^0.3.8"
 
-jss@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/jss/-/jss-7.1.0.tgz#8528213f868f05d0ef41deaeb02269bb82780e4b"
+jss@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/jss/-/jss-7.1.1.tgz#b04ce8bfa60123a8b423e0edf17af8d008a5e8e5"
   dependencies:
     is-in-browser "1.0.2"
     warning "3.0.0"
