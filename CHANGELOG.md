@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.6.0](https://github.com/cssinjs/styled-jss/tree/0.6.0) (2017-04-26)
-[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.5.2...0.6.0)
+## [0.6.1](https://github.com/cssinjs/styled-jss/tree/0.6.1) (2017-04-26)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.0...0.6.1)
+
+**Merged pull requests:**
+
+- Fix peerDependencies [\#13](https://github.com/cssinjs/styled-jss/pull/13) ([lttb](https://github.com/lttb))
+
+## [v0.6.0](https://github.com/cssinjs/styled-jss/tree/v0.6.0) (2017-04-26)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.5.2...v0.6.0)
 
 **Merged pull requests:**
 
