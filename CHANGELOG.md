@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.6.1](https://github.com/cssinjs/styled-jss/tree/0.6.1) (2017-04-26)
-[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.0...0.6.1)
+## [0.6.2](https://github.com/cssinjs/styled-jss/tree/0.6.2) (2017-04-30)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.1...0.6.2)
+
+**Merged pull requests:**
+
+- Rewrite filterProps and createStyled, fix tests [\#14](https://github.com/cssinjs/styled-jss/pull/14) ([lttb](https://github.com/lttb))
+
+## [v0.6.1](https://github.com/cssinjs/styled-jss/tree/v0.6.1) (2017-04-26)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.0...v0.6.1)
 
 **Merged pull requests:**
 
