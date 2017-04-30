@@ -94,12 +94,12 @@ const jss = createJss()
 jss.use(vendorPrefixer())
 
 // Create a custom Styled function, that allows to set BaseStyles.
-const Styled = createStyled(jss)
+export const Styled = createStyled(jss)
 
 // Create a custom styled function that allows to create styled components.
-export const styled = createStyled()
+const styled = Styled()
 
-export default Styled
+export default styled
 ```
 
 ## License
