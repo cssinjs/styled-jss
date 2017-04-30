@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.6.2](https://github.com/cssinjs/styled-jss/tree/0.6.2) (2017-04-30)
-[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.1...0.6.2)
+## [0.6.3](https://github.com/cssinjs/styled-jss/tree/0.6.3) (2017-04-30)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.2...0.6.3)
+
+**Merged pull requests:**
+
+- Use Component instead of PureComponent for StyledElement [\#15](https://github.com/cssinjs/styled-jss/pull/15) ([lttb](https://github.com/lttb))
+
+## [v0.6.2](https://github.com/cssinjs/styled-jss/tree/v0.6.2) (2017-04-30)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.1...v0.6.2)
 
 **Merged pull requests:**
 
