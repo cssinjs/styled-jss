@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.6.3](https://github.com/cssinjs/styled-jss/tree/0.6.3) (2017-04-30)
+## [v0.6.3](https://github.com/cssinjs/styled-jss/tree/0.6.3) (2017-04-30)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.2...0.6.3)
 
 **Merged pull requests:**
