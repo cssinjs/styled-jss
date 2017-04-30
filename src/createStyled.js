@@ -9,9 +9,18 @@ import type {
   TagNameOrStyledElementType
 } from './types'
 
-const createStyled = (jss: Function) => (
-  baseStyles: BaseStylesType = {}
-): StyledType => {
+const getStyledArgs = (
+  tagNameOrStyledElement: TagNameOrStyledElementType
+): StyledElementAttrsType => {
+  if (typeof tagNameOrStyledElement === 'string') {
+    return {tagName: tagNameOrStyledElement, style: {}}
+  }
+
+  const {tagName, style} = tagNameOrStyledElement
+  return {tagName, style}
+}
+
+const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): StyledType => {
   let staticSheet
   let dynamicSheet
 
@@ -34,10 +43,7 @@ const createStyled = (jss: Function) => (
     tagNameOrStyledElement: TagNameOrStyledElementType,
     ownStyle: ComponentStyleType
   ): StyledElementType => {
-    const {tagName, style}: StyledElementAttrsType = typeof tagNameOrStyledElement === 'string'
-      ? {tagName: tagNameOrStyledElement, style: {}}
-      : tagNameOrStyledElement
-
+    const {tagName, style} = getStyledArgs(tagNameOrStyledElement)
     const elementStyle = {...style, ...ownStyle}
 
     return styled({tagName, baseStyles, elementStyle, mountSheets})

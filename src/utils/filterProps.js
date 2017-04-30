@@ -1,10 +1,16 @@
-import isNativeProp from 'is-react-prop'
+import isReactProp from 'is-react-prop'
 
-export default (props: Object) => (
-  Object
-    .entries(props)
-    .reduce((acc, [name, value]) => (isNativeProp(name)
-      ? {...acc, [name]: value}
-      : acc
-    ), {})
-)
+export default (props: Object) => {
+  const filtered = {}
+  const propNames = Object.keys(props)
+  let name
+
+  for (let i = 0; i < propNames.length; i++) {
+    name = propNames[i]
+    if (isReactProp(name)) {
+      filtered[name] = props[name]
+    }
+  }
+
+  return filtered
+}
