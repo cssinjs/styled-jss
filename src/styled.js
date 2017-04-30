@@ -1,4 +1,4 @@
-import {PureComponent, createElement} from 'react'
+import {Component, createElement} from 'react'
 import {getDynamicStyles} from 'jss'
 
 import filterProps from './utils/filterProps'
@@ -24,7 +24,7 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
 
   const availableDynamicTagNames = []
 
-  return class StyledElement extends PureComponent {
+  return class StyledElement extends Component {
     static tagName: string = tagName
     static style: ComponentStyleType = elementStyle
 
