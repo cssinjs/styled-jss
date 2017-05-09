@@ -6,15 +6,19 @@ export default (styled: StyledType) => {
     margin: 50,
   })
 
-  const Header = styled('header', {
+  const Header = styled('header')({
     padding: 10,
   })
 
-  const Section = styled('section', {
+  // curried
+  const section = styled('section')
+
+  const Section = section({
     color: 'red',
   })
 
-  const AnotherSection = styled(Section, {
+  // composition
+  const AnotherSection = styled(Section)({
     color: 'yellow',
   })
 
@@ -22,6 +26,7 @@ export default (styled: StyledType) => {
     color: 'red',
   })
 
+  // function value
   const Button = styled('button', {
     margin: ({margin = 0}) => margin,
   })

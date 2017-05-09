@@ -20,6 +20,8 @@ const getStyledArgs = (
   return {tagName, style}
 }
 
+const curry1 = (fn: Function) => (a: *, b?: *) => (b !== undefined ? fn(a, b) : b2 => fn(a, b2))
+
 const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): StyledType => {
   let staticSheet
   let dynamicSheet
@@ -39,7 +41,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     return {staticSheet, dynamicSheet}
   }
 
-  return Object.assign((
+  return Object.assign(curry1((
     tagNameOrStyledElement: TagNameOrStyledElementType,
     ownStyle: ComponentStyleType
   ): StyledElementType => {
@@ -47,7 +49,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     const elementStyle = {...style, ...ownStyle}
 
     return styled({tagName, baseStyles, elementStyle, mountSheets})
-  }, {mountSheets, styles: baseStyles})
+  }), {mountSheets, styles: baseStyles})
 }
 
 export default createStyled

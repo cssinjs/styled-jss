@@ -30,6 +30,18 @@ const Button = styled('button', {
   color: (props) => props.theme.textColor
 })
 
+// Curried interface.
+const Button = styled('button')({
+  fontSize: 12,
+  color: (props) => props.theme.textColor
+})
+
+const div = styled('div')
+
+const Container = div({
+  padding: 20
+})
+
 // Composition.
 const PrimaryButton = styled(Button, {
   color: 'red'
