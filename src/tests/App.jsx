@@ -2,7 +2,7 @@ import React from 'react'
 import type {StyledType} from '../types'
 
 export default (styled: StyledType) => {
-  const App = styled('div', {
+  const App = styled('div')({
     margin: 50,
   })
 
@@ -22,15 +22,14 @@ export default (styled: StyledType) => {
     color: 'yellow',
   })
 
-  const Title = styled('h1', {
+  const Title = styled('h1')({
     color: 'red',
   })
 
   // function value
-  const Button = styled('button', {
+  const Button = styled('button')({
     margin: ({margin = 0}) => margin,
   })
-
 
   return () => (
     <App>
