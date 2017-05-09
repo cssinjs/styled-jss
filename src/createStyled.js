@@ -40,7 +40,8 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
   }
 
   return Object.assign((
-    tagNameOrStyledElement: TagNameOrStyledElementType,
+    tagNameOrStyledElement: TagNameOrStyledElementType
+  ) => (
     ownStyle: ComponentStyleType
   ): StyledElementType => {
     const {tagName, style} = getStyledArgs(tagNameOrStyledElement)

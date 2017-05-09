@@ -2,30 +2,34 @@ import React from 'react'
 import type {StyledType} from '../types'
 
 export default (styled: StyledType) => {
-  const App = styled('div', {
+  const App = styled('div')({
     margin: 50,
   })
 
-  const Header = styled('header', {
+  const Header = styled('header')({
     padding: 10,
   })
 
-  const Section = styled('section', {
+  // curried
+  const section = styled('section')
+
+  const Section = section({
     color: 'red',
   })
 
-  const AnotherSection = styled(Section, {
+  // composition
+  const AnotherSection = styled(Section)({
     color: 'yellow',
   })
 
-  const Title = styled('h1', {
+  const Title = styled('h1')({
     color: 'red',
   })
 
-  const Button = styled('button', {
+  // function value
+  const Button = styled('button')({
     margin: ({margin = 0}) => margin,
   })
-
 
   return () => (
     <App>

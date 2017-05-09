@@ -25,13 +25,20 @@ Install peer dependencies `react` and `react-dom` in your project.
 ```js
 import styled from 'styled-jss'
 
-const Button = styled('button', {
+const Button = styled('button')({
   fontSize: 12,
   color: (props) => props.theme.textColor
 })
 
+// You can also use curried interface this way.
+const div = styled('div')
+
+const Container = div({
+  padding: 20
+})
+
 // Composition.
-const PrimaryButton = styled(Button, {
+const PrimaryButton = styled(Button)({
   color: 'red'
 })
 ```
@@ -59,14 +66,14 @@ const styled = Styled({
   }
 })
 
-const NormalButton = styled('button', {
+const NormalButton = styled('button')({
   composes: '$baseButton',
   border: [1, 'solid', 'grey'],
   color: 'black'
 })
 
 // Composition - same way.
-const PrimaryButton = styled(NormalButton, {
+const PrimaryButton = styled(NormalButton)({
   color: 'red'
 })
 
