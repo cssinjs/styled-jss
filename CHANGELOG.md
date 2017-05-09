@@ -1,7 +1,18 @@
 # Change Log
 
-## [v0.6.3](https://github.com/cssinjs/styled-jss/tree/0.6.3) (2017-04-30)
-[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.2...0.6.3)
+## [v1.0.0](https://github.com/cssinjs/styled-jss/tree/v1.0.0) (2017-05-09)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.3...v1.0.0)
+
+**Breaking changes:**
+
+- Keep only curried interface (see [\#19](https://github.com/cssinjs/styled-jss/pull/19))
+
+**Merged pull requests:**
+
+- Implement currying interface, resolve \#18 [\#19](https://github.com/cssinjs/styled-jss/pull/19) ([lttb](https://github.com/lttb))
+
+## [v0.6.3](https://github.com/cssinjs/styled-jss/tree/v0.6.3) (2017-04-30)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.2...v0.6.3)
 
 **Merged pull requests:**
 
@@ -56,8 +67,6 @@
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v0.3.1)
 
 ## [v0.3.0](https://github.com/cssinjs/styled-jss/tree/v0.3.0) (2017-04-21)
-[Full Changelog](https://github.com/cssinjs/styled-jss/compare/3.0.0...v0.3.0)
-
 **Merged pull requests:**
 
 - Update docs, remove createStyledCreator [\#2](https://github.com/cssinjs/styled-jss/pull/2) ([lttb](https://github.com/lttb))
