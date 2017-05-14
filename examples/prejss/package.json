@@ -1,0 +1,38 @@
+{
+  "name": "styled-jss-with-prejss-example",
+  "version": "0.1.0",
+  "description": "Styled-JSS with PreJSS example.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cssinjs/styled-jss.git"
+  },
+  "keywords": [
+    "styled-components",
+    "jss",
+    "cssinjs",
+    "css-in-js",
+    "prejss",
+    "example"
+  ],
+  "author": "Oleg Slobodskoi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cssinjs/styled-jss/issues"
+  },
+  "homepage": "https://github.com/cssinjs/styled-jss#readme",
+  "devDependencies": {
+    "babel-plugin-transform-prejss": "^0.5.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "dependencies": {
+    "prejss": "^1.4.0",
+    "styled-jss": "^1.0.0"
+  }
+}
