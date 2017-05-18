@@ -39,7 +39,7 @@
   "homepage": "https://github.com/cssinjs/styled-jss#readme",
   "dependencies": {
     "is-react-prop": "^0.1.2",
-    "jss": "^7.1.1",
+    "jss": "^7.1.2",
     "jss-preset-default": "^2.0.0"
   },
   "peerDependencies": {
