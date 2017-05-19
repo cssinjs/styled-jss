@@ -1,4 +1,4 @@
-exports[`test renders correctly App with default Styled 1`] = `
+exports[`base rendering tests renders correctly App with default Styled 1`] = `
 <div
   className="div-9-0-9">
   <header
@@ -27,7 +27,7 @@ exports[`test renders correctly App with default Styled 1`] = `
 </div>
 `;
 
-exports[`test renders correctly App with default styled 1`] = `
+exports[`base rendering tests renders correctly App with default styled 1`] = `
 <div
   className="div-1-0-0">
   <header
@@ -56,7 +56,7 @@ exports[`test renders correctly App with default styled 1`] = `
 </div>
 `;
 
-exports[`test renders correctly App with injectStyled 1`] = `
+exports[`base rendering tests renders correctly App with injectStyled 1`] = `
 <div
   className="root-0-17">
   <div

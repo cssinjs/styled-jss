@@ -1,12 +1,11 @@
 export type JssStyles = Object
 export type JssStyle = Object
-export type JssStaticSheet = Object
-export type JssDynamicSheet = JssStaticSheet
+export type JssSheet = Object
 
 export type BaseStylesType = JssStyles
 export type ComponentStyleType = JssStyle
 export type StyledType = Function & {
-  mountSheets: Function,
+  mountSheet: Function,
   styles: JssStyles
 }
 export type StyledElementAttrsType = {tagName: string, style: ComponentStyleType}

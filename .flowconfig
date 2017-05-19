@@ -5,5 +5,8 @@
 
 <PROJECT_ROOT>/lib/
 
+[libs]
+node_modules/jss/flow-typed
+
 [options]
 all=true

@@ -31,7 +31,7 @@ export default (styled: StyledType) => {
     margin: ({margin = 0}) => margin,
   })
 
-  return () => (
+  return ({margin = 10}: {margin?: number}) => (
     <App>
       <Header>
         <Title>Title</Title>
@@ -39,7 +39,7 @@ export default (styled: StyledType) => {
 
       <Section data-name="content">
         <Button>primitive test</Button>
-        <Button margin={10}>dynamic primitive test</Button>
+        <Button margin={margin}>dynamic primitive test</Button>
       </Section>
 
       <AnotherSection>Another section</AnotherSection>
