@@ -3,3 +3,4 @@ rules:
     - error
     - devDependencies: true
   react/require-default-props: off
+  global-require: off

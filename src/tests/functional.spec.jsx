@@ -3,6 +3,11 @@ import React from 'react'
 import {stripIndent} from 'common-tags'
 import {mount} from 'enzyme'
 
+import {
+  getCss,
+  removeWhitespace
+} from './utils'
+
 import CreateApp from './App'
 
 let Styled
@@ -18,6 +23,7 @@ const mockNameGenerators = () => {
   const generateTagName = require('../utils/generateTagName').default
   const generateClassName = require('jss/lib/utils/generateClassName').default
 
+  // $FlowIgnore
   generateTagName.mockImplementation((tagName: string) => `${tagName}-${++styledCounter}`)
   generateClassName.mockImplementation(rule => `${rule.name}-${++jssCounter}`)
 }
@@ -28,6 +34,10 @@ describe('functional tests', () => {
 
     Styled = require('../').Styled
     styled = Styled()
+  })
+
+  afterEach(() => {
+    styled.mountSheet().detach()
   })
 
   it('should update props and unmount', () => {
@@ -146,6 +156,8 @@ describe('functional tests', () => {
       }
     `)
 
+    expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
+
     wrapper.setProps({primary: true})
 
     expect(sheet.toString()).toBe(stripIndent`
@@ -165,6 +177,8 @@ describe('functional tests', () => {
         color: green;
       }
     `)
+
+    expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
 
     wrapper.unmount()
   })
