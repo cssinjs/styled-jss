@@ -36,7 +36,6 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
     dynamicTagName = ''
 
     sheet: JssSheet
-    cssRules: CSSStyleRule[]
     rulesIndex: Rule[]
 
     constructor(props: StyledElementPropsType) {
@@ -49,10 +48,8 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
     componentWillMount() {
       this.sheet = this.sheet || mountSheet()
       this.rulesIndex = this.sheet.rules.index
-      this.cssRules = this.cssRules || this.sheet.renderer.getRules() || []
 
       const rulesTotal = this.rulesIndex.length
-      const cssRulesTotal = this.cssRules.length
 
       if (!this.sheet.getRule(staticTagName)) {
         this.sheet.addRule(staticTagName, elementStyle)
@@ -65,42 +62,25 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       }
 
       classMap[this.dynamicTagName] = this.rulesIndex.slice(rulesTotal)
-
-      let cssRule
-      let rule
-      let cssRuleIndex = 0
-      let ruleIndex = 0
-      // nested styles become to flatten rules, so we need to update each nested rule
-      for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
-        rule = classMap[this.dynamicTagName][ruleIndex]
-        cssRule = this.cssRules[cssRulesTotal + cssRuleIndex]
-        if (cssRule && cssRule.selectorText === rule.selectorText) {
-          /**
-           * we need to set cssRule in rule.renderable
-           * @see {@link https://github.com/cssinjs/jss/issues/500}
-           * and we don't want to use link(), because there is no need to iterate over all rules
-           */
-          rule.renderable = cssRule
-          cssRuleIndex++
-        }
-        this.sheet.update(rule.name, this.props)
-      }
+      this.updateSheet(this.props)
     }
 
     componentWillReceiveProps(nextProps: StyledElementPropsType) {
-      if (dynamicStyle) {
-        let rule
-        let ruleIndex = 0
-        // the same rules update as in constructor
-        for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
-          rule = classMap[this.dynamicTagName][ruleIndex]
-          this.sheet.update(rule.name, nextProps)
-        }
-      }
+      if (dynamicStyle) this.updateSheet(nextProps)
     }
 
     componentWillUnmount() {
       availableDynamicTagNames.push(this.dynamicTagName)
+    }
+
+    updateSheet(props: StyledElementPropsType) {
+      let rule
+      let ruleIndex = 0
+      // nested styles become to flatten rules, so we need to update each nested rule
+      for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
+        rule = classMap[this.dynamicTagName][ruleIndex]
+        this.sheet.update(rule.name, props)
+      }
     }
 
     render() {
