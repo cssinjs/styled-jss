@@ -1,7 +1,4 @@
 import {Component, createElement} from 'react'
-import type {
-  Rule,
-} from 'jss/lib/types'
 
 import filterProps from './utils/filterProps'
 import composeClasses from './utils/composeClasses'
@@ -36,7 +33,6 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
     dynamicTagName = ''
 
     sheet: JssSheet
-    rulesIndex: Rule[]
 
     constructor(props: StyledElementPropsType) {
       super(props)
@@ -47,9 +43,8 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
 
     componentWillMount() {
       this.sheet = this.sheet || mountSheet()
-      this.rulesIndex = this.sheet.rules.index
-
-      const rulesTotal = this.rulesIndex.length
+      const rulesIndex = this.sheet.rules.index
+      const rulesTotal = rulesIndex.length
 
       if (staticStyle && !this.sheet.getRule(staticTagName)) {
         this.sheet.addRule(staticTagName, staticStyle)
@@ -61,7 +56,7 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
         this.sheet.addRule(this.dynamicTagName, dynamicStyle)
       }
 
-      classMap[this.dynamicTagName] = this.rulesIndex.slice(rulesTotal)
+      classMap[this.dynamicTagName] = rulesIndex.slice(rulesTotal)
       this.updateSheet(this.props)
     }
 
