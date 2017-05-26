@@ -76,14 +76,14 @@
     "rimraf": "^2.6.1"
   },
   "lint-staged": {
-    "./src": [
-      "eslint",
-      "git add"
+    "src/*.js": [
+      "lint",
+      "git add",
+      "npm test -- -b --findRelatedTests"
     ]
   },
   "pre-commit": [
-    "lint:staged",
-    "test"
+    "lint:staged"
   ],
   "jest": {
     "rootDir": "src"
