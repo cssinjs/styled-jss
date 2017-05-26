@@ -43,7 +43,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     const elementStyle = {...style, ...ownStyle}
 
     return styled({tagName, baseStyles, elementStyle, mountSheet})
-  }, {mountSheet, styles: baseStyles})
+  }, {mountSheet, sheet, styles: baseStyles})
 }
 
 export default createStyled

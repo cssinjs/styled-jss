@@ -1,5 +1,4 @@
 import {Component, createElement} from 'react'
-import {getDynamicStyles} from 'jss'
 import type {
   Rule,
 } from 'jss/lib/types'
@@ -7,6 +6,7 @@ import type {
 import filterProps from './utils/filterProps'
 import composeClasses from './utils/composeClasses'
 import generateTagName from './utils/generateTagName'
+import getSeparatedStyles from './utils/getSeparatedStyles'
 
 import type {
   JssSheet,
@@ -21,8 +21,8 @@ type StyledArgs = {
 }
 
 const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
-  const dynamicStyle = getDynamicStyles(elementStyle)
-  const staticTagName = generateTagName(tagName)
+  const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
+  const staticTagName = staticStyle && generateTagName(tagName)
 
   const availableDynamicTagNames = []
   const classMap = {}
@@ -51,8 +51,8 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
 
       const rulesTotal = this.rulesIndex.length
 
-      if (!this.sheet.getRule(staticTagName)) {
-        this.sheet.addRule(staticTagName, elementStyle)
+      if (staticStyle && !this.sheet.getRule(staticTagName)) {
+        this.sheet.addRule(staticTagName, staticStyle)
       }
 
       if (!dynamicStyle) return

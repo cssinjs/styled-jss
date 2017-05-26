@@ -62,12 +62,9 @@ describe('functional tests', () => {
         margin: 0;
       }
       .button-7-6 {
-        margin: 0;
-      }
-      .button-8-7 {
         margin: 10px;
       }
-      .section-4-8 {
+      .section-4-7 {
         color: yellow;
       }
     `)
@@ -91,12 +88,9 @@ describe('functional tests', () => {
         margin: 0;
       }
       .button-7-6 {
-        margin: 0;
-      }
-      .button-8-7 {
         margin: 20px;
       }
-      .section-4-8 {
+      .section-4-7 {
         color: yellow;
       }
     `)
@@ -145,13 +139,10 @@ describe('functional tests', () => {
       .div-1-2 {
         padding: 15px;
       }
-      .div-1-2:hover .button-1 {
+      .div-3-3:hover .button-1 {
         color: green;
       }
-      .div-3-5:hover .button-1 {
-        color: green;
-      }
-      .div-4-9:hover .button-1 {
+      .div-4-7:hover .button-1 {
         color: red;
       }
     `)
@@ -167,13 +158,10 @@ describe('functional tests', () => {
       .div-1-2 {
         padding: 15px;
       }
-      .div-1-2:hover .button-1 {
+      .div-3-3:hover .button-1 {
         color: red;
       }
-      .div-3-5:hover .button-1 {
-        color: red;
-      }
-      .div-4-9:hover .button-1 {
+      .div-4-7:hover .button-1 {
         color: green;
       }
     `)
