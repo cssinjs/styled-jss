@@ -39,7 +39,7 @@
   "homepage": "https://github.com/cssinjs/styled-jss#readme",
   "dependencies": {
     "is-react-prop": "^0.1.2",
-    "jss": "^7.1.2",
+    "jss": "^7.1.3",
     "jss-preset-default": "^2.0.0"
   },
   "peerDependencies": {
@@ -54,8 +54,10 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.23.0",
+    "common-tags": "^1.4.0",
     "copyfiles": "^1.2.0",
     "coveralls": "^2.13.0",
+    "enzyme": "^2.8.2",
     "eslint": "^3.13.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-jss": "^3.0.0",
@@ -74,14 +76,14 @@
     "rimraf": "^2.6.1"
   },
   "lint-staged": {
-    "./src": [
-      "eslint",
-      "git add"
+    "*.{js,jsx}": [
+      "lint",
+      "git add",
+      "npm test -- -b --findRelatedTests"
     ]
   },
   "pre-commit": [
-    "lint:staged",
-    "test"
+    "lint:staged"
   ],
   "jest": {
     "rootDir": "src"

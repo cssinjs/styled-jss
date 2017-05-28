@@ -21,22 +21,17 @@ const getStyledArgs = (
 }
 
 const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): StyledType => {
-  let staticSheet
-  let dynamicSheet
+  let sheet
 
-  const mountSheets = () => {
-    if (!staticSheet) {
-      staticSheet = jss.createStyleSheet(baseStyles, {
-        meta: 'StaticBaseSheet',
-      }).attach()
-
-      dynamicSheet = jss.createStyleSheet({}, {
+  const mountSheet = () => {
+    if (!sheet) {
+      sheet = jss.createStyleSheet(baseStyles, {
         link: true,
-        meta: 'DynamicComponentSheet',
+        meta: 'styled-jss',
       }).attach()
     }
 
-    return {staticSheet, dynamicSheet}
+    return sheet
   }
 
   return Object.assign((
@@ -47,8 +42,8 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     const {tagName, style} = getStyledArgs(tagNameOrStyledElement)
     const elementStyle = {...style, ...ownStyle}
 
-    return styled({tagName, baseStyles, elementStyle, mountSheets})
-  }, {mountSheets, styles: baseStyles})
+    return styled({tagName, baseStyles, elementStyle, mountSheet})
+  }, {mountSheet, sheet, styles: baseStyles})
 }
 
 export default createStyled

@@ -1,13 +1,12 @@
 import {Component, createElement} from 'react'
-import {getDynamicStyles} from 'jss'
 
 import filterProps from './utils/filterProps'
 import composeClasses from './utils/composeClasses'
 import generateTagName from './utils/generateTagName'
+import getSeparatedStyles from './utils/getSeparatedStyles'
 
 import type {
-  JssStaticSheet,
-  JssDynamicSheet,
+  JssSheet,
   ComponentStyleType,
   StyledElementPropsType
 } from './types'
@@ -15,14 +14,15 @@ import type {
 type StyledArgs = {
   tagName: string,
   elementStyle: ComponentStyleType,
-  mountSheets: Function
+  mountSheet: Function
 }
 
-const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
-  const dynamicStyle = getDynamicStyles(elementStyle)
-  const staticTagName = generateTagName(tagName)
+const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
+  const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
+  const staticTagName = staticStyle && generateTagName(tagName)
 
   const availableDynamicTagNames = []
+  const classMap = {}
 
   return class StyledElement extends Component {
     static tagName: string = tagName
@@ -31,8 +31,8 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
     props: StyledElementPropsType
 
     dynamicTagName = ''
-    staticSheet: JssStaticSheet
-    dynamicSheet: JssDynamicSheet
+
+    sheet: JssSheet
 
     constructor(props: StyledElementPropsType) {
       super(props)
@@ -42,40 +42,49 @@ const styled = ({tagName, elementStyle, mountSheets}: StyledArgs) => {
     }
 
     componentWillMount() {
-      Object.assign(this, mountSheets())
+      this.sheet = this.sheet || mountSheet()
+      const rulesIndex = this.sheet.rules.index
+      const rulesTotal = rulesIndex.length
 
-      if (!this.staticSheet.getRule(staticTagName)) {
-        this.staticSheet.addRule(staticTagName, elementStyle)
+      if (staticStyle && !this.sheet.getRule(staticTagName)) {
+        this.sheet.addRule(staticTagName, staticStyle)
       }
 
       if (!dynamicStyle) return
 
-      if (!this.dynamicSheet.getRule(this.dynamicTagName)) {
-        this.dynamicSheet.addRule(this.dynamicTagName, dynamicStyle)
+      if (!this.sheet.getRule(this.dynamicTagName)) {
+        this.sheet.addRule(this.dynamicTagName, dynamicStyle)
       }
 
-      this.dynamicSheet.update(this.dynamicTagName, this.props)
+      classMap[this.dynamicTagName] = rulesIndex.slice(rulesTotal)
+      this.updateSheet(this.props)
     }
 
     componentWillReceiveProps(nextProps: StyledElementPropsType) {
-      if (dynamicStyle) {
-        this.dynamicSheet.update(this.dynamicTagName, nextProps)
-      }
+      if (dynamicStyle) this.updateSheet(nextProps)
     }
 
     componentWillUnmount() {
       availableDynamicTagNames.push(this.dynamicTagName)
     }
 
-    render() {
-      if (!this.staticSheet) return null
+    updateSheet(props: StyledElementPropsType) {
+      let rule
+      let ruleIndex = 0
+      // nested styles become to flatten rules, so we need to update each nested rule
+      for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
+        rule = classMap[this.dynamicTagName][ruleIndex]
+        this.sheet.update(rule.name, props)
+      }
+    }
 
+    render() {
       const {children, className, ...attrs} = this.props
 
       const props = filterProps(attrs)
       const tagClass = composeClasses([
-        this.staticSheet.classes[staticTagName],
-        this.dynamicSheet.classes[this.dynamicTagName],
+        this.sheet.classes[staticTagName],
+        this.sheet.classes[this.dynamicTagName],
         className
       ])
 
