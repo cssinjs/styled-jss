@@ -56,7 +56,7 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
         this.sheet.addRule(this.dynamicTagName, dynamicStyle)
       }
 
-      classMap[this.dynamicTagName] = rulesIndex.slice(rulesTotal)
+      classMap[this.dynamicTagName] = classMap[this.dynamicTagName] || rulesIndex.slice(rulesTotal)
       this.updateSheet(this.props)
     }
 
