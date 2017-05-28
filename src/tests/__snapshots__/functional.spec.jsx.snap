@@ -1,0 +1,77 @@
+exports[`functional tests should update nested props 1`] = `
+".button-id {
+  font-size: 12px;
+}
+.div-1-id {
+  padding: 15px;
+}
+.div-3-id:hover .button-id {
+  color: green;
+}
+.div-4-id:hover .button-id {
+  color: red;
+}"
+`;
+
+exports[`functional tests should update nested props 2`] = `
+".button-id {
+  font-size: 12px;
+}
+.div-1-id {
+  padding: 15px;
+}
+.div-3-id:hover .button-id {
+  color: red;
+}
+.div-4-id:hover .button-id {
+  color: green;
+}"
+`;
+
+exports[`functional tests should update props and unmount 1`] = `
+".div-1-id {
+  margin: 50px;
+}
+.header-2-id {
+  padding: 10px;
+}
+.h1-5-id {
+  color: red;
+}
+.section-3-id {
+  color: red;
+}
+.button-6-id {
+  margin: 0;
+}
+.button-7-id {
+  margin: 10px;
+}
+.section-4-id {
+  color: yellow;
+}"
+`;
+
+exports[`functional tests should update props and unmount 2`] = `
+".div-1-id {
+  margin: 50px;
+}
+.header-2-id {
+  padding: 10px;
+}
+.h1-5-id {
+  color: red;
+}
+.section-3-id {
+  color: red;
+}
+.button-6-id {
+  margin: 0;
+}
+.button-7-id {
+  margin: 20px;
+}
+.section-4-id {
+  color: yellow;
+}"
+`;

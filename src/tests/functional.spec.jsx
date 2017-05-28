@@ -1,6 +1,5 @@
 import 'react-dom'
 import React from 'react'
-import {stripIndent} from 'common-tags'
 import {mount} from 'enzyme'
 
 import {
@@ -15,7 +14,6 @@ let styled
 
 const mockNameGenerators = () => {
   let styledCounter = 0
-  let jssCounter = 0
 
   jest.mock('../utils/generateTagName')
   jest.mock('jss/lib/utils/generateClassName')
@@ -25,7 +23,12 @@ const mockNameGenerators = () => {
 
   // $FlowIgnore
   generateTagName.mockImplementation((tagName: string) => `${tagName}-${++styledCounter}`)
-  generateClassName.mockImplementation(rule => `${rule.name}-${++jssCounter}`)
+  generateClassName.mockImplementation(rule => `${rule.name}-id`)
+}
+
+const assertSheet = (sheet) => {
+  expect(sheet.toString()).toMatchSnapshot()
+  expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
 }
 
 describe('functional tests', () => {
@@ -45,56 +48,9 @@ describe('functional tests', () => {
     const wrapper = mount(<App />)
     const sheet = styled.mountSheet()
 
-    expect(sheet.toString()).toBe(stripIndent`
-      .div-1-1 {
-        margin: 50px;
-      }
-      .header-2-2 {
-        padding: 10px;
-      }
-      .h1-5-3 {
-        color: red;
-      }
-      .section-3-4 {
-        color: red;
-      }
-      .button-6-5 {
-        margin: 0;
-      }
-      .button-7-6 {
-        margin: 10px;
-      }
-      .section-4-7 {
-        color: yellow;
-      }
-    `)
-
+    assertSheet(sheet)
     wrapper.setProps({margin: 20})
-
-    expect(sheet.toString()).toBe(stripIndent`
-      .div-1-1 {
-        margin: 50px;
-      }
-      .header-2-2 {
-        padding: 10px;
-      }
-      .h1-5-3 {
-        color: red;
-      }
-      .section-3-4 {
-        color: red;
-      }
-      .button-6-5 {
-        margin: 0;
-      }
-      .button-7-6 {
-        margin: 20px;
-      }
-      .section-4-7 {
-        color: yellow;
-      }
-    `)
-
+    assertSheet(sheet)
     wrapper.unmount()
   })
 
@@ -132,42 +88,9 @@ describe('functional tests', () => {
     const wrapper = mount(<App />)
     const sheet = styled.mountSheet()
 
-    expect(sheet.toString()).toBe(stripIndent`
-      .button-1 {
-        font-size: 12px;
-      }
-      .div-1-2 {
-        padding: 15px;
-      }
-      .div-3-3:hover .button-1 {
-        color: green;
-      }
-      .div-4-7:hover .button-1 {
-        color: red;
-      }
-    `)
-
-    expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
-
+    assertSheet(sheet)
     wrapper.setProps({primary: true})
-
-    expect(sheet.toString()).toBe(stripIndent`
-      .button-1 {
-        font-size: 12px;
-      }
-      .div-1-2 {
-        padding: 15px;
-      }
-      .div-3-3:hover .button-1 {
-        color: red;
-      }
-      .div-4-7:hover .button-1 {
-        color: green;
-      }
-    `)
-
-    expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
-
+    assertSheet(sheet)
     wrapper.unmount()
   })
 })
