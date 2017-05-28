@@ -76,7 +76,7 @@
     "rimraf": "^2.6.1"
   },
   "lint-staged": {
-    "src/*.js": [
+    "src/*.{js,jsx}": [
       "lint",
       "git add",
       "npm test -- -b --findRelatedTests"
