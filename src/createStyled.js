@@ -27,7 +27,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     if (!sheet) {
       sheet = jss.createStyleSheet(baseStyles, {
         link: true,
-        meta: 'sheet',
+        meta: 'styled-jss',
       }).attach()
     }
 
