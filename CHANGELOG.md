@@ -1,5 +1,21 @@
 # Change Log
 
+## [v1.1.2](https://github.com/cssinjs/styled-jss/tree/v1.1.2) (2017-05-28)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.1...v1.1.2)
+
+**Fixed bugs:**
+
+- Props don't work with component remount [\#26](https://github.com/cssinjs/styled-jss/issues/26)
+
+**Merged pull requests:**
+
+- Fix \#26 [\#27](https://github.com/cssinjs/styled-jss/pull/27) ([lttb](https://github.com/lttb))
+
+## [v1.1.1](https://github.com/cssinjs/styled-jss/tree/v1.1.1) (2017-05-28)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.0...v1.1.1)
+
+- Update JSS to 7.1.5
+
 ## [v1.1.0](https://github.com/cssinjs/styled-jss/tree/v1.1.0) (2017-05-28)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.0.1...v1.1.0)
 
