@@ -93,4 +93,21 @@ describe('functional tests', () => {
     assertSheet(sheet)
     wrapper.unmount()
   })
+
+  it('should use props on remount', () => {
+    const Button = styled('button')({
+      color: props => (props.primary ? 'red' : 'black')
+    })
+
+    const wrapper = mount(<Button />)
+    const sheet = styled.mountSheet()
+
+    assertSheet(sheet)
+    wrapper
+      .unmount()
+      .mount()
+      .setProps({primary: true})
+    assertSheet(sheet)
+    wrapper.unmount()
+  })
 })
