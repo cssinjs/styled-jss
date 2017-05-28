@@ -75,3 +75,15 @@ exports[`functional tests should update props and unmount 2`] = `
   color: yellow;
 }"
 `;
+
+exports[`functional tests should use props on remount 1`] = `
+".button-1-id {
+  color: black;
+}"
+`;
+
+exports[`functional tests should use props on remount 2`] = `
+".button-1-id {
+  color: red;
+}"
+`;
