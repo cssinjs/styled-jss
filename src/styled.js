@@ -83,8 +83,8 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
 
       const props = filterProps(attrs)
       const tagClass = composeClasses([
-        this.sheet.classes[staticTagName],
-        this.sheet.classes[this.dynamicTagName],
+        staticTagName && this.sheet.classes[staticTagName],
+        this.dynamicTagName && this.sheet.classes[this.dynamicTagName],
         className
       ])
 
