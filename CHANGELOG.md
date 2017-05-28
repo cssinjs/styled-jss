@@ -1,5 +1,21 @@
 # Change Log
 
+## [v1.1.0](https://github.com/cssinjs/styled-jss/tree/v1.1.0) (2017-05-28)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.0.1...v1.1.0)
+
+**Implemented enhancements:**
+
+- Get rid from dynamicStyleSheet, fix nested dynamic rules [\#24](https://github.com/cssinjs/styled-jss/pull/24) ([lttb](https://github.com/lttb))
+
+**Fixed bugs:**
+
+- Function don't work with nested rules [\#23](https://github.com/cssinjs/styled-jss/issues/23)
+
+## [v1.0.1](https://github.com/cssinjs/styled-jss/tree/v1.0.1) (2017-05-18)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.0.0...v1.0.1)
+
+- Update JSS to 7.1.2
+
 ## [v1.0.0](https://github.com/cssinjs/styled-jss/tree/v1.0.0) (2017-05-09)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.6.3...v1.0.0)
 
