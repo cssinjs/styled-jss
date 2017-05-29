@@ -1,13 +1,13 @@
-import isReactProp from 'is-react-prop'
+import checkAttr from 'is-react-prop/checkAttr'
 
-export default (props: Object) => {
+export default (tag: string) => (props: Object) => {
   const filtered = {}
   const propNames = Object.keys(props)
   let name
 
   for (let i = 0; i < propNames.length; i++) {
     name = propNames[i]
-    if (isReactProp(name)) {
+    if (checkAttr(tag, name)) {
       filtered[name] = props[name]
     }
   }

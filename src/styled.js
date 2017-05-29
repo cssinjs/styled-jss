@@ -1,6 +1,6 @@
 import {Component, createElement} from 'react'
 
-import filterProps from './utils/filterProps'
+import createFilterProps from './utils/createFilterProps'
 import composeClasses from './utils/composeClasses'
 import generateTagName from './utils/generateTagName'
 import getSeparatedStyles from './utils/getSeparatedStyles'
@@ -20,6 +20,8 @@ type StyledArgs = {
 const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
   const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
   const staticTagName = staticStyle && generateTagName(tagName)
+
+  const filterProps = createFilterProps(tagName)
 
   const availableDynamicTagNames = []
   const classMap = {}
