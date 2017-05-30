@@ -110,4 +110,22 @@ describe('functional tests', () => {
     assertSheet(sheet)
     wrapper.unmount()
   })
+
+  it('should update all dynamic props', () => {
+    const Button = styled('button')({
+      padding: props => props.spaced ? 10 : 0,
+
+      '@media screen': {
+        margin: props => props.spaced ? 10 : 0
+      }
+    })
+
+    const wrapper = mount(<Button spaced={true} />)
+
+    expect(styled.mountSheet().toString()).toMatchSnapshot()
+    wrapper.setProps({ spaced: false })
+    expect(styled.mountSheet().toString()).toMatchSnapshot()
+
+    wrapper.unmount()
+  })
 })

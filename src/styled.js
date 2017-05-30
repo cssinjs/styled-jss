@@ -71,10 +71,15 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
     updateSheet(props: StyledElementPropsType) {
       let rule
       let ruleIndex = 0
+
       // nested styles become to flatten rules, so we need to update each nested rule
       for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
         rule = classMap[this.dynamicTagName][ruleIndex]
-        this.sheet.update(rule.name, props)
+
+        if (rule.name)
+          this.sheet.update(rule.name, props)
+        else
+          this.sheet.update(props)
       }
     }
 
