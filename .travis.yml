@@ -1,6 +1,12 @@
+dist: trusty
 language: node_js
-
 node_js:
   - 7
 
-after_success: npm run test:coverage && npm run coveralls
+cache: yarn
+
+script:
+  - yarn --version
+  - npm run flow
+  - npm run lint
+  - npm run test:coverage && npm run coveralls
