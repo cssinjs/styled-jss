@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf lib/*",
-    "lint": "eslint src",
+    "lint": "eslint --ext .jsx,.js src",
     "lint:staged": "lint-staged",
     "flow": "flow check",
     "test": "jest",
