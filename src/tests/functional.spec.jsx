@@ -111,20 +111,23 @@ describe('functional tests', () => {
     wrapper.unmount()
   })
 
-  it('should update all dynamic props', () => {
+  it('should update dynamic props for conditional rules', () => {
     const Button = styled('button')({
       padding: props => (props.spaced ? 10 : 0),
 
       '@media screen': {
-        margin: props => (props.spaced ? 10 : 0)
+        '& .button': {
+          margin: props => (props.spaced ? 10 : 0)
+        }
       }
     })
 
     const wrapper = mount(<Button spaced />)
+    const sheet = styled.mountSheet()
 
-    expect(styled.mountSheet().toString()).toMatchSnapshot()
+    assertSheet(sheet)
     wrapper.setProps({spaced: false})
-    expect(styled.mountSheet().toString()).toMatchSnapshot()
+    assertSheet(sheet)
 
     wrapper.unmount()
   })
