@@ -34,7 +34,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     return sheet
   }
 
-  return Object.assign((
+  const styledWrapper = (
     tagNameOrStyledElement: TagNameOrStyledElementType
   ) => (
     ownStyle: ComponentStyleType
@@ -43,7 +43,13 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     const elementStyle = {...style, ...ownStyle}
 
     return styled({tagName, baseStyles, elementStyle, mountSheet})
-  }, {mountSheet, sheet, styles: baseStyles})
+  }
+
+  Object.defineProperty(styledWrapper, 'sheet', ({
+    get: () => sheet,
+  }: Object)) // https://github.com/facebook/flow/issues/285
+
+  return Object.assign(styledWrapper, {mountSheet, styles: baseStyles})
 }
 
 export default createStyled
