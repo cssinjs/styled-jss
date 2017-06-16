@@ -1,3 +1,25 @@
+exports[`functional tests should update dynamic props for conditional rules 1`] = `
+".button-1-id {
+  padding: 10px;
+}
+@media screen {
+  .button-1-id .button {
+    margin: 10px;
+  }
+}"
+`;
+
+exports[`functional tests should update dynamic props for conditional rules 2`] = `
+".button-1-id {
+  padding: 0;
+}
+@media screen {
+  .button-1-id .button {
+    margin: 0;
+  }
+}"
+`;
+
 exports[`functional tests should update nested props 1`] = `
 ".button-id {
   font-size: 12px;

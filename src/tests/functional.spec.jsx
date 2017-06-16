@@ -40,13 +40,13 @@ describe('functional tests', () => {
   })
 
   afterEach(() => {
-    styled.mountSheet().detach()
+    styled.sheet.detach()
   })
 
   it('should update props and unmount', () => {
     const App = CreateApp(styled)
     const wrapper = mount(<App />)
-    const sheet = styled.mountSheet()
+    const {sheet} = styled
 
     assertSheet(sheet)
     wrapper.setProps({margin: 20})
@@ -86,7 +86,7 @@ describe('functional tests', () => {
     )
 
     const wrapper = mount(<App />)
-    const sheet = styled.mountSheet()
+    const {sheet} = styled
 
     assertSheet(sheet)
     wrapper.setProps({primary: true})
@@ -100,7 +100,7 @@ describe('functional tests', () => {
     })
 
     const wrapper = mount(<Button />)
-    const sheet = styled.mountSheet()
+    const {sheet} = styled
 
     assertSheet(sheet)
     wrapper
@@ -108,6 +108,27 @@ describe('functional tests', () => {
       .mount()
       .setProps({primary: true})
     assertSheet(sheet)
+    wrapper.unmount()
+  })
+
+  it('should update dynamic props for conditional rules', () => {
+    const Button = styled('button')({
+      padding: props => (props.spaced ? 10 : 0),
+
+      '@media screen': {
+        '& .button': {
+          margin: props => (props.spaced ? 10 : 0)
+        }
+      }
+    })
+
+    const wrapper = mount(<Button spaced />)
+    const {sheet} = styled
+
+    assertSheet(sheet)
+    wrapper.setProps({spaced: false})
+    assertSheet(sheet)
+
     wrapper.unmount()
   })
 })
