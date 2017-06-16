@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.2.0](https://github.com/cssinjs/styled-jss/tree/v1.2.0) (2017-06-16)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.3...v1.2.0)
+
+**Merged pull requests:**
+
+- Fixed issue for dynamic props update [\#28](https://github.com/cssinjs/styled-jss/pull/28) ([lttb](https://github.com/lttb), [wellguimaraes](https://github.com/wellguimaraes))
+
+## [v1.1.3](https://github.com/cssinjs/styled-jss/tree/v1.1.3) (2017-06-02)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.2...v1.1.3)
+
+**Merged pull requests:**
+
+- Fix lint task for .jsx [\#30](https://github.com/cssinjs/styled-jss/pull/30) ([lttb](https://github.com/lttb))
+- Update Travis config [\#29](https://github.com/cssinjs/styled-jss/pull/29) ([lttb](https://github.com/lttb))
+
 ## [v1.1.2](https://github.com/cssinjs/styled-jss/tree/v1.1.2) (2017-05-28)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.1...v1.1.2)
 
