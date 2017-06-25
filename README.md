@@ -20,9 +20,7 @@ npm install --save styled-jss
 Install peer dependencies `react` and `react-dom` in your project.
 
 
-## Usage
-
-### With a default styled function
+## Default styled function
 
 ```js
 import styled from 'styled-jss'
@@ -45,9 +43,9 @@ const PrimaryButton = styled(Button)({
 })
 ```
 
-### With a base Style Sheet
+## Base Style Sheet
 
-Using base Style Sheet we can share classes between styled primitives and render function.
+Using base Style Sheet we can reuse classes in the render function and inside of a styled component.
 
 ```js
 import { Styled, injectStyled } from 'styled-jss'
@@ -90,9 +88,9 @@ const MyComponent = ({classes}) => (
 const MyStyledComponent = injectStyled(styled)(MyComponent)
 ```
 
-### With custom JSS setup
+## Custom JSS setup
 
-`styled-jss` uses [jss-preset-default](https://github.com/cssinjs/jss-preset-default) by default. You can require `createStyled` function and provide your custom JSS instance.
+Styled-JSS uses [jss-preset-default](https://github.com/cssinjs/jss-preset-default) by default. You can require `createStyled` function and provide your custom JSS instance.
 
 ```js
 import { create as createJss } from 'jss'
