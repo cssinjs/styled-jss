@@ -11,14 +11,7 @@
 
 Styled-JSS implements a styled-primitives interface on top of [JSS](https://github.com/cssinjs/jss). It's API is similar to styled-components but thanks to the JSS core, it supports all features and plugins JSS does. For e.g. you can use full [JSON Syntax](https://github.com/cssinjs/jss/blob/master/docs/json-api.md) inside.
 
-## Install
-
-```sh
-npm install --save styled-jss
-```
-
-Install peer dependencies `react` and `react-dom` in your project.
-
+Try it out on [webpackbin](https://www.webpackbin.com/bins/-KlrbQuwAZSK5eSzpCSy).
 
 ## Default styled function
 
@@ -108,6 +101,14 @@ const styled = Styled()
 
 export default styled
 ```
+
+## Install
+
+```sh
+npm install --save styled-jss
+```
+
+Install peer dependencies `react` and `react-dom` in your project.
 
 ## License
 
