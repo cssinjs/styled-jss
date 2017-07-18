@@ -1,4 +1,6 @@
 import {Component, createElement} from 'react'
+import PropTypes from 'prop-types'
+import {themeListener, channel} from 'theming'
 
 import filterProps from './utils/filterProps'
 import composeClasses from './utils/composeClasses'
@@ -27,18 +29,25 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
   return class StyledElement extends Component {
     static tagName: string = tagName
     static style: ComponentStyleType = elementStyle
+    static contextTypes = {
+      [channel]: PropTypes.object
+    }
 
     props: StyledElementPropsType
+    sheet: JssSheet
+    state: {theme?: Object}
+    unsubscribe: Function
 
     dynamicTagName = ''
+    setTheme = (theme: Object) => this.setState({theme})
 
-    sheet: JssSheet
-
-    constructor(props: StyledElementPropsType) {
-      super(props)
+    constructor(props: StyledElementPropsType, context: *) {
+      super(props, context)
       if (!this.dynamicTagName && dynamicStyle) {
         this.dynamicTagName = availableDynamicTagNames.pop() || generateTagName(tagName)
       }
+
+      this.state = context[channel] ? {theme: themeListener.initial(context)} : {}
     }
 
     componentWillMount() {
@@ -57,27 +66,37 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       }
 
       classMap[this.dynamicTagName] = classMap[this.dynamicTagName] || rulesIndex.slice(rulesTotal)
-      this.updateSheet(this.props)
+      this.updateSheet(this.props, this.state)
     }
 
-    componentWillReceiveProps(nextProps: StyledElementPropsType) {
-      if (dynamicStyle) this.updateSheet(nextProps)
+    componentWillUpdate(nextProps: StyledElementPropsType, nextState: *) {
+      if (dynamicStyle) this.updateSheet(nextProps, nextState)
+    }
+
+    componentDidMount() {
+      if (this.state.theme) {
+        this.unsubscribe = themeListener.subscribe(this.context, this.setTheme)
+      }
     }
 
     componentWillUnmount() {
       availableDynamicTagNames.push(this.dynamicTagName)
+
+      if (typeof this.unsubscribe === 'function') this.unsubscribe()
     }
 
-    updateSheet(props: StyledElementPropsType) {
+    updateSheet(props: StyledElementPropsType, state: *) {
       let rule
       let ruleIndex = 0
+
+      const styles = Object.assign({}, props, state)
 
       // nested styles become to flatten rules, so we need to update each nested rule
       for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
         rule = classMap[this.dynamicTagName][ruleIndex]
 
-        if (rule.name) this.sheet.update(rule.name, props)
-        if (rule.rules) rule.rules.update(props)
+        if (rule.name) this.sheet.update(rule.name, styles)
+        if (rule.rules) rule.rules.update(styles)
       }
     }
 
