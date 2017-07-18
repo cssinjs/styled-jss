@@ -19,6 +19,10 @@ type StyledArgs = {
   mountSheet: Function
 }
 
+type StateType = {
+  theme?: Object
+}
+
 const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
   const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
   const staticTagName = staticStyle && generateTagName(tagName)
@@ -35,13 +39,13 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
 
     props: StyledElementPropsType
     sheet: JssSheet
-    state: {theme?: Object}
-    unsubscribe: Function
+    state: StateType
+    unsubscribe: ?Function
 
     dynamicTagName = ''
     setTheme = (theme: Object) => this.setState({theme})
 
-    constructor(props: StyledElementPropsType, context: *) {
+    constructor(props: StyledElementPropsType, context: any) {
       super(props, context)
       if (!this.dynamicTagName && dynamicStyle) {
         this.dynamicTagName = availableDynamicTagNames.pop() || generateTagName(tagName)
@@ -69,7 +73,7 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       this.updateSheet(this.props, this.state)
     }
 
-    componentWillUpdate(nextProps: StyledElementPropsType, nextState: *) {
+    componentWillUpdate(nextProps: StyledElementPropsType, nextState: StateType) {
       if (dynamicStyle) this.updateSheet(nextProps, nextState)
     }
 
@@ -85,7 +89,7 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       if (typeof this.unsubscribe === 'function') this.unsubscribe()
     }
 
-    updateSheet(props: StyledElementPropsType, state: *) {
+    updateSheet(props: StyledElementPropsType, state: StateType) {
       let rule
       let ruleIndex = 0
 
