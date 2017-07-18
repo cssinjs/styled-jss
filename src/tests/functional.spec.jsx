@@ -1,5 +1,6 @@
 import 'react-dom'
 import React from 'react'
+import {ThemeProvider} from 'theming'
 import {mount} from 'enzyme'
 
 import {
@@ -130,5 +131,106 @@ describe('functional tests', () => {
     assertSheet(sheet)
 
     wrapper.unmount()
+  })
+
+  describe('theming', () => {
+    it('should work with ThemeProvider', () => {
+      const theme = {
+        color: {
+          primary: 'red',
+          secondary: 'black'
+        }
+      }
+
+      const Button = styled('button')({
+        color: props => props.theme.color.primary,
+        backgroundColor: props => props.theme.color.secondary,
+      })
+
+      const wrapper = mount(
+        <ThemeProvider theme={theme}>
+          <Button />
+        </ThemeProvider>
+      )
+      const {sheet} = styled
+
+      assertSheet(sheet)
+
+      wrapper.unmount()
+    })
+
+    it('should update theme', () => {
+      const initialTheme = {
+        color: {
+          primary: 'green',
+          secondary: 'white'
+        }
+      }
+
+      const Button = styled('button')({
+        color: props => props.theme.color.primary,
+        backgroundColor: props => props.theme.color.secondary,
+      })
+
+      const App = (props: {theme: Object}) => (
+        <ThemeProvider theme={props.theme}>
+          <Button />
+        </ThemeProvider>
+      )
+
+      const wrapper = mount(<App theme={initialTheme} />)
+      const {sheet} = styled
+
+      assertSheet(sheet)
+
+      const nextTheme = {
+        color: {
+          primary: 'yellow',
+          secondary: 'blue'
+        }
+      }
+      wrapper.setProps({theme: nextTheme})
+
+      assertSheet(sheet)
+
+      wrapper.unmount()
+    })
+
+    it('should work with nested ThemeProvider', () => {
+      const themes = [{
+        color: {
+          primary: 'green',
+          secondary: 'white'
+        }
+      }, {
+        color: {
+          primary: 'blue',
+          secondary: 'yellow'
+        }
+      }]
+
+      const Button = styled('button')({
+        color: props => props.theme.color.primary,
+        backgroundColor: props => props.theme.color.secondary,
+      })
+
+      const App = () => (
+        <ThemeProvider theme={themes[0]}>
+          <div>
+            <Button />
+            <ThemeProvider theme={themes[1]}>
+              <Button />
+            </ThemeProvider>
+          </div>
+        </ThemeProvider>
+      )
+
+      const wrapper = mount(<App />)
+      const {sheet} = styled
+
+      assertSheet(sheet)
+
+      wrapper.unmount()
+    })
   })
 })

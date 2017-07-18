@@ -109,3 +109,35 @@ exports[`functional tests should use props on remount 2`] = `
   color: red;
 }"
 `;
+
+exports[`functional tests theming should update theme 1`] = `
+".button-1-id {
+  color: green;
+  background-color: white;
+}"
+`;
+
+exports[`functional tests theming should update theme 2`] = `
+".button-1-id {
+  color: yellow;
+  background-color: blue;
+}"
+`;
+
+exports[`functional tests theming should work with ThemeProvider 1`] = `
+".button-1-id {
+  color: red;
+  background-color: black;
+}"
+`;
+
+exports[`functional tests theming should work with nested ThemeProvider 1`] = `
+".button-1-id {
+  color: green;
+  background-color: white;
+}
+.button-2-id {
+  color: blue;
+  background-color: yellow;
+}"
+`;
