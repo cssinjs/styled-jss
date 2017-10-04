@@ -1,6 +1,6 @@
 {
   "name": "styled-jss",
-  "version": "1.2.0",
+  "version": "2.0.0-beta.3",
   "description": "Styled Components on top of JSS.",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/cssinjs/styled-jss#readme",
   "dependencies": {
-    "is-react-prop": "^1.0.0-beta.4",
+    "is-react-prop": "^1.0.0-beta.5",
     "jss": "^9.0.0",
     "jss-preset-default": "^4.0.0"
   },

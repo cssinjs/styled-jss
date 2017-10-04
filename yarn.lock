@@ -2464,9 +2464,9 @@ is-property@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-property/-/is-property-1.0.2.tgz#57fe1c4e48474edd65b09911f26b1cd4095dda84"
 
-is-react-prop@^1.0.0-beta.4:
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/is-react-prop/-/is-react-prop-1.0.0-beta.4.tgz#b35b5bace633a990edd4c10ef057cafd7050f222"
+is-react-prop@^1.0.0-beta.5:
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/is-react-prop/-/is-react-prop-1.0.0-beta.5.tgz#e3e6f1d945102db7c5d6981104f131dd65e94782"
 
 is-regex@^1.0.3:
   version "1.0.4"
