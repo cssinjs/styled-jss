@@ -89,6 +89,7 @@
   ],
   "jest": {
     "rootDir": "src",
+    "coverageDirectory": "../coverage",
     "setupFiles": [
       "raf/polyfill"
     ]

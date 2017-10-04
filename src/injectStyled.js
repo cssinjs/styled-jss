@@ -1,9 +1,10 @@
 import {createElement} from 'react'
+import type {ComponentType} from 'react'
 
 import composeClasses from './utils/composeClasses'
 import type {StyledType} from './types'
 
-const injectStyled = (styled: StyledType) => (InnerComponent: ReactClass<any>) => {
+const injectStyled = (styled: StyledType) => (InnerComponent: ComponentType<any>) => {
   const sheet = styled.mountSheet()
 
   const classes = Object.keys(sheet.classes).reduce((acc, name) => ({

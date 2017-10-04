@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`functional tests should update dynamic props for conditional rules 1`] = `
 ".button-1-id {
   padding: 10px;

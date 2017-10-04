@@ -1,6 +1,7 @@
 import 'react-dom'
 import React from 'react'
-import {mount} from 'enzyme'
+import Enzyme, {mount} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
 import {
   getCss,
@@ -9,6 +10,8 @@ import {
 
 import CreateApp from './App'
 
+Enzyme.configure({adapter: new Adapter()})
+
 let Styled
 let styled
 
@@ -16,14 +19,14 @@ const mockNameGenerators = () => {
   let styledCounter = 0
 
   jest.mock('../utils/generateTagName')
-  jest.mock('jss/lib/utils/generateClassName')
+  jest.mock('jss/lib/utils/createGenerateClassName')
 
   const generateTagName = require('../utils/generateTagName').default
-  const generateClassName = require('jss/lib/utils/generateClassName').default
+  const createGenerateClassName = require('jss/lib/utils/createGenerateClassName').default
 
   // $FlowIgnore
   generateTagName.mockImplementation((tagName: string) => `${tagName}-${++styledCounter}`)
-  generateClassName.mockImplementation(rule => `${rule.name}-id`)
+  createGenerateClassName.mockImplementation(() => rule => `${rule.key}-id`)
 }
 
 const assertSheet = (sheet) => {
