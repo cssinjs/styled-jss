@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`functional tests Compose React Components should pass props 1`] = `
+<Component>
+  <StyledElement
+    className="testClassName"
+    testProp={1}
+    testProp2="2"
+  >
+    <Component
+      className="StyledElement-1-id testClassName"
+      testProp={1}
+      testProp2="2"
+    >
+      {"testProp":1,"testProp2":"2","className":"StyledElement-1-id testClassName"}
+    </Component>
+  </StyledElement>
+</Component>
+`;
+
+exports[`functional tests Compose React Components should pass props 2`] = `
+".StyledElement-1-id {
+  padding: 10px;
+}"
+`;
+
 exports[`functional tests Compose React Components should use .displayName 1`] = `
 <StyledElement>
   <TestDisplayName
@@ -56,7 +80,7 @@ exports[`functional tests Compose React Components should use .name 3`] = `
 
 exports[`functional tests Compose React Components should use .name 4`] = `
 ".StyledElement-1-id {
-  padding: 30px;
+  padding: 10px;
 }"
 `;
 

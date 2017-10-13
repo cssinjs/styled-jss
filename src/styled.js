@@ -38,11 +38,11 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
   const {
     style,
     tagName,
-    reactComponent = tagName
+    reactComponent,
   }: {
     style?: ComponentStyleType,
     tagName: string,
-    reactComponent?: string | typeof element
+    reactComponent?: typeof element
   } = getParamsByElement(element)
 
   const elementStyle = {...style, ...ownStyle}
@@ -114,7 +114,7 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
     render() {
       const {children, className, ...attrs} = this.props
 
-      const props = filterProps(tagName, attrs)
+      const props = reactComponent ? attrs : filterProps(tagName, attrs)
       const tagClass = composeClasses([
         this.staticClassName,
         staticTagName && this.sheet.classes[staticTagName],
@@ -122,7 +122,7 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
         className
       ])
 
-      return createElement(reactComponent, {...props, className: tagClass}, children)
+      return createElement(reactComponent || tagName, {...props, className: tagClass}, children)
     }
   }
 
