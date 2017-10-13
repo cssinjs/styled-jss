@@ -1,5 +1,25 @@
 # Change Log
 
+## [v2.0.0](https://github.com/cssinjs/styled-jss/tree/v2.0.0) (2017-10-13)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.0.0)
+
+**Implemented enhancements:**
+
+- Switch to the next version of [is-react-prop](https://github.com/lttb/is-react-prop)
+- Components selectors [\#40](https://github.com/cssinjs/styled-jss/issues/40)
+- Compose React Components with styled-jss [\#39](https://github.com/cssinjs/styled-jss/issues/39)
+
+**Closed issues:**
+
+- React 16 compatibility [\#42](https://github.com/cssinjs/styled-jss/issues/42)
+- Update to the latest jss and preset [\#38](https://github.com/cssinjs/styled-jss/issues/38)
+
+**Merged pull requests:**
+
+- Resolve \#39, support React Components composing [\#45](https://github.com/cssinjs/styled-jss/pull/45) ([lttb](https://github.com/lttb))
+- Component Selectors [\#44](https://github.com/cssinjs/styled-jss/pull/44) ([lttb](https://github.com/lttb))
+- Support React 16 [\#43](https://github.com/cssinjs/styled-jss/pull/43) ([lttb](https://github.com/lttb))
+
 ## [v1.2.0](https://github.com/cssinjs/styled-jss/tree/v1.2.0) (2017-06-16)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.3...v1.2.0)
 
