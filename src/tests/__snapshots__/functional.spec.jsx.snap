@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`functional tests Compose React Components should use .displayName 1`] = `
+<StyledElement>
+  <TestDisplayName
+    className="TestDisplayName-1-id"
+  >
+    <h1
+      className="TestDisplayName-1-id"
+    >
+      test
+    </h1>
+  </TestDisplayName>
+</StyledElement>
+`;
+
+exports[`functional tests Compose React Components should use .displayName 2`] = `
+".TestDisplayName-1-id {
+  padding: 10px;
+}"
+`;
+
+exports[`functional tests Compose React Components should use .name 1`] = `
+<StyledElement>
+  <Test
+    className="Test-1-id"
+  >
+    <h1
+      className="Test-1-id"
+    >
+      test
+    </h1>
+  </Test>
+</StyledElement>
+`;
+
+exports[`functional tests Compose React Components should use .name 2`] = `
+".Test-1-id {
+  padding: 10px;
+}"
+`;
+
+exports[`functional tests Compose React Components should use .name 3`] = `
+<StyledElement>
+  <Component
+    className="StyledElement-1-id"
+  >
+    <h1
+      className="StyledElement-1-id"
+    >
+      test
+    </h1>
+  </Component>
+</StyledElement>
+`;
+
+exports[`functional tests Compose React Components should use .name 4`] = `
+".StyledElement-1-id {
+  padding: 30px;
+}"
+`;
+
 exports[`functional tests should update dynamic props for conditional rules 1`] = `
 ".button-1-id {
   padding: 10px;
@@ -101,6 +161,32 @@ exports[`functional tests should update props and unmount 2`] = `
 `;
 
 exports[`functional tests should use Styled Component classname in string 1`] = `
+<Component>
+  <StyledElement>
+    <div
+      className="div-4-id"
+    >
+      <StyledElement>
+        <div
+          className=".static-2-id div-1-id"
+        >
+          name
+        </div>
+      </StyledElement>
+      <StyledElement
+        width={30}
+      >
+        <img
+          className=".static-3-id img-5-id"
+          width={30}
+        />
+      </StyledElement>
+    </div>
+  </StyledElement>
+</Component>
+`;
+
+exports[`functional tests should use Styled Component classname in string 2`] = `
 ".div-4-id:not(:first-child) .static-2-id {
   display: none;
 }
@@ -116,30 +202,6 @@ exports[`functional tests should use Styled Component classname in string 1`] = 
 .img-5-id {
   width: 30px;
 }"
-`;
-
-exports[`functional tests should use Styled Component classname in string 2`] = `
-<StyledElement>
-  <div
-    className="div-4-id"
-  >
-    <StyledElement>
-      <div
-        className=".static-2-id div-1-id"
-      >
-        name
-      </div>
-    </StyledElement>
-    <StyledElement
-      width={30}
-    >
-      <img
-        className=".static-3-id img-5-id"
-        width={30}
-      />
-    </StyledElement>
-  </div>
-</StyledElement>
 `;
 
 exports[`functional tests should use props on remount 1`] = `

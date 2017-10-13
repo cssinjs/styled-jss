@@ -2,23 +2,9 @@ import styled from './styled'
 
 import type {
   BaseStylesType,
-  ComponentStyleType,
   StyledType,
-  StyledElementAttrsType,
   StyledElementType,
-  TagNameOrStyledElementType
 } from './types'
-
-const getStyledArgs = (
-  tagNameOrStyledElement: TagNameOrStyledElementType
-): StyledElementAttrsType => {
-  if (typeof tagNameOrStyledElement === 'string') {
-    return {tagName: tagNameOrStyledElement, style: {}}
-  }
-
-  const {tagName, style} = tagNameOrStyledElement
-  return {tagName, style}
-}
 
 const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): StyledType => {
   let sheet
@@ -34,16 +20,9 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     return sheet
   }
 
-  const styledWrapper = (
-    tagNameOrStyledElement: TagNameOrStyledElementType
-  ) => (
-    ownStyle: ComponentStyleType
-  ): StyledElementType => {
-    const {tagName, style} = getStyledArgs(tagNameOrStyledElement)
-    const elementStyle = {...style, ...ownStyle}
-
-    return styled({tagName, baseStyles, elementStyle, mountSheet, jss})
-  }
+  const styledWrapper = element =>
+    (ownStyle): StyledElementType =>
+      styled({element, ownStyle, mountSheet, jss})
 
   Object.defineProperty(styledWrapper, 'sheet', ({
     get: () => sheet,

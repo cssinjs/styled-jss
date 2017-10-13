@@ -35,6 +35,11 @@ const PrimaryButton = styled(Button)({
   color: 'red'
 })
 
+// Composition with unstyled React Components too.
+const Button = styled(UnstyledButton)({
+  color: 'blue'
+})
+
 // Component Selectors.
 const ButtonContainer = styled(Container)({
   [`& ${PrimaryButton}`]: {
