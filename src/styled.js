@@ -14,29 +14,30 @@ import type {
 type StyledArgs = {
   tagName: string,
   elementStyle: ComponentStyleType,
-  mountSheet: Function
+  mountSheet: Function,
+  jss: Function
 }
 
-const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
+const styled = ({tagName, elementStyle, mountSheet, jss}: StyledArgs) => {
   const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
   const staticTagName = staticStyle && generateTagName(tagName)
 
   const availableDynamicTagNames = []
   const classMap = {}
 
-  return class StyledElement extends Component<StyledElementPropsType> {
+  let staticClassName
+
+  class StyledElement extends Component<StyledElementPropsType> {
     static tagName: string = tagName
     static style: ComponentStyleType = elementStyle
-
-    dynamicTagName = ''
-
-    sheet: JssSheet
 
     constructor(props: StyledElementPropsType) {
       super(props)
       if (!this.dynamicTagName && dynamicStyle) {
         this.dynamicTagName = availableDynamicTagNames.pop() || generateTagName(tagName)
       }
+
+      this.staticClassName = staticClassName
     }
 
     componentWillMount() {
@@ -66,6 +67,10 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       availableDynamicTagNames.push(this.dynamicTagName)
     }
 
+    dynamicTagName = ''
+    sheet: JssSheet
+    staticClassName = ''
+
     updateSheet(props: StyledElementPropsType) {
       let rule
       let ruleIndex = 0
@@ -83,6 +88,7 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
 
       const props = filterProps(tagName, attrs)
       const tagClass = composeClasses([
+        this.staticClassName,
         staticTagName && this.sheet.classes[staticTagName],
         this.dynamicTagName && this.sheet.classes[this.dynamicTagName],
         className
@@ -91,6 +97,22 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       return createElement(tagName, {...props, className: tagClass}, children)
     }
   }
+
+  // $FlowIgnore
+  StyledElement.valueOf = () => {
+    if (!staticClassName) {
+      staticClassName = `.${jss.generateClassName({
+        key: generateTagName('static')
+      })}`
+    }
+
+    return staticClassName
+  }
+
+  // $FlowIgnore
+  StyledElement.toString = StyledElement.valueOf
+
+  return StyledElement
 }
 
 export default styled

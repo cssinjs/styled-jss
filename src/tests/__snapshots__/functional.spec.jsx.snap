@@ -100,6 +100,48 @@ exports[`functional tests should update props and unmount 2`] = `
 }"
 `;
 
+exports[`functional tests should use Styled Component classname in string 1`] = `
+".div-4-id:not(:first-child) .static-2-id {
+  display: none;
+}
+.div-4-id:not(:last-child) .static-3-id {
+  visibility: hidden;
+}
+.div-4-id .static-2-id {
+  color: green;
+}
+.div-1-id {
+  color: red;
+}
+.img-5-id {
+  width: 30px;
+}"
+`;
+
+exports[`functional tests should use Styled Component classname in string 2`] = `
+<StyledElement>
+  <div
+    className="div-4-id"
+  >
+    <StyledElement>
+      <div
+        className=".static-2-id div-1-id"
+      >
+        name
+      </div>
+    </StyledElement>
+    <StyledElement
+      width={30}
+    >
+      <img
+        className=".static-3-id img-5-id"
+        width={30}
+      />
+    </StyledElement>
+  </div>
+</StyledElement>
+`;
+
 exports[`functional tests should use props on remount 1`] = `
 ".button-1-id {
   color: black;
