@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.0.2](https://github.com/cssinjs/styled-jss/tree/v2.0.2) (2017-10-13)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.0.1...v2.0.2)
+
+**Fixed bugs:**
+
+- Props not passed [\#47](https://github.com/cssinjs/styled-jss/issues/47)
+
 ## [v2.0.1](https://github.com/cssinjs/styled-jss/tree/v2.0.1) (2017-10-13)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.0.0...v2.0.1)
 
