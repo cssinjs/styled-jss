@@ -34,6 +34,13 @@ const Container = div({
 const PrimaryButton = styled(Button)({
   color: 'red'
 })
+
+// Component Selectors.
+const ButtonContainer = styled(Container)({
+  [`& ${PrimaryButton}`]: {
+    color: 'green'
+  }
+})
 ```
 
 ## Base Style Sheet
