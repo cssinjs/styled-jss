@@ -24,11 +24,9 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
   const availableDynamicTagNames = []
   const classMap = {}
 
-  return class StyledElement extends Component {
+  return class StyledElement extends Component<StyledElementPropsType> {
     static tagName: string = tagName
     static style: ComponentStyleType = elementStyle
-
-    props: StyledElementPropsType
 
     dynamicTagName = ''
 
@@ -76,15 +74,14 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
         rule = classMap[this.dynamicTagName][ruleIndex]
 
-        if (rule.name) this.sheet.update(rule.name, props)
-        if (rule.rules) rule.rules.update(props)
+        this.sheet.update(rule.key, props)
       }
     }
 
     render() {
       const {children, className, ...attrs} = this.props
 
-      const props = filterProps(attrs)
+      const props = filterProps(tagName, attrs)
       const tagClass = composeClasses([
         staticTagName && this.sheet.classes[staticTagName],
         this.dynamicTagName && this.sheet.classes[this.dynamicTagName],
