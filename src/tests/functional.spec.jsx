@@ -189,9 +189,17 @@ describe('functional tests', () => {
 
     it('should use .name', () => {
       const StyledTest = styled(props => <h1 {...props}>test</h1>)({
-        padding: 30,
+        padding: 10,
       })
       assertComponent(StyledTest)
+      assertSheet(styled.sheet)
+    })
+
+    it('should pass props', () => {
+      const StyledTest = styled(props => JSON.stringify(props))({
+        padding: 10,
+      })
+      assertComponent(() => <StyledTest testProp={1} testProp2="2" className="testClassName" />)
       assertSheet(styled.sheet)
     })
   })
