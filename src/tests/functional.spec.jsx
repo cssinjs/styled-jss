@@ -134,4 +134,36 @@ describe('functional tests', () => {
 
     wrapper.unmount()
   })
+
+  it('should use Styled Component classname in string', () => {
+    const AuthorName = styled('div')({color: 'red'})
+    const Avatar = styled('img')({width: props => props.width})
+
+    const Message = styled('div')({
+      [`&:not(:first-child) ${AuthorName}`]: {
+        display: 'none'
+      },
+      [`&:not(:last-child) ${Avatar}`]: {
+        visibility: 'hidden'
+      },
+      [`& ${AuthorName}`]: {
+        color: 'green'
+      }
+    })
+
+    const wrapper = mount(
+      <Message>
+        <AuthorName>name</AuthorName>
+        <Avatar width={30} />
+      </Message>
+    )
+
+    const {sheet} = styled
+
+    assertSheet(sheet)
+
+    expect(wrapper).toMatchSnapshot()
+
+    wrapper.unmount()
+  })
 })

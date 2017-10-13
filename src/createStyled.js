@@ -42,7 +42,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     const {tagName, style} = getStyledArgs(tagNameOrStyledElement)
     const elementStyle = {...style, ...ownStyle}
 
-    return styled({tagName, baseStyles, elementStyle, mountSheet})
+    return styled({tagName, baseStyles, elementStyle, mountSheet, jss})
   }
 
   Object.defineProperty(styledWrapper, 'sheet', ({
