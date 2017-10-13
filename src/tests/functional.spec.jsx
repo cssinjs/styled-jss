@@ -34,6 +34,12 @@ const assertSheet = (sheet) => {
   expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
 }
 
+const assertComponent = (Comp) => {
+  const wrapper = mount(<Comp />)
+  expect(wrapper).toMatchSnapshot()
+  wrapper.unmount()
+}
+
 describe('functional tests', () => {
   beforeEach(() => {
     mockNameGenerators()
@@ -151,19 +157,42 @@ describe('functional tests', () => {
       }
     })
 
-    const wrapper = mount(
+    assertComponent(() => (
       <Message>
         <AuthorName>name</AuthorName>
         <Avatar width={30} />
       </Message>
-    )
+    ))
 
-    const {sheet} = styled
+    assertSheet(styled.sheet)
+  })
 
-    assertSheet(sheet)
+  describe('Compose React Components', () => {
+    it('should use .name', () => {
+      const Test = props => <h1 {...props}>test</h1>
+      const StyledTest = styled(Test)({
+        padding: 10,
+      })
+      assertComponent(StyledTest)
+      assertSheet(styled.sheet)
+    })
 
-    expect(wrapper).toMatchSnapshot()
+    it('should use .displayName', () => {
+      const Test = props => <h1 {...props}>test</h1>
+      Test.displayName = 'TestDisplayName'
+      const StyledTest = styled(Test)({
+        padding: 10,
+      })
+      assertComponent(StyledTest)
+      assertSheet(styled.sheet)
+    })
 
-    wrapper.unmount()
+    it('should use .name', () => {
+      const StyledTest = styled(props => <h1 {...props}>test</h1>)({
+        padding: 30,
+      })
+      assertComponent(StyledTest)
+      assertSheet(styled.sheet)
+    })
   })
 })

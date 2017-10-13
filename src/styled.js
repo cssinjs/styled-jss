@@ -7,18 +7,46 @@ import getSeparatedStyles from './utils/getSeparatedStyles'
 
 import type {
   JssSheet,
+  TagNameOrStyledElementType,
   ComponentStyleType,
   StyledElementPropsType
 } from './types'
 
+type Comp = Function & Component<*>
+
 type StyledArgs = {
-  tagName: string,
-  elementStyle: ComponentStyleType,
+  element: TagNameOrStyledElementType | Comp,
+  ownStyle: ComponentStyleType,
   mountSheet: Function,
   jss: Function
 }
 
-const styled = ({tagName, elementStyle, mountSheet, jss}: StyledArgs) => {
+const getElementName = (element: Comp): string =>
+  element.displayName || element.name || 'StyledElement'
+
+const getParamsByElement = (element) => {
+  if (typeof element === 'string') return {tagName: element}
+  if (element.tagName) return element
+
+  return {
+    tagName: getElementName(element),
+    reactComponent: element
+  }
+}
+
+const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
+  const {
+    style,
+    tagName,
+    reactComponent = tagName
+  }: {
+    style?: ComponentStyleType,
+    tagName: string,
+    reactComponent?: string | typeof element
+  } = getParamsByElement(element)
+
+  const elementStyle = {...style, ...ownStyle}
+
   const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
   const staticTagName = staticStyle && generateTagName(tagName)
 
@@ -94,7 +122,7 @@ const styled = ({tagName, elementStyle, mountSheet, jss}: StyledArgs) => {
         className
       ])
 
-      return createElement(tagName, {...props, className: tagClass}, children)
+      return createElement(reactComponent, {...props, className: tagClass}, children)
     }
   }
 
