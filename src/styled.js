@@ -74,8 +74,7 @@ const styled = ({tagName, elementStyle, mountSheet}: StyledArgs) => {
       for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
         rule = classMap[this.dynamicTagName][ruleIndex]
 
-        if (rule.key) this.sheet.update(rule.key, props)
-        if (rule.rules) rule.rules.update(props)
+        this.sheet.update(rule.key, props)
       }
     }
 
