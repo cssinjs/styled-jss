@@ -129,12 +129,12 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
   // $FlowIgnore
   StyledElement.valueOf = () => {
     if (!staticClassName) {
-      staticClassName = `.${jss.generateClassName({
+      staticClassName = `${jss.generateClassName({
         key: generateTagName('static')
       })}`
     }
 
-    return staticClassName
+    return `.${staticClassName}`
   }
 
   // $FlowIgnore

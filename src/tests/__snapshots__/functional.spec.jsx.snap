@@ -168,7 +168,7 @@ exports[`functional tests should use Styled Component classname in string 1`] = 
     >
       <StyledElement>
         <div
-          className=".static-2-id div-1-id"
+          className="static-2-id div-1-id"
         >
           name
         </div>
@@ -177,7 +177,7 @@ exports[`functional tests should use Styled Component classname in string 1`] = 
         width={30}
       >
         <img
-          className=".static-3-id img-5-id"
+          className="static-3-id img-5-id"
           width={30}
         />
       </StyledElement>
