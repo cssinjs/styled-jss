@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.0.1](https://github.com/cssinjs/styled-jss/tree/v2.0.1) (2017-10-13)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.0.0...v2.0.1)
+
+**Merged pull requests:**
+
+- Fix React Component classes [\#46](https://github.com/cssinjs/styled-jss/pull/46) ([lttb](https://github.com/lttb))
+
 ## [v2.0.0](https://github.com/cssinjs/styled-jss/tree/v2.0.0) (2017-10-13)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.0.0)
 
