@@ -1,5 +1,18 @@
 # Change Log
 
+## [v2.1.0](https://github.com/cssinjs/styled-jss/tree/v2.1.0) (2017-10-24)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.1.0)
+
+**Fixed bugs:**
+
+- Support Observables from JSS9 [\#53](https://github.com/cssinjs/styled-jss/issues/53)
+
+**Merged pull requests:**
+
+- Support observables [\#55](https://github.com/cssinjs/styled-jss/pull/55) ([lttb](https://github.com/lttb))
+
+# Change Log
+
 ## [v2.0.2](https://github.com/cssinjs/styled-jss/tree/v2.0.2) (2017-10-13)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.0.1...v2.0.2)
 
