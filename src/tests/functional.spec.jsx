@@ -1,5 +1,6 @@
 import 'react-dom'
 import React from 'react'
+import Observable from 'zen-observable'
 import Enzyme, {mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -201,6 +202,34 @@ describe('functional tests', () => {
       })
       assertComponent(() => <StyledTest testProp={1} testProp2="2" className="testClassName" />)
       assertSheet(styled.sheet)
+    })
+  })
+
+  describe('Observables', () => {
+    it('should use observable value', () => {
+      let observer
+
+      const Container = styled('div')({
+        padding: 40,
+        height: new Observable((o) => {
+          observer = o
+        }),
+        textAlign: 'center'
+      })
+
+      const wrapper = mount(<Container />)
+      const {sheet} = styled
+
+      if (observer) {
+        observer.next('10px')
+        assertSheet(sheet)
+      }
+      else {
+        throw new Error('there is no observable value')
+      }
+
+
+      wrapper.unmount()
     })
   })
 })

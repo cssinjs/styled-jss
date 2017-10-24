@@ -84,6 +84,16 @@ exports[`functional tests Compose React Components should use .name 4`] = `
 }"
 `;
 
+exports[`functional tests Observables should use observable value 1`] = `
+".div-1-id {
+  padding: 40px;
+  text-align: center;
+}
+.div-2-id {
+  height: 10px;
+}"
+`;
+
 exports[`functional tests should update dynamic props for conditional rules 1`] = `
 ".button-1-id {
   padding: 10px;
