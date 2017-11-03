@@ -28,7 +28,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     get: () => sheet,
   }: Object)) // https://github.com/facebook/flow/issues/285
 
-  return Object.assign(styledWrapper, {mountSheet, styles: baseStyles})
+  return Object.assign(styledWrapper, {jss, mountSheet, styles: baseStyles})
 }
 
 export default createStyled
