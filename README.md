@@ -11,7 +11,7 @@
 
 Styled-JSS implements a styled-primitives interface on top of [JSS](https://github.com/cssinjs/jss). Its API is similar to styled-components but thanks to the JSS core, it supports all features and plugins JSS does. For e.g. you can use full [JSON Syntax](https://github.com/cssinjs/jss/blob/master/docs/json-api.md) inside.
 
-Try it out on [webpackbin](https://www.webpackbin.com/bins/-KlrbQuwAZSK5eSzpCSy).
+Try it out on [playground](https://codesandbox.io/s/xl89zx8zz4).
 
 ## Default styled function
 
