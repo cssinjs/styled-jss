@@ -4,6 +4,8 @@ import Observable from 'zen-observable'
 import Enzyme, {mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
+import escapeClassName from '../utils/escapeClassName'
+
 import {
   getCss,
   removeWhitespace
@@ -25,8 +27,8 @@ const mockNameGenerators = () => {
   const generateTagName = require('../utils/generateTagName').default
   const createGenerateClassName = require('jss/lib/utils/createGenerateClassName').default
 
-  // $FlowIgnore
-  generateTagName.mockImplementation((tagName: string) => `${tagName}-${++styledCounter}`)
+  // $FlowIgnore there is now mockImplementation in declaration
+  generateTagName.mockImplementation((tagName: string) => `${escapeClassName(tagName)}-${++styledCounter}`)
   createGenerateClassName.mockImplementation(() => rule => `${rule.key}-id`)
 }
 
@@ -186,6 +188,26 @@ describe('functional tests', () => {
       })
       assertComponent(StyledTest)
       assertSheet(styled.sheet)
+    })
+
+    it('should escape name', () => {
+      const Comp = ({className}: {className: string}) => (
+        <div className={className}>Container</div>
+      )
+
+      Comp.displayName = '(Comp.name)'
+
+      const Container = styled(Comp)({
+        color: 'red',
+      })
+
+      const wrapper = mount(<Container />)
+      const {sheet} = styled
+
+      expect(sheet.rules.index[0].selectorText).toBe('.\\(Comp\\.name\\)-1-id')
+      assertSheet(sheet)
+
+      wrapper.unmount()
     })
 
     it('should use .name', () => {
