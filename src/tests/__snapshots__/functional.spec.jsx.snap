@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`functional tests Compose React Components should escape name 1`] = `
+".\\\\(Comp\\\\.name\\\\)-1-id {
+  color: red;
+}"
+`;
+
 exports[`functional tests Compose React Components should pass props 1`] = `
 <Component>
   <StyledElement
