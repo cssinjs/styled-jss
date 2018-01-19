@@ -40,7 +40,7 @@
   "dependencies": {
     "is-observable": "^0.2.0",
     "is-react-prop": "^1.0.0",
-    "jss": "^9.0.0",
+    "jss": "^9.5.1",
     "jss-preset-default": "^4.0.0"
   },
   "peerDependencies": {
@@ -58,6 +58,7 @@
     "common-tags": "^1.4.0",
     "copyfiles": "^1.2.0",
     "coveralls": "^3.0.0",
+    "css.escape": "^1.5.1",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.1",
     "enzyme-to-json": "^3.1.2",
@@ -94,7 +95,8 @@
     "rootDir": "src",
     "coverageDirectory": "../coverage",
     "setupFiles": [
-      "raf/polyfill"
+      "raf/polyfill",
+      "css.escape"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"

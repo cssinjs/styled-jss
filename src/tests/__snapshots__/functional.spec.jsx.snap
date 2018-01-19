@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`functional tests Compose React Components should escape name 1`] = `
+exports[`functional tests Compose React Components should escape name in dev mode 1`] = `
 ".\\\\(Comp\\\\.name\\\\)-1-id {
   color: red;
 }"
@@ -105,6 +105,8 @@ exports[`functional tests should update dynamic props for conditional rules 1`] 
   padding: 10px;
 }
 @media screen {
+  .button-1-id {
+  }
   .button-1-id .button {
     margin: 10px;
   }
@@ -116,6 +118,8 @@ exports[`functional tests should update dynamic props for conditional rules 2`] 
   padding: 0;
 }
 @media screen {
+  .button-1-id {
+  }
   .button-1-id .button {
     margin: 0;
   }
@@ -129,8 +133,18 @@ exports[`functional tests should update nested props 1`] = `
 .div-1-id {
   padding: 15px;
 }
+.div-3-id {
+}
+.div-3-id:hover {
+}
 .div-3-id:hover .button-id {
   color: green;
+}
+.button-2-id {
+}
+.div-4-id {
+}
+.div-4-id:hover {
 }
 .div-4-id:hover .button-id {
   color: red;
@@ -227,7 +241,9 @@ exports[`functional tests should use Styled Component classname in string 1`] = 
 `;
 
 exports[`functional tests should use Styled Component classname in string 2`] = `
-".div-4-id:not(:first-child) .static-2-id {
+".div-4-id {
+}
+.div-4-id:not(:first-child) .static-2-id {
   display: none;
 }
 .div-4-id:not(:last-child) .static-3-id {
