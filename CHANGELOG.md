@@ -1,5 +1,72 @@
 # Change Log
 
+## [v2.1.2](https://github.com/cssinjs/styled-jss/tree/v2.1.2) (2017-11-14)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.1.2)
+
+**Fixed bugs:**
+
+- Higher order component name [\#50](https://github.com/cssinjs/styled-jss/issues/50)
+
+**Merged pull requests:**
+
+- Fix \#50, escape Components name [\#58](https://github.com/cssinjs/styled-jss/pull/58) ([lttb](https://github.com/lttb))
+
+## [v2.1.1](https://github.com/cssinjs/styled-jss/tree/v2.1.1) (2017-11-04)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.1.1)
+
+**Closed issues:**
+
+- Add plugins without re-exporting styled [\#56](https://github.com/cssinjs/styled-jss/issues/56)
+
+**Merged pull requests:**
+
+- Resolve \#56, provide jss instance via styled [\#57](https://github.com/cssinjs/styled-jss/pull/57) ([lttb](https://github.com/lttb))
+
+## [v2.1.0](https://github.com/cssinjs/styled-jss/tree/v2.1.0) (2017-10-24)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.1.0)
+
+**Fixed bugs:**
+
+- Support Observables from JSS9 [\#53](https://github.com/cssinjs/styled-jss/issues/53)
+
+**Merged pull requests:**
+
+- Support observables [\#55](https://github.com/cssinjs/styled-jss/pull/55) ([lttb](https://github.com/lttb))
+
+## [v2.0.2](https://github.com/cssinjs/styled-jss/tree/v2.0.2) (2017-10-13)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.0.1...v2.0.2)
+
+**Fixed bugs:**
+
+- Props not passed [\#47](https://github.com/cssinjs/styled-jss/issues/47)
+
+## [v2.0.1](https://github.com/cssinjs/styled-jss/tree/v2.0.1) (2017-10-13)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.0.0...v2.0.1)
+
+**Merged pull requests:**
+
+- Fix React Component classes [\#46](https://github.com/cssinjs/styled-jss/pull/46) ([lttb](https://github.com/lttb))
+
+## [v2.0.0](https://github.com/cssinjs/styled-jss/tree/v2.0.0) (2017-10-13)
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v0.3.0...v2.0.0)
+
+**Implemented enhancements:**
+
+- Switch to the next version of [is-react-prop](https://github.com/lttb/is-react-prop)
+- Components selectors [\#40](https://github.com/cssinjs/styled-jss/issues/40)
+- Compose React Components with styled-jss [\#39](https://github.com/cssinjs/styled-jss/issues/39)
+
+**Closed issues:**
+
+- React 16 compatibility [\#42](https://github.com/cssinjs/styled-jss/issues/42)
+- Update to the latest jss and preset [\#38](https://github.com/cssinjs/styled-jss/issues/38)
+
+**Merged pull requests:**
+
+- Resolve \#39, support React Components composing [\#45](https://github.com/cssinjs/styled-jss/pull/45) ([lttb](https://github.com/lttb))
+- Component Selectors [\#44](https://github.com/cssinjs/styled-jss/pull/44) ([lttb](https://github.com/lttb))
+- Support React 16 [\#43](https://github.com/cssinjs/styled-jss/pull/43) ([lttb](https://github.com/lttb))
+
 ## [v1.2.0](https://github.com/cssinjs/styled-jss/tree/v1.2.0) (2017-06-16)
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v1.1.3...v1.2.0)
 

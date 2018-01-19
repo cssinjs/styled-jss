@@ -1,7 +1,8 @@
 import 'react-dom'
 import React from 'react'
-import {ThemeProvider} from 'theming'
-import {mount} from 'enzyme'
+import Observable from 'zen-observable'
+import Enzyme, {mount} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
 import {
   getCss,
@@ -10,6 +11,8 @@ import {
 
 import CreateApp from './App'
 
+Enzyme.configure({adapter: new Adapter()})
+
 let Styled
 let styled
 
@@ -17,19 +20,25 @@ const mockNameGenerators = () => {
   let styledCounter = 0
 
   jest.mock('../utils/generateTagName')
-  jest.mock('jss/lib/utils/generateClassName')
+  jest.mock('jss/lib/utils/createGenerateClassName')
 
   const generateTagName = require('../utils/generateTagName').default
-  const generateClassName = require('jss/lib/utils/generateClassName').default
+  const createGenerateClassName = require('jss/lib/utils/createGenerateClassName').default
 
-  // $FlowIgnore
+  // $FlowIgnore there is now mockImplementation in declaration
   generateTagName.mockImplementation((tagName: string) => `${tagName}-${++styledCounter}`)
-  generateClassName.mockImplementation(rule => `${rule.name}-id`)
+  createGenerateClassName.mockImplementation(() => rule => `${rule.key}-id`)
 }
 
 const assertSheet = (sheet) => {
   expect(sheet.toString()).toMatchSnapshot()
   expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
+}
+
+const assertComponent = (Comp) => {
+  const wrapper = mount(<Comp />)
+  expect(wrapper).toMatchSnapshot()
+  wrapper.unmount()
 }
 
 describe('functional tests', () => {
@@ -55,7 +64,12 @@ describe('functional tests', () => {
     wrapper.unmount()
   })
 
-  it('should update nested props', () => {
+  /**
+   * TODO: we should return this test when an issue with nesting order will be resolved
+   * @see https://github.com/cssinjs/jss/pull/655
+   */
+
+  it.skip('should update nested props', () => {
     styled = Styled({
       button: {
         fontSize: 12,
@@ -133,25 +147,64 @@ describe('functional tests', () => {
     wrapper.unmount()
   })
 
-  describe('theming', () => {
-    it('should work with ThemeProvider', () => {
-      const theme = {
-        color: {
-          primary: 'red',
-          secondary: 'black'
-        }
-      }
+  it('should use Styled Component classname in string', () => {
+    const AuthorName = styled('div')({color: 'red'})
+    const Avatar = styled('img')({width: props => props.width})
 
-      const Button = styled('button')({
-        color: props => props.theme.color.primary,
-        backgroundColor: props => props.theme.color.secondary,
+    const Message = styled('div')({
+      [`&:not(:first-child) ${AuthorName}`]: {
+        display: 'none'
+      },
+      [`&:not(:last-child) ${Avatar}`]: {
+        visibility: 'hidden'
+      },
+      [`& ${AuthorName}`]: {
+        color: 'green'
+      }
+    })
+
+    assertComponent(() => (
+      <Message>
+        <AuthorName>name</AuthorName>
+        <Avatar width={30} />
+      </Message>
+    ))
+
+    assertSheet(styled.sheet)
+  })
+
+  describe('Compose React Components', () => {
+    it('should use .name', () => {
+      const Test = props => <h1 {...props}>test</h1>
+      const StyledTest = styled(Test)({
+        padding: 10,
+      })
+      assertComponent(StyledTest)
+      assertSheet(styled.sheet)
+    })
+
+    it('should use .displayName', () => {
+      const Test = props => <h1 {...props}>test</h1>
+      Test.displayName = 'TestDisplayName'
+      const StyledTest = styled(Test)({
+        padding: 10,
+      })
+      assertComponent(StyledTest)
+      assertSheet(styled.sheet)
+    })
+
+    it('should escape name in dev mode', () => {
+      const Comp = ({className}: {className: string}) => (
+        <div className={className}>Container</div>
+      )
+
+      Comp.displayName = '(Comp.name)'
+
+      const Container = styled(Comp)({
+        color: 'red',
       })
 
-      const wrapper = mount(
-        <ThemeProvider theme={theme}>
-          <Button />
-        </ThemeProvider>
-      )
+      const wrapper = mount(<Container />)
       const {sheet} = styled
 
       assertSheet(sheet)
@@ -159,76 +212,46 @@ describe('functional tests', () => {
       wrapper.unmount()
     })
 
-    it('should update theme', () => {
-      const initialTheme = {
-        color: {
-          primary: 'green',
-          secondary: 'white'
-        }
-      }
-
-      const Button = styled('button')({
-        color: props => props.theme.color.primary,
-        backgroundColor: props => props.theme.color.secondary,
+    it('should use .name', () => {
+      const StyledTest = styled(props => <h1 {...props}>test</h1>)({
+        padding: 10,
       })
-
-      const App = (props: {theme: Object}) => (
-        <ThemeProvider theme={props.theme}>
-          <Button />
-        </ThemeProvider>
-      )
-
-      const wrapper = mount(<App theme={initialTheme} />)
-      const {sheet} = styled
-
-      assertSheet(sheet)
-
-      const nextTheme = {
-        color: {
-          primary: 'yellow',
-          secondary: 'blue'
-        }
-      }
-      wrapper.setProps({theme: nextTheme})
-
-      assertSheet(sheet)
-
-      wrapper.unmount()
+      assertComponent(StyledTest)
+      assertSheet(styled.sheet)
     })
 
-    it('should work with nested ThemeProvider', () => {
-      const themes = [{
-        color: {
-          primary: 'green',
-          secondary: 'white'
-        }
-      }, {
-        color: {
-          primary: 'blue',
-          secondary: 'yellow'
-        }
-      }]
+    it('should pass props', () => {
+      const StyledTest = styled(props => JSON.stringify(props))({
+        padding: 10,
+      })
+      assertComponent(() => <StyledTest testProp={1} testProp2="2" className="testClassName" />)
+      assertSheet(styled.sheet)
+    })
+  })
 
-      const Button = styled('button')({
-        color: props => props.theme.color.primary,
-        backgroundColor: props => props.theme.color.secondary,
+  describe('Observables', () => {
+    it('should use observable value', () => {
+      let observer
+
+      const Container = styled('div')({
+        padding: 40,
+        height: new Observable((o) => {
+          observer = o
+        }),
+        textAlign: 'center'
       })
 
-      const App = () => (
-        <ThemeProvider theme={themes[0]}>
-          <div>
-            <Button />
-            <ThemeProvider theme={themes[1]}>
-              <Button />
-            </ThemeProvider>
-          </div>
-        </ThemeProvider>
-      )
-
-      const wrapper = mount(<App />)
+      const wrapper = mount(<Container />)
       const {sheet} = styled
 
-      assertSheet(sheet)
+      if (observer) {
+        observer.next('10px')
+        assertSheet(sheet)
+      }
+      else {
+        throw new Error('there is no observable value')
+      }
+
 
       wrapper.unmount()
     })

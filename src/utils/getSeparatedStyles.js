@@ -1,3 +1,5 @@
+import isObservable from 'is-observable'
+
 const isObject = value =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
@@ -8,12 +10,14 @@ type separatedStyles = {dynamicStyle?: Object, staticStyle?: Object}
  */
 const getSeparatedStyles = (styles: Object): separatedStyles => {
   const result = {}
+  const keys = Object.keys(styles)
 
-  for (const key in styles) {
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
     const value = styles[key]
-    const itemStyles = {}
+    const itemStyles = Object.create(null)
 
-    if (typeof value === 'function') itemStyles.dynamicStyle = value
+    if (typeof value === 'function' || isObservable(value)) itemStyles.dynamicStyle = value
     else if (isObject(value)) Object.assign(itemStyles, getSeparatedStyles(value))
     else itemStyles.staticStyle = value
 
