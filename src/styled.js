@@ -1,11 +1,13 @@
 import {Component, createElement} from 'react'
-import PropTypes from 'prop-types'
+import {object} from 'prop-types'
 import {themeListener, channel} from 'theming'
 
 import filterProps from './utils/filterProps'
 import composeClasses from './utils/composeClasses'
 import generateTagName from './utils/generateTagName'
 import getSeparatedStyles from './utils/getSeparatedStyles'
+
+import StyledJssError from './errors'
 
 import type {
   JssSheet,
@@ -18,9 +20,13 @@ type Comp = Function & Component<*>
 
 type StyledArgs = {
   element: TagNameOrStyledElementType | Comp,
-  ownStyle: ComponentStyleType,
+  ownStyle: ComponentStyleType[],
   mountSheet: Function,
   jss: Function
+}
+
+type StateType = {
+  theme?: Object
 }
 
 const getElementName = (element: Comp): string =>
@@ -38,36 +44,45 @@ const getParamsByElement = (element) => {
 
 const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
   const {
-    style,
+    style = [],
     tagName,
     reactComponent,
   }: {
-    style?: ComponentStyleType,
+    style?: ComponentStyleType[],
     tagName: string,
     reactComponent?: typeof element
   } = getParamsByElement(element)
 
-  const elementStyle = {...style, ...ownStyle}
+  const elementStyle = style.concat(ownStyle)
 
-  const {dynamicStyle, staticStyle} = getSeparatedStyles(elementStyle)
+  const {dynamicStyle, staticStyle} = getSeparatedStyles(...elementStyle)
   const staticTagName = staticStyle && generateTagName(tagName)
+
+  const isFunctionStyle = typeof dynamicStyle === 'function'
 
   const availableDynamicTagNames = []
   const classMap = {}
 
   let staticClassName
 
-  class StyledElement extends Component<StyledElementPropsType> {
+  class StyledElement extends Component<StyledElementPropsType, StateType> {
     static tagName: string = tagName
-    static style: ComponentStyleType = elementStyle
+    static style: ComponentStyleType[] = elementStyle
     static contextTypes = {
-      [channel]: PropTypes.object
+      [channel]: object
     }
 
-    constructor(props: StyledElementPropsType) {
-      super(props)
+    constructor(props: StyledElementPropsType, context: any) {
+      super(props, context)
+
       if (!this.dynamicTagName && dynamicStyle) {
         this.dynamicTagName = availableDynamicTagNames.pop() || generateTagName(tagName)
+      }
+
+      this.state = {}
+
+      if (context[channel]) {
+        this.state.theme = themeListener.initial(context)
       }
 
       this.staticClassName = staticClassName
@@ -89,11 +104,8 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
       }
 
       classMap[this.dynamicTagName] = classMap[this.dynamicTagName] || rulesIndex.slice(rulesTotal)
-      this.updateSheet(this.props, this.state)
-    }
 
-    componentWillUpdate(nextProps: StyledElementPropsType, nextState: StateType) {
-      if (dynamicStyle) this.updateSheet(nextProps, nextState)
+      this.updateSheet(this.props, this.state)
     }
 
     componentDidMount() {
@@ -102,27 +114,47 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
       }
     }
 
+    componentWillUpdate(nextProps: StyledElementPropsType, nextState: StateType) {
+      if (dynamicStyle) this.updateSheet(nextProps, nextState)
+    }
+
     componentWillUnmount() {
       availableDynamicTagNames.push(this.dynamicTagName)
 
       if (typeof this.unsubscribe === 'function') this.unsubscribe()
     }
 
+    setTheme = (theme: Object) => this.setState({theme})
+
     dynamicTagName = ''
     sheet: JssSheet
     staticClassName = ''
+    unsubscribe: ?Function
 
-    updateSheet(props: StyledElementPropsType) {
+    updateSheet(props: StyledElementPropsType, {theme}: StateType) {
       let rule
       let ruleIndex = 0
-
-      const styles = Object.assign({}, props, state)
 
       // nested styles become to flatten rules, so we need to update each nested rule
       for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
         rule = classMap[this.dynamicTagName][ruleIndex]
 
-        this.sheet.update(rule.key, props)
+        if (isFunctionStyle) {
+          const context = {theme}
+
+          if (process.env.NODE_ENV !== 'production' && !context.theme) {
+            Object.defineProperty(context, 'theme', ({
+              get: () => {
+                throw new StyledJssError('You should wrap your Application by ThemeProvider to use theme')
+              }
+            }: Object))
+          }
+
+          this.sheet.update(rule.key, {props, context})
+        }
+        else {
+          this.sheet.update(rule.key, props)
+        }
       }
     }
 

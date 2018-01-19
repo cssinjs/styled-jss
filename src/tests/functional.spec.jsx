@@ -1,6 +1,7 @@
 import 'react-dom'
 import React from 'react'
 import Observable from 'zen-observable'
+import {ThemeProvider} from 'theming'
 import Enzyme, {mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -254,6 +255,209 @@ describe('functional tests', () => {
 
 
       wrapper.unmount()
+    })
+  })
+
+  describe('composable styles', () => {
+    it('should merge all object styles', () => {
+      const Button = styled('button')(
+        {color: props => props.color},
+        {margin: 10},
+        {padding: 20},
+        {backgroundColor: props => props.backgroundColor}
+      )
+
+      const wrapper = mount(
+        <Button color="red" backgroundColor="green" />
+      )
+
+      const {sheet} = styled
+
+      assertSheet(sheet)
+      wrapper.unmount()
+    })
+
+    it('should compose all function styles', () => {
+      const Button = styled('button')(
+        (props => props.theme === 'action' && ({
+          color: 'red',
+          'background-color': 'green'
+        })),
+        (props => props.theme === 'normal' && ({
+          color: 'white',
+          'background-color': 'black'
+        })),
+        (() => ({
+          margin: 20,
+          padding: 20
+        }))
+      )
+
+      const wrapper = mount(
+        <Button theme="action" />
+      )
+      const {sheet} = styled
+
+      assertSheet(sheet)
+      wrapper.setProps({theme: 'normal'})
+      assertSheet(sheet)
+      wrapper.unmount()
+    })
+
+    /**
+     * TODO (@lttb): it looks like jss keeps previous props for function rules
+     */
+    it.skip('should merge and compose all styles', () => {
+      const round = props => props.round && ({
+        'border-radius': '100%'
+      })
+
+      const theme = props => ({
+        action: {
+          color: 'red',
+          'background-color': 'green',
+        },
+        normal: {
+          color: 'black',
+          'background-color': 'white',
+        },
+      })[props.theme]
+
+      const Button = styled('button')({
+        margin: 20,
+        padding: 20
+      }, round, theme)
+
+      const wrapper = mount(
+        <Button theme="action" round />
+      )
+      const {sheet} = styled
+
+      assertSheet(sheet)
+      wrapper.setProps({theme: 'normal', round: false})
+      assertSheet(sheet)
+      wrapper.unmount()
+    })
+  })
+
+  describe('theming', () => {
+    it('should work with ThemeProvider', () => {
+      const initialTheme = {
+        color: {
+          primary: 'green',
+          secondary: 'white'
+        }
+      }
+
+      const Button = styled('button')((_, {theme}) => ({
+        color: theme.color.primary,
+        'background-color': theme.color.secondary,
+      }))
+
+      const wrapper = mount(
+        <ThemeProvider theme={initialTheme}>
+          <Button />
+        </ThemeProvider>
+      )
+      const {sheet} = styled
+
+      assertSheet(sheet)
+
+      wrapper.unmount()
+    })
+
+    it('should update theme', () => {
+      const initialTheme = {
+        color: {
+          primary: 'green',
+          secondary: 'white'
+        }
+      }
+
+      const Button = styled('button')((_, {theme}) => ({
+        color: theme.color.primary,
+        'background-color': theme.color.secondary,
+      }))
+
+      const App = (props: {theme: Object}) => (
+        <ThemeProvider theme={props.theme}>
+          <Button />
+        </ThemeProvider>
+      )
+
+      const wrapper = mount(<App theme={initialTheme} />)
+      const {sheet} = styled
+
+      assertSheet(sheet)
+
+      const nextTheme = {
+        color: {
+          primary: 'yellow',
+          secondary: 'blue'
+        }
+      }
+      wrapper.setProps({theme: nextTheme})
+
+      assertSheet(sheet)
+
+      wrapper.unmount()
+    })
+
+    it('should work with nested ThemeProvider', () => {
+      const themes = [{
+        color: {
+          primary: 'green',
+          secondary: 'white'
+        }
+      }, {
+        color: {
+          primary: 'blue',
+          secondary: 'yellow'
+        }
+      }]
+
+      const Button = styled('button')((_, {theme}) => ({
+        color: theme.color.primary,
+        'background-color': theme.color.secondary,
+      }))
+
+      const App = () => (
+        <ThemeProvider theme={themes[0]}>
+          <div>
+            <Button />
+            <ThemeProvider theme={themes[1]}>
+              <Button />
+            </ThemeProvider>
+          </div>
+        </ThemeProvider>
+      )
+
+      const wrapper = mount(<App />)
+      const {sheet} = styled
+
+      assertSheet(sheet)
+
+      wrapper.unmount()
+    })
+
+    it('should throw an exception without ThemeProvider', () => {
+      const Button = styled('button')((_, {theme}) => ({
+        color: theme.color.primary,
+        'background-color': theme.color.secondary,
+      }))
+
+      try {
+        /** @see https://github.com/facebook/react/issues/11098 */
+        // $FlowIgnore
+        console.error = () => {}
+
+        mount(
+          <Button />
+        )
+      }
+      catch (e) {
+        expect(e).toMatchSnapshot()
+      }
     })
   })
 })
