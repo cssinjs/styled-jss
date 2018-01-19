@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`functional tests Compose React Components should escape name in dev mode 1`] = `
-".(Comp.name)-1-id {
+".\\\\(Comp\\\\.name\\\\)-1-id {
   color: red;
 }"
 `;

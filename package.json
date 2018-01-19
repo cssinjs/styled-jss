@@ -40,7 +40,7 @@
   "dependencies": {
     "is-observable": "^0.2.0",
     "is-react-prop": "^1.0.0",
-    "jss": "^9.0.0",
+    "jss": "^9.5.1",
     "jss-preset-default": "^4.0.0"
   },
   "peerDependencies": {
