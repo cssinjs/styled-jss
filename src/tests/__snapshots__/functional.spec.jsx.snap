@@ -129,6 +129,30 @@ exports[`functional tests composable styles should merge all object styles 1`] =
 }"
 `;
 
+exports[`functional tests composable styles should merge and compose all styles 1`] = `
+".button-1-id {
+  margin: 20px;
+  padding: 20px;
+}
+.button-2-id {
+  border-radius: 100%;
+  color: red;
+  background-color: green;
+}"
+`;
+
+exports[`functional tests composable styles should merge and compose all styles 2`] = `
+".button-1-id {
+  margin: 20px;
+  padding: 20px;
+}
+.button-2-id {
+  border-radius: 100%;
+  color: black;
+  background-color: white;
+}"
+`;
+
 exports[`functional tests should update dynamic props for conditional rules 1`] = `
 ".button-1-id {
   padding: 10px;
@@ -300,8 +324,6 @@ exports[`functional tests should use props on remount 2`] = `
   color: red;
 }"
 `;
-
-exports[`functional tests theming should throw an exception without ThemeProvider 1`] = `[StyledJssError: You should wrap your Application by ThemeProvider to use theme]`;
 
 exports[`functional tests theming should update theme 1`] = `
 ".button-1-id {

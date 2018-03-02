@@ -7,8 +7,6 @@ import composeClasses from './utils/composeClasses'
 import generateTagName from './utils/generateTagName'
 import getSeparatedStyles from './utils/getSeparatedStyles'
 
-import StyledJssError from './errors'
-
 import type {
   JssSheet,
   TagNameOrStyledElementType,
@@ -110,7 +108,7 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
 
     componentDidMount() {
       if (this.state.theme) {
-        this.unsubscribe = themeListener.subscribe(this.context, this.setTheme)
+        this.subscriptionId = themeListener.subscribe(this.context, this.setTheme)
       }
     }
 
@@ -121,7 +119,9 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
     componentWillUnmount() {
       availableDynamicTagNames.push(this.dynamicTagName)
 
-      if (typeof this.unsubscribe === 'function') this.unsubscribe()
+      if (this.subscriptionId) {
+        themeListener.unsubscribe(this.context, this.subscriptionId)
+      }
     }
 
     setTheme = (theme: Object) => this.setState({theme})
@@ -129,31 +129,25 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
     dynamicTagName = ''
     sheet: JssSheet
     staticClassName = ''
-    unsubscribe: ?Function
+    subscriptionId: ?number
 
-    updateSheet(props: StyledElementPropsType, {theme}: StateType) {
+    updateSheet(props: StyledElementPropsType, state: StateType) {
       let rule
       let ruleIndex = 0
+
+      const styleProps = state.theme
+        ? Object.assign({}, state, props)
+        : props
 
       // nested styles become to flatten rules, so we need to update each nested rule
       for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
         rule = classMap[this.dynamicTagName][ruleIndex]
 
         if (isFunctionStyle) {
-          const context = {theme}
-
-          if (process.env.NODE_ENV !== 'production' && !context.theme) {
-            Object.defineProperty(context, 'theme', ({
-              get: () => {
-                throw new StyledJssError('You should wrap your Application by ThemeProvider to use theme')
-              }
-            }: Object))
-          }
-
-          this.sheet.update(rule.key, {props, context})
+          this.sheet.update(rule.key, styleProps)
         }
         else {
-          this.sheet.update(rule.key, props)
+          this.sheet.update(rule.key, styleProps)
         }
       }
     }

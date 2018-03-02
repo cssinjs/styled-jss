@@ -56,21 +56,21 @@ const ButtonContainer = styled(Container)({
 import {ThemeProvider} from 'theming'
 import styled from 'styled-jss'
 
-const theme = {
+const Button = styled('button')(({theme}) => ({
+  color: theme.color,
+  'background-color': theme.backgroundColor,
+  margin: props.margin,
+}))
+
+const currentTheme = {
   primary: {
     color: 'black',
     backgroundColor: 'yellow',
   },
 }
 
-const Button = styled('button')((props, {theme}) => ({
-  color: theme.color,
-  'background-color': theme.backgroundColor,
-  margin: props.margin,
-}))
-
 const App = () => (
-  <ThemeProvider>
+  <ThemeProvider theme={currentTheme}>
     <Button margin={20}>This is themed Button</Button>
   </ThemeProvider>
 )

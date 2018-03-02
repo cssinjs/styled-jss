@@ -47,11 +47,11 @@ const getSeparatedStyles = (...initialStyles: ComponentStyleType[]): separatedSt
   if (fns.length) {
     const {dynamicStyle} = result
 
-    result.dynamicStyle = ({props, context}) => {
+    result.dynamicStyle = (props) => {
       const fnObjects = []
 
       for (let i = 0; i < fns.length; i++) {
-        fnObjects.push(fns[i](props, context))
+        fnObjects.push(fns[i](props))
       }
 
       return Object.assign({}, dynamicStyle, ...fnObjects)

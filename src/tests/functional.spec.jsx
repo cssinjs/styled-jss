@@ -304,10 +304,7 @@ describe('functional tests', () => {
       wrapper.unmount()
     })
 
-    /**
-     * TODO (@lttb): it looks like jss keeps previous props for function rules
-     */
-    it.skip('should merge and compose all styles', () => {
+    it('should merge and compose all styles', () => {
       const round = props => props.round && ({
         'border-radius': '100%'
       })
@@ -349,7 +346,7 @@ describe('functional tests', () => {
         }
       }
 
-      const Button = styled('button')((_, {theme}) => ({
+      const Button = styled('button')(({theme}) => ({
         color: theme.color.primary,
         'background-color': theme.color.secondary,
       }))
@@ -374,7 +371,7 @@ describe('functional tests', () => {
         }
       }
 
-      const Button = styled('button')((_, {theme}) => ({
+      const Button = styled('button')(({theme}) => ({
         color: theme.color.primary,
         'background-color': theme.color.secondary,
       }))
@@ -416,7 +413,7 @@ describe('functional tests', () => {
         }
       }]
 
-      const Button = styled('button')((_, {theme}) => ({
+      const Button = styled('button')(({theme}) => ({
         color: theme.color.primary,
         'background-color': theme.color.secondary,
       }))
@@ -438,26 +435,6 @@ describe('functional tests', () => {
       assertSheet(sheet)
 
       wrapper.unmount()
-    })
-
-    it('should throw an exception without ThemeProvider', () => {
-      const Button = styled('button')((_, {theme}) => ({
-        color: theme.color.primary,
-        'background-color': theme.color.secondary,
-      }))
-
-      try {
-        /** @see https://github.com/facebook/react/issues/11098 */
-        // $FlowIgnore
-        console.error = () => {}
-
-        mount(
-          <Button />
-        )
-      }
-      catch (e) {
-        expect(e).toMatchSnapshot()
-      }
     })
   })
 })
