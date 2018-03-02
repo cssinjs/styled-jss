@@ -1,7 +1,6 @@
 import 'react-dom'
 import React from 'react'
 import Observable from 'zen-observable'
-import {ThemeProvider} from 'theming'
 import Enzyme, {mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -16,6 +15,7 @@ Enzyme.configure({adapter: new Adapter()})
 
 let Styled
 let styled
+let ThemeProvider
 
 const mockNameGenerators = () => {
   let styledCounter = 0
@@ -46,7 +46,7 @@ describe('functional tests', () => {
   beforeEach(() => {
     mockNameGenerators()
 
-    Styled = require('../').Styled
+    ;({ThemeProvider, Styled} = require('../'))
     styled = Styled()
   })
 

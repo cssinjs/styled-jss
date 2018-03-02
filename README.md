@@ -53,24 +53,23 @@ const ButtonContainer = styled(Container)({
 `styled-jss` has out of the box support for theme customization with the unified [theming](https://github.com/cssinjs/theming) package.
 
 ```js
-import {ThemeProvider} from 'theming'
-import styled from 'styled-jss'
+import styled, {ThemeProvider} from 'styled-jss'
 
-const Button = styled('button')(({theme}) => ({
+const Button = styled('button')(({margin, theme}) => ({
+  margin,
   color: theme.color,
-  'background-color': theme.backgroundColor,
-  margin: props.margin,
+  backgroundColor: theme.backgroundColor,
 }))
 
-const currentTheme = {
-  primary: {
+const themes = {
+  light: {
     color: 'black',
     backgroundColor: 'yellow',
   },
 }
 
 const App = () => (
-  <ThemeProvider theme={currentTheme}>
+  <ThemeProvider theme={themes.light}>
     <Button margin={20}>This is themed Button</Button>
   </ThemeProvider>
 )
@@ -80,46 +79,83 @@ export default App
 
 ## Composable styles
 
+Example on the [CodeSandbox](https://codesandbox.io/s/y0162p38lv)
+
 You can compose your style-objects and style-functions.
 
+Let's say this is our **mods.js**:
+
 ```js
-import colors from 'my-colors'
-
-/* let's declare some abstract mixins for example */
-
-const theme = ({theme}) => ({
-  color: colors[theme],
-  backgroundColor: colors.accent[theme],
+export const theme = ({ theme }) => ({
+  color: theme.colors.primary,
+  backgroundColor: theme.colors.secondary,
 })
 
-const font = ({bold}) => ({
-  font: {weight: bold ? 'bold' : 'normal', family: 'Arial'}
+export const font = ({ bold }) => ({
+  font: {
+    weight: bold ? 'bold' : 'normal',
+    family: 'Arial',
+  },
 })
 
-const size = ({size}) => ({
+export const size = ({ size = 'm' }) => ({
   s: {
     fontSize: 12,
-    lineHeight: 15,
+    lineHeight: 1.2,
   },
   m: {
     fontSize: 16,
-    lineHeight: 18
+    lineHeight: 1.5
   }
 })[size]
 
-const rounded = ({rounded}) => rounded && {borderRadius: 5}
+export const rounded = ({ rounded }) => rounded && { borderRadius: 5 }
+```
 
-/* now we can mix them to our Button Component */
+Now we can mix them to our **Button** Component:
 
-const Button = styled('button')(theme, size, font, rounded)
+```js
+import styled from 'styled-jss'
+import {theme, font, size, rounded} from 'mods'
 
-/* and that's it */
+const Button = styled('button')(
+  {
+    border: 0,
+    padding: [5, 10],
+    display: 'inline-block',
+  },
+  theme,
+  font,
+  size,
+  rounded,
+)
 
-<Button theme="action" size="s" rounded />
+export default Button
+```
 
-/* we can also compose object-styles as well */
+And Usage:
 
-const Button = styled('button')({margin: props => props.margin}, theme, size)
+```js
+import {ThemeProvider} from 'styled-jss'
+import Button from './components/Button'
+
+const theme = {
+  dark: {
+    colors: {
+      primary: 'white',
+      secondary: 'purple'
+    }
+  }
+}
+
+export default () => (
+  <ThemeProvider theme={theme.dark}>
+    <Button>normal button</Button>
+    <Button bold>bold button</Button>
+    <Button size="s">small button</Button>
+    <Button rounded>rounded button</Button>
+  </ThemeProvider>
+)
 ```
 
 ## Base Style Sheet
