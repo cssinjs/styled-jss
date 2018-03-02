@@ -5,6 +5,8 @@ import createStyled from './createStyled'
 
 const jss: Function = createJss(preset())
 
+export {ThemeProvider} from 'theming'
+
 export const Styled = createStyled(jss)
 export default Styled()
 
