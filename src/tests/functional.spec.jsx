@@ -281,11 +281,11 @@ describe('functional tests', () => {
       const Button = styled('button')(
         (props => props.theme === 'action' && ({
           color: 'red',
-          'background-color': 'green'
+          backgroundColor: 'green'
         })),
         (props => props.theme === 'normal' && ({
           color: 'white',
-          'background-color': 'black'
+          backgroundColor: 'black'
         })),
         (() => ({
           margin: 20,
@@ -312,18 +312,19 @@ describe('functional tests', () => {
       const theme = props => ({
         action: {
           color: 'red',
-          'background-color': 'green',
+          backgroundColor: 'green',
         },
         normal: {
           color: 'black',
-          'background-color': 'white',
+          backgroundColor: 'white',
         },
       })[props.theme]
 
       const Button = styled('button')({
         margin: 20,
-        padding: 20
-      }, round, theme)
+        padding: 20,
+        fontWeight: () => 400,
+      }, round, theme, {fontSize: ({fontSize}) => fontSize})
 
       const wrapper = mount(
         <Button theme="action" round />
@@ -331,7 +332,7 @@ describe('functional tests', () => {
       const {sheet} = styled
 
       assertSheet(sheet)
-      wrapper.setProps({theme: 'normal', round: false})
+      wrapper.setProps({theme: 'normal', fontSize: 15, round: false})
       assertSheet(sheet)
       wrapper.unmount()
     })
