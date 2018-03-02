@@ -2,6 +2,7 @@ import styled from './styled'
 
 import type {
   BaseStylesType,
+  ComponentStyleType,
   StyledType,
   StyledElementType,
 } from './types'
@@ -21,7 +22,7 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
   }
 
   const styledWrapper = element =>
-    (ownStyle): StyledElementType =>
+    (...ownStyle: ComponentStyleType[]): StyledElementType =>
       styled({element, ownStyle, mountSheet, jss})
 
   Object.defineProperty(styledWrapper, 'sheet', ({

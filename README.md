@@ -48,6 +48,80 @@ const ButtonContainer = styled(Container)({
 })
 ```
 
+## Theming
+
+`styled-jss` has out of the box support for theme customization with the unified [theming](https://github.com/cssinjs/theming) package.
+
+```js
+import {ThemeProvider} from 'theming'
+import styled from 'styled-jss'
+
+const Button = styled('button')(({theme}) => ({
+  color: theme.color,
+  'background-color': theme.backgroundColor,
+  margin: props.margin,
+}))
+
+const currentTheme = {
+  primary: {
+    color: 'black',
+    backgroundColor: 'yellow',
+  },
+}
+
+const App = () => (
+  <ThemeProvider theme={currentTheme}>
+    <Button margin={20}>This is themed Button</Button>
+  </ThemeProvider>
+)
+
+export default App
+```
+
+## Composable styles
+
+You can compose your style-objects and style-functions.
+
+```js
+import colors from 'my-colors'
+
+/* let's declare some abstract mixins for example */
+
+const theme = ({theme}) => ({
+  color: colors[theme],
+  backgroundColor: colors.accent[theme],
+})
+
+const font = ({bold}) => ({
+  font: {weight: bold ? 'bold' : 'normal', family: 'Arial'}
+})
+
+const size = ({size}) => ({
+  s: {
+    fontSize: 12,
+    lineHeight: 15,
+  },
+  m: {
+    fontSize: 16,
+    lineHeight: 18
+  }
+})[size]
+
+const rounded = ({rounded}) => rounded && {borderRadius: 5}
+
+/* now we can mix them to our Button Component */
+
+const Button = styled('button')(theme, size, font, rounded)
+
+/* and that's it */
+
+<Button theme="action" size="s" rounded />
+
+/* we can also compose object-styles as well */
+
+const Button = styled('button')({margin: props => props.margin}, theme, size)
+```
+
 ## Base Style Sheet
 
 Using base Style Sheet we can reuse classes in the render function and inside of a styled component.
