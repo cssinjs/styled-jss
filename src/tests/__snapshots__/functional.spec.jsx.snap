@@ -135,6 +135,7 @@ exports[`functional tests composable styles should merge and compose all styles 
   padding: 20px;
 }
 .button-2-id {
+  font-weight: 400;
   border-radius: 100%;
   color: red;
   background-color: green;
@@ -147,9 +148,11 @@ exports[`functional tests composable styles should merge and compose all styles 
   padding: 20px;
 }
 .button-2-id {
+  font-weight: 400;
   border-radius: 100%;
   color: black;
   background-color: white;
+  font-size: 15px;
 }"
 `;
 

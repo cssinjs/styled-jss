@@ -3,7 +3,7 @@ export type JssStyle = Object
 export type JssSheet = Object
 
 export type BaseStylesType = JssStyles
-export type ComponentStyleType = JssStyle | (props: Object) => ?JssStyle
+export type ComponentStyleType = JssStyle
 export type StyledType = Function & {
   mountSheet: Function,
   styles: JssStyles
