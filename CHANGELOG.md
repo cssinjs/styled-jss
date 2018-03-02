@@ -1,5 +1,13 @@
 # Change Log
 
+## [v2.2.2](https://github.com/cssinjs/styled-jss/tree/v2.2.2) (2018-03-02)
+
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.2.1...v2.2.2)
+
+**Merged pull requests:**
+
+- Fix function values in composition [\#64](https://github.com/cssinjs/styled-jss/pull/64) ([lttb](https://github.com/lttb))
+
 ## [v2.2.1](https://github.com/cssinjs/styled-jss/tree/v2.2.1) (2018-03-02)
 
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.2.0...v2.2.1)
