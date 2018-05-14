@@ -39,7 +39,6 @@ const assertSheet = (sheet) => {
 const assertComponent = (Comp) => {
   const wrapper = mount(<Comp />)
   expect(wrapper).toMatchSnapshot()
-  wrapper.unmount()
 }
 
 describe('functional tests', () => {

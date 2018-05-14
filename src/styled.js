@@ -119,6 +119,9 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
     componentWillUnmount() {
       availableDynamicTagNames.push(this.dynamicTagName)
 
+      this.sheet.deleteRule(this.dynamicTagName)
+      delete classMap[this.dynamicTagName]
+
       if (this.subscriptionId) {
         themeListener.unsubscribe(this.context, this.subscriptionId)
       }
