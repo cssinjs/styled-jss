@@ -1,3 +1,5 @@
+/* @flow */
+
 import checkAttr from 'is-react-prop/checkAttr'
 
 export default (tagName: string, props: Object) => {

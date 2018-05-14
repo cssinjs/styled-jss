@@ -1,3 +1,5 @@
+/* @flow */
+
 import 'react-dom'
 import renderer from 'react-test-renderer'
 import React from 'react'

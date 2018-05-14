@@ -1,3 +1,5 @@
+/* @flow */
+
 import {createElement} from 'react'
 import type {ComponentType} from 'react'
 

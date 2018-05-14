@@ -1,3 +1,5 @@
+/* @flow */
+
 import {create as createJss} from 'jss'
 import preset from 'jss-preset-default'
 

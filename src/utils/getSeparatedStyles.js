@@ -1,3 +1,5 @@
+/* @flow */
+
 import isObservable from 'is-observable'
 
 import {type ComponentStyleType} from '../types'

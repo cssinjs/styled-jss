@@ -1,4 +1,6 @@
-import {Component, createElement} from 'react'
+/* @flow */
+
+import {Component, createElement, type ComponentType} from 'react'
 import {object} from 'prop-types'
 import {themeListener, channel} from 'theming'
 
@@ -40,7 +42,12 @@ const getParamsByElement = (element) => {
   }
 }
 
-const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
+const styled = ({
+  element,
+  ownStyle,
+  mountSheet,
+  jss
+}: StyledArgs): string & ComponentType<StyledElementPropsType> => {
   const {
     style = [],
     tagName,
@@ -181,6 +188,7 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
   // $FlowIgnore
   StyledElement.toString = StyledElement.valueOf
 
+  // $FlowIgnore
   return StyledElement
 }
 

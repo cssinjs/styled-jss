@@ -1,3 +1,5 @@
+/* @flow */
+
 import 'react-dom'
 import React from 'react'
 import Observable from 'zen-observable'
@@ -349,7 +351,7 @@ describe('functional tests', () => {
 
       const Button = styled('button')(({theme}) => ({
         color: theme.color.primary,
-        'background-color': theme.color.secondary,
+        backgroundColor: theme.color.secondary,
       }))
 
       const wrapper = mount(
@@ -374,7 +376,7 @@ describe('functional tests', () => {
 
       const Button = styled('button')(({theme}) => ({
         color: theme.color.primary,
-        'background-color': theme.color.secondary,
+        backgroundColor: theme.color.secondary,
       }))
 
       const App = (props: {theme: Object}) => (
@@ -416,7 +418,7 @@ describe('functional tests', () => {
 
       const Button = styled('button')(({theme}) => ({
         color: theme.color.primary,
-        'background-color': theme.color.secondary,
+        backgroundColor: theme.color.secondary,
       }))
 
       const App = () => (

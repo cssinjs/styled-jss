@@ -1881,9 +1881,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flow-bin@^0.56.0:
-  version "0.56.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.56.0.tgz#ce43092203a344ba9bf63c0cabe95d95145f6cad"
+flow-bin@^0.66.0:
+  version "0.66.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.66.0.tgz#a96dde7015dc3343fd552a7b4963c02be705ca26"
 
 flow-copy-source@^1.2.1:
   version "1.2.1"
@@ -4567,6 +4567,10 @@ type-check@~0.3.2:
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
   dependencies:
     prelude-ls "~1.1.2"
+
+typed-styles@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/typed-styles/-/typed-styles-0.0.1.tgz#3f04c7684d6b43ab9a7a5da9194ce951e046ce6f"
 
 typedarray@^0.0.6:
   version "0.0.6"

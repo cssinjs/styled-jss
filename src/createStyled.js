@@ -1,13 +1,16 @@
+/* @flow */
+
+import type {ComponentType} from 'react'
+
 import styled from './styled'
 
 import type {
   BaseStylesType,
   ComponentStyleType,
-  StyledType,
   StyledElementType,
 } from './types'
 
-const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): StyledType => {
+const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}) => {
   let sheet
 
   const mountSheet = () => {
@@ -21,8 +24,8 @@ const createStyled = (jss: Function) => (baseStyles: BaseStylesType = {}): Style
     return sheet
   }
 
-  const styledWrapper = element =>
-    (...ownStyle: ComponentStyleType[]): StyledElementType =>
+  const styledWrapper = (element: string | ComponentType<any>) =>
+    (...ownStyle: ComponentStyleType[]) =>
       styled({element, ownStyle, mountSheet, jss})
 
   Object.defineProperty(styledWrapper, 'sheet', ({

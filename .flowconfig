@@ -1,5 +1,4 @@
 [ignore]
-.*/node_modules/.*
 <PROJECT_ROOT>/coverage/
 <PROJECT_ROOT>/examples/
 
@@ -9,6 +8,5 @@
 node_modules/jss/flow-typed
 
 [options]
-all=true
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
