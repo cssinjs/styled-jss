@@ -149,7 +149,6 @@ exports[`functional tests composable styles should merge and compose all styles 
 }
 .button-2-id {
   font-weight: 400;
-  border-radius: 100%;
   color: black;
   background-color: white;
   font-size: 15px;

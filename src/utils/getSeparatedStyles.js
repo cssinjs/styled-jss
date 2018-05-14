@@ -56,20 +56,35 @@ const getSeparatedStyles = (...initialStyles: ComponentStyleType[]): {
   if (fns.length) {
     const {dynamicStyle = {}} = result
 
-    result.dynamicStyle = (props) => {
-      const fnObjects = []
-      const dynamicResult = {}
+    let cache = Object.create(null)
 
-      for (let i = 0; i < fns.length; i++) {
-        fnObjects.push(fns[i](props))
-      }
+    result.dynamicStyle = (props) => {
+      const dynamicResult = Object.create(null)
 
       const keys = Object.keys(dynamicStyle)
       for (let i = 0; i < keys.length; i++) {
-        dynamicResult[keys[i]] = dynamicStyle[keys[i]](props)
+        const prop = keys[i]
+        dynamicResult[prop] = dynamicStyle[prop](props)
+        delete cache[prop]
       }
 
-      return Object.assign(dynamicResult, ...fnObjects)
+      for (let i = 0; i < fns.length; i++) {
+        const fnStyle = fns[i](props)
+        const fnKeys = Object.keys(fnStyle)
+        for (let j = 0; j < fnKeys.length; j++) {
+          const prop = fnKeys[j]
+          dynamicResult[prop] = fnStyle[prop]
+          delete cache[prop]
+        }
+      }
+
+      for (const prop in cache) {
+        dynamicResult[prop] = null
+      }
+
+      cache = dynamicResult
+
+      return dynamicResult
     }
   }
 
