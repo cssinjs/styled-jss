@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.2.3](https://github.com/cssinjs/styled-jss/tree/v2.2.3) (2018-05-15)
+
+[Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.2.2...v2.2.3)
+
+**Fixed bugs:**
+
+- Bug: Nested composition causes invalid tag to be rendered [\#67](https://github.com/cssinjs/styled-jss/issues/67)
+
+**Merged pull requests:**
+
+- fix for issue \#67 [\#68](https://github.com/cssinjs/styled-jss/pull/68) ([aloker](https://github.com/aloker))
+
 ## [v2.2.2](https://github.com/cssinjs/styled-jss/tree/v2.2.2) (2018-03-02)
 
 [Full Changelog](https://github.com/cssinjs/styled-jss/compare/v2.2.1...v2.2.2)
