@@ -7,21 +7,19 @@ exports[`functional tests Compose React Components should escape name in dev mod
 `;
 
 exports[`functional tests Compose React Components should pass props 1`] = `
-<Component>
-  <StyledElement
-    className="testClassName"
+<StyledElement
+  className="testClassName"
+  testProp={1}
+  testProp2="2"
+>
+  <Component
+    className="StyledElement-1-id testClassName"
     testProp={1}
     testProp2="2"
   >
-    <Component
-      className="StyledElement-1-id testClassName"
-      testProp={1}
-      testProp2="2"
-    >
-      {"testProp":1,"testProp2":"2","className":"StyledElement-1-id testClassName"}
-    </Component>
-  </StyledElement>
-</Component>
+    {"testProp":1,"testProp2":"2","className":"StyledElement-1-id testClassName"}
+  </Component>
+</StyledElement>
 `;
 
 exports[`functional tests Compose React Components should pass props 2`] = `
@@ -130,16 +128,14 @@ exports[`functional tests composable styles should merge all object styles 1`] =
 `;
 
 exports[`functional tests composable styles should merge and compose all styles 1`] = `
-".button-1-id {
-  margin: 20px;
-  padding: 20px;
-}
-.button-2-id {
-  font-weight: 400;
-  border-radius: 100%;
-  color: red;
-  background-color: green;
-}"
+<StyledElement
+  round={true}
+  theme="action"
+>
+  <button
+    className="button-1-id button-2-id button-3-id"
+  />
+</StyledElement>
 `;
 
 exports[`functional tests composable styles should merge and compose all styles 2`] = `
@@ -149,9 +145,26 @@ exports[`functional tests composable styles should merge and compose all styles 
 }
 .button-2-id {
   font-weight: 400;
+}
+.button-3-id {
+  border-radius: 100%;
+  color: red;
+  background-color: green;
+}"
+`;
+
+exports[`functional tests composable styles should merge and compose all styles 3`] = `
+".button-1-id {
+  margin: 20px;
+  padding: 20px;
+}
+.button-2-id {
+  font-weight: 400;
+  font-size: 15px;
+}
+.button-3-id {
   color: black;
   background-color: white;
-  font-size: 15px;
 }"
 `;
 
@@ -270,29 +283,27 @@ exports[`functional tests should update props and unmount 2`] = `
 `;
 
 exports[`functional tests should use Styled Component classname in string 1`] = `
-<Component>
-  <StyledElement>
-    <div
-      className="div-4-id"
-    >
-      <StyledElement>
-        <div
-          className="static-2-id div-1-id"
-        >
-          name
-        </div>
-      </StyledElement>
-      <StyledElement
-        width={30}
+<StyledElement>
+  <div
+    className="div-4-id"
+  >
+    <StyledElement>
+      <div
+        className="static-2-id div-1-id"
       >
-        <img
-          className="static-3-id img-5-id"
-          width={30}
-        />
-      </StyledElement>
-    </div>
-  </StyledElement>
-</Component>
+        name
+      </div>
+    </StyledElement>
+    <StyledElement
+      width={30}
+    >
+      <img
+        className="static-3-id img-5-id"
+        width={30}
+      />
+    </StyledElement>
+  </div>
+</StyledElement>
 `;
 
 exports[`functional tests should use Styled Component classname in string 2`] = `
@@ -322,7 +333,7 @@ exports[`functional tests should use props on remount 1`] = `
 `;
 
 exports[`functional tests should use props on remount 2`] = `
-".button-1-id {
+".button-2-id {
   color: red;
 }"
 `;

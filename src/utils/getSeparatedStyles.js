@@ -7,7 +7,8 @@ const isObject = value =>
 
 const separateStyles = (styles: Object): {
   dynamicStyle?: ComponentStyleType,
-  staticStyle?: ComponentStyleType
+  staticStyle?: ComponentStyleType,
+  functionStyle?: ComponentStyleType,
 } => {
   const result = {}
   const keys = Object.keys(styles)
@@ -36,6 +37,7 @@ const separateStyles = (styles: Object): {
 const getSeparatedStyles = (...initialStyles: ComponentStyleType[]): {
   dynamicStyle?: ComponentStyleType | (props: Object) => ?ComponentStyleType,
   staticStyle?: ComponentStyleType,
+  functionStyle?: ComponentStyleType,
 } => {
   const styles = {}
   const fns = []
@@ -54,37 +56,28 @@ const getSeparatedStyles = (...initialStyles: ComponentStyleType[]): {
   const result = separateStyles(styles)
 
   if (fns.length) {
-    const {dynamicStyle = {}} = result
-
     let cache = Object.create(null)
 
-    result.dynamicStyle = (props) => {
-      const dynamicResult = Object.create(null)
-
-      const keys = Object.keys(dynamicStyle)
-      for (let i = 0; i < keys.length; i++) {
-        const prop = keys[i]
-        dynamicResult[prop] = dynamicStyle[prop](props)
-        delete cache[prop]
-      }
+    result.functionStyle = (props) => {
+      const functionResult = Object.create(null)
 
       for (let i = 0; i < fns.length; i++) {
         const fnStyle = fns[i](props)
         const fnKeys = Object.keys(fnStyle)
         for (let j = 0; j < fnKeys.length; j++) {
           const prop = fnKeys[j]
-          dynamicResult[prop] = fnStyle[prop]
+          functionResult[prop] = fnStyle[prop]
           delete cache[prop]
         }
       }
 
       for (const prop in cache) {
-        dynamicResult[prop] = null
+        functionResult[prop] = null
       }
 
-      cache = dynamicResult
+      cache = functionResult
 
-      return dynamicResult
+      return functionResult
     }
   }
 

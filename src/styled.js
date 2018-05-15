@@ -53,12 +53,10 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
 
   const elementStyle = style.concat(ownStyle)
 
-  const {dynamicStyle, staticStyle} = getSeparatedStyles(...elementStyle)
+  const {dynamicStyle, staticStyle, functionStyle} = getSeparatedStyles(...elementStyle)
   const staticTagName = staticStyle && generateTagName(tagName)
 
-  const isFunctionStyle = typeof dynamicStyle === 'function'
-
-  const availableDynamicTagNames = []
+  const availableTagNames = []
   const classMap = {}
 
   let staticClassName
@@ -74,8 +72,14 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
       super(props, context)
 
       if (!this.dynamicTagName && dynamicStyle) {
-        this.dynamicTagName = availableDynamicTagNames.pop() || generateTagName(tagName)
+        this.dynamicTagName = availableTagNames.pop() || generateTagName(tagName)
       }
+
+      if (!this.functionTagName && functionStyle) {
+        this.functionTagName = availableTagNames.pop() || generateTagName(tagName)
+      }
+
+      this.dynamicNames = [this.dynamicTagName, this.functionTagName].join(';')
 
       this.state = {}
 
@@ -95,13 +99,15 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
         this.sheet.addRule(staticTagName, staticStyle)
       }
 
-      if (!dynamicStyle) return
-
-      if (!this.sheet.getRule(this.dynamicTagName)) {
+      if (dynamicStyle && !this.sheet.getRule(this.dynamicTagName)) {
         this.sheet.addRule(this.dynamicTagName, dynamicStyle)
       }
 
-      classMap[this.dynamicTagName] = classMap[this.dynamicTagName] || rulesIndex.slice(rulesTotal)
+      if (functionStyle && !this.sheet.getRule(this.functionTagName)) {
+        this.sheet.addRule(this.functionTagName, functionStyle)
+      }
+
+      classMap[this.dynamicNames] = classMap[this.dynamicNames] || rulesIndex.slice(rulesTotal)
 
       this.updateSheet(this.props, this.state)
     }
@@ -113,14 +119,21 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
     }
 
     componentWillUpdate(nextProps: StyledElementPropsType, nextState: StateType) {
-      if (dynamicStyle) this.updateSheet(nextProps, nextState)
+      if (dynamicStyle || functionStyle) this.updateSheet(nextProps, nextState)
     }
 
     componentWillUnmount() {
-      availableDynamicTagNames.push(this.dynamicTagName)
+      availableTagNames.push(this.dynamicTagName)
+      availableTagNames.push(this.functionTagName)
 
-      this.sheet.deleteRule(this.dynamicTagName)
-      delete classMap[this.dynamicTagName]
+      let rule
+      let ruleIndex = 0
+
+      for (ruleIndex; ruleIndex < classMap[this.dynamicNames].length; ruleIndex++) {
+        rule = classMap[this.dynamicNames][ruleIndex]
+
+        this.sheet.deleteRule(rule.key)
+      }
 
       if (this.subscriptionId) {
         themeListener.unsubscribe(this.context, this.subscriptionId)
@@ -130,6 +143,8 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
     setTheme = (theme: Object) => this.setState({theme})
 
     dynamicTagName = ''
+    functionTagName = ''
+    dynamicNames = ''
     sheet: JssSheet
     staticClassName = ''
     subscriptionId: ?number
@@ -143,15 +158,10 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
         : props
 
       // nested styles become to flatten rules, so we need to update each nested rule
-      for (ruleIndex; ruleIndex < classMap[this.dynamicTagName].length; ruleIndex++) {
-        rule = classMap[this.dynamicTagName][ruleIndex]
+      for (ruleIndex; ruleIndex < classMap[this.dynamicNames].length; ruleIndex++) {
+        rule = classMap[this.dynamicNames][ruleIndex]
 
-        if (isFunctionStyle) {
-          this.sheet.update(rule.key, styleProps)
-        }
-        else {
-          this.sheet.update(rule.key, styleProps)
-        }
+        this.sheet.update(rule.key, styleProps)
       }
     }
 
@@ -163,6 +173,7 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
         this.staticClassName,
         staticTagName && this.sheet.classes[staticTagName],
         this.dynamicTagName && this.sheet.classes[this.dynamicTagName],
+        this.functionTagName && this.sheet.classes[this.functionTagName],
         className
       ])
 

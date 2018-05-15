@@ -2,34 +2,34 @@
 
 exports[`base rendering tests renders correctly App with default Styled 1`] = `
 <div
-  className="div-8-0-1-9"
+  className="div-2-0-1-9"
 >
   <header
-    className="header-9-0-1-10"
+    className="header-2-0-1-10"
   >
     <h1
-      className="h1-12-0-1-11"
+      className="h1-2-0-1-11"
     >
       Title
     </h1>
   </header>
   <section
-    className="section-10-0-1-12"
+    className="section-3-0-1-12"
     data-name="content"
   >
     <button
-      className="button-13-0-1-13"
+      className="button-3-0-1-13"
     >
       primitive test
     </button>
     <button
-      className="button-14-0-1-14"
+      className="button-4-0-1-14"
     >
       dynamic primitive test
     </button>
   </section>
   <section
-    className="section-11-0-1-15"
+    className="section-4-0-1-15"
   >
     Another section
   </section>
@@ -41,31 +41,31 @@ exports[`base rendering tests renders correctly App with default styled 1`] = `
   className="div-1-0-1-1"
 >
   <header
-    className="header-2-0-1-2"
+    className="header-1-0-1-2"
   >
     <h1
-      className="h1-5-0-1-3"
+      className="h1-1-0-1-3"
     >
       Title
     </h1>
   </header>
   <section
-    className="section-3-0-1-4"
+    className="section-1-0-1-4"
     data-name="content"
   >
     <button
-      className="button-6-0-1-5"
+      className="button-1-0-1-5"
     >
       primitive test
     </button>
     <button
-      className="button-7-0-1-6"
+      className="button-2-0-1-6"
     >
       dynamic primitive test
     </button>
   </section>
   <section
-    className="section-4-0-1-7"
+    className="section-2-0-1-7"
   >
     Another section
   </section>
@@ -77,34 +77,34 @@ exports[`base rendering tests renders correctly App with injectStyled 1`] = `
   className="root-0-1-16"
 >
   <div
-    className="div-15-0-1-18"
+    className="div-3-0-1-18"
   >
     <header
-      className="header-16-0-1-19"
+      className="header-3-0-1-19"
     >
       <h1
-        className="h1-19-0-1-20"
+        className="h1-3-0-1-20"
       >
         Title
       </h1>
     </header>
     <section
-      className="section-17-0-1-21"
+      className="section-5-0-1-21"
       data-name="content"
     >
       <button
-        className="button-20-0-1-22"
+        className="button-5-0-1-22"
       >
         primitive test
       </button>
       <button
-        className="button-21-0-1-23"
+        className="button-6-0-1-23"
       >
         dynamic primitive test
       </button>
     </section>
     <section
-      className="section-18-0-1-24"
+      className="section-6-0-1-24"
     >
       Another section
     </section>

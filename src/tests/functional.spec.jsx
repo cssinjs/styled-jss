@@ -36,8 +36,7 @@ const assertSheet = (sheet) => {
   expect(getCss(sheet)).toBe(removeWhitespace(sheet.toString()))
 }
 
-const assertComponent = (Comp) => {
-  const wrapper = mount(<Comp />)
+const assertComponent = (wrapper) => {
   expect(wrapper).toMatchSnapshot()
 }
 
@@ -163,7 +162,7 @@ describe('functional tests', () => {
       }
     })
 
-    assertComponent(() => (
+    assertComponent(mount(
       <Message>
         <AuthorName>name</AuthorName>
         <Avatar width={30} />
@@ -179,7 +178,7 @@ describe('functional tests', () => {
       const StyledTest = styled(Test)({
         padding: 10,
       })
-      assertComponent(StyledTest)
+      assertComponent(mount(<StyledTest />))
       assertSheet(styled.sheet)
     })
 
@@ -189,7 +188,7 @@ describe('functional tests', () => {
       const StyledTest = styled(Test)({
         padding: 10,
       })
-      assertComponent(StyledTest)
+      assertComponent(mount(<StyledTest />))
       assertSheet(styled.sheet)
     })
 
@@ -216,7 +215,7 @@ describe('functional tests', () => {
       const StyledTest = styled(props => <h1 {...props}>test</h1>)({
         padding: 10,
       })
-      assertComponent(StyledTest)
+      assertComponent(mount(<StyledTest />))
       assertSheet(styled.sheet)
     })
 
@@ -224,7 +223,9 @@ describe('functional tests', () => {
       const StyledTest = styled(props => JSON.stringify(props))({
         padding: 10,
       })
-      assertComponent(() => <StyledTest testProp={1} testProp2="2" className="testClassName" />)
+      assertComponent(mount(
+        <StyledTest testProp={1} testProp2="2" className="testClassName" />
+      ))
       assertSheet(styled.sheet)
     })
   })
@@ -329,6 +330,8 @@ describe('functional tests', () => {
         <Button theme="action" round />
       )
       const {sheet} = styled
+
+      assertComponent(wrapper)
 
       assertSheet(sheet)
       wrapper.setProps({theme: 'normal', fontSize: 15, round: false})

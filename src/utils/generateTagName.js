@@ -1,3 +1,8 @@
-let tagNameCounter = 0
+const counters = {}
 
-export default (tagName: string) => `${tagName}-${++tagNameCounter}`
+export default (tagName: string) => {
+  counters[tagName] = counters[tagName] || 0
+  counters[tagName]++
+
+  return `${tagName}-${counters[tagName]}`
+}
