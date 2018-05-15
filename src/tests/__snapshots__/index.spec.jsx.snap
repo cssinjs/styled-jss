@@ -111,3 +111,11 @@ exports[`base rendering tests renders correctly App with injectStyled 1`] = `
   </div>
 </div>
 `;
+
+exports[`base rendering tests renders nested compositions correctly 1`] = `
+<div
+  className="C1-23-0-1-25"
+>
+  Test
+</div>
+`;

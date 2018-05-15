@@ -45,4 +45,15 @@ describe('base rendering tests', () => {
 
     expect(tree).toMatchSnapshot()
   })
+
+  it('renders nested compositions correctly', () => {
+    const C1 = ({children, className}: { children: any, className?: string }) => (
+      <div className={className}>{children}</div>
+    )
+    const C2 = styled(C1)({color: '#333'})
+    const C3 = styled(C2)({padding: 3})
+    const tree = renderer.create(<C3>Test</C3>).toJSON()
+
+    expect(tree).toMatchSnapshot()
+  })
 })

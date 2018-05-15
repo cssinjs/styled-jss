@@ -66,6 +66,12 @@ const styled = ({element, ownStyle, mountSheet, jss}: StyledArgs) => {
   class StyledElement extends Component<StyledElementPropsType, StateType> {
     static tagName: string = tagName
     static style: ComponentStyleType[] = elementStyle
+
+    // If the base component is a React component (and thus neither an intrinsic tag or a
+    // styled element), make sure to keep a reference to the component around. Otherwise deeply
+    // nested styled elements won't render the base component correctly.
+    static reactComponent = reactComponent
+
     static contextTypes = {
       [channel]: object
     }
