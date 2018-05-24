@@ -7,7 +7,7 @@
 [![Travis branch](https://img.shields.io/travis/cssinjs/styled-jss/master.svg?style=flat)](https://travis-ci.org/cssinjs/styled-jss)
 [![Coverage Status branch](https://img.shields.io/coveralls/cssinjs/styled-jss/master.svg?style=flat)](https://img.shields.io/coveralls/cssinjs/styled-jss/master.svg?branch=master)
 [![npm version](https://img.shields.io/npm/v/styled-jss.svg?style=flat)](https://www.npmjs.com/package/styled-jss)
-[![npm license](https://img.shields.io/npm/l/styled-jss.svg?style=flat)](https://www.npmjs.com/package/styled-jss)
+[![npm license](https://img.shields.io/npm/l/styled-jss.svg?style=flat)](https://www.npmjs.com/package/styled-jss) [![Greenkeeper badge](https://badges.greenkeeper.io/cssinjs/styled-jss.svg)](https://greenkeeper.io/)
 
 Styled-JSS implements a styled-primitives interface on top of [JSS](https://github.com/cssinjs/jss). Its API is similar to styled-components but thanks to the JSS core, it supports all features and plugins JSS does. For e.g. you can use full [JSON Syntax](https://github.com/cssinjs/jss/blob/master/docs/json-api.md) inside.
 
