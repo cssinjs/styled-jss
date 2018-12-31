@@ -205,7 +205,7 @@ const MyStyledComponent = injectStyled(styled)(MyComponent)
 
 ## Custom JSS setup
 
-Styled-JSS uses [jss-preset-default](https://github.com/cssinjs/jss-preset-default) by default. You can require `createStyled` function and provide your custom JSS instance.
+Styled-JSS uses [jss-preset-default](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) by default. You can require `createStyled` function and provide your custom JSS instance.
 
 ```js
 import { create as createJss } from 'jss'
